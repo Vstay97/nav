@@ -15,3 +15,4 @@ const c: IConfig = {
 }
 
 export default c
+
