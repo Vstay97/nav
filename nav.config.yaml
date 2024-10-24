@@ -42,4 +42,4 @@ mailConfig:
 
 # 默认主仓库，当仓库作为私密，上传的图片是无法访问的，需要转移到公开仓库
 # e.g 'https://github.com/xjh22222228/image?branch=main'
-imageRepoUrl: 'https://github.com/Vstay97/image?branch=images'
+imageRepoUrl: 'https://github.com/Vstay97/nav?branch=images'
