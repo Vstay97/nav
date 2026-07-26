@@ -46,7 +46,9 @@ export class AppComponent {
   updateDocumentTitle() {
     const url = this.router.url.split('?')[0].slice(1)
     const theme = (url === '' ? settings.theme : url).toLowerCase()
-    const title = settings[`${theme}DocTitle`]
+    const title = (settings as unknown as Record<string, string>)[
+      `${theme}DocTitle`
+    ]
     document.title = title || window.__TITLE__ || settings.title
   }
 

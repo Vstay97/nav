@@ -205,11 +205,10 @@ export function randomBgImg() {
   randomTimer = setInterval(setBg, 10000)
 }
 
-export function queryString(): {
+export function queryString(): qs.ParsedQs & {
   q: string
   id: number
   page: number
-  [key: string]: any
 } {
   const { href } = window.location
   const search = href.split('?')[1] || ''
@@ -245,7 +244,7 @@ export function queryString(): {
     q: (parseQs['q'] || '') as string,
     id,
     page,
-  }
+  } as qs.ParsedQs & { q: string; id: number; page: number }
 }
 
 export function setLocation() {

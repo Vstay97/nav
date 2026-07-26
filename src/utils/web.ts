@@ -10,7 +10,7 @@ import { isSelfDevelop } from './util'
 import { queryString } from './index'
 import { $t } from 'src/locale'
 
-function adapterWebsiteList(websiteList: any[]) {
+export function adapterWebsiteList(websiteList: any[]) {
   function filterOwn(item: IWebProps) {
     if (item.ownVisible && !isLogin) {
       return false
@@ -163,7 +163,8 @@ export function updateByWeb(oldData: IWebProps, newData: IWebProps) {
         if (item.id === oldData.id) {
           ok = true
           for (let k of keys) {
-            item[k] = newData[k]
+            ;(item as unknown as Record<string, unknown>)[k] =
+              newData[k as keyof IWebProps]
           }
           break
         }

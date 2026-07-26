@@ -25,10 +25,27 @@ export enum ComponentType {
   Holiday = 7,
 }
 
+/**
+ * 页面小组件配置（日历/下班/运行时长/图片/倒计时/HTML/节日）。
+ * type 决定组件种类，其余字段按种类取用，故全部显式声明为可选。
+ */
 export interface IComponentProps {
   id: number
-  type: number
-  [key: string]: any
+  type: ComponentType
+  topColor?: string
+  bgColor?: string
+  workTitle?: string
+  restTitle?: string
+  startDate?: number
+  date?: number | string
+  title?: string
+  url?: string
+  go?: string
+  text?: string
+  html?: string
+  items?: Array<Record<string, unknown>>
+  dateColor?: string
+  dayColor?: string
 }
 
 export type ICardType = 'standard' | 'column' | 'example' | 'retro' | 'original'
@@ -37,6 +54,12 @@ type OverType = 'overflow' | 'ellipsis'
 
 type Spider = 'NO' | 'EMPTY' | 'ALWAYS'
 
+/** 横幅/广告图片配置项 */
+export interface IBannerImage {
+  src: string
+  url?: string
+}
+
 export interface ITagPropValues {
   id: number
   name: string
@@ -44,8 +67,6 @@ export interface ITagPropValues {
   createdAt: string | number
   desc: string
   isInner: boolean
-
-  [key: string]: any
 }
 
 export interface ITagProp {
@@ -74,7 +95,6 @@ export interface IWebProps {
   breadcrumb: string[]
   ok?: boolean
   tags?: IWebTag[]
-  [key: string]: any
 }
 
 export interface INavThreeProp {
@@ -84,7 +104,6 @@ export interface INavThreeProp {
   collapsed?: boolean
   ownVisible?: boolean
   nav: IWebProps[]
-  [key: string]: any
 }
 
 export interface INavTwoProp {
@@ -94,10 +113,9 @@ export interface INavTwoProp {
   collapsed?: boolean
   ownVisible?: boolean
   nav: INavThreeProp[]
-  [key: string]: any
 }
 
-export interface INavProps extends Object {
+export interface INavProps {
   title: string
   id?: number
   icon?: string | null
@@ -105,7 +123,6 @@ export interface INavProps extends Object {
   ownVisible?: boolean
   collapsed?: boolean
   nav: INavTwoProp[]
-  [key: string]: any
 }
 
 export interface ISearchEngineProps {
@@ -143,11 +160,11 @@ export interface ISettings {
 
   lightCardStyle: ICardType
   lightOverType: OverType
-  lightImages: Record<string, any>[]
+  lightImages: IBannerImage[]
   lightFooterHTML: string
   lightDocTitle: string
 
-  simThemeImages: Record<string, any>[]
+  simThemeImages: IBannerImage[]
   simThemeDesc: string
   simThemeHeight: number
   simThemeAutoplay: boolean
@@ -157,7 +174,7 @@ export interface ISettings {
   simFooterHTML: string
   simDocTitle: string
 
-  sideThemeImages: Record<string, any>[]
+  sideThemeImages: IBannerImage[]
   sideThemeHeight: number
   sideThemeAutoplay: boolean
   sideCardStyle: ICardType
@@ -166,7 +183,7 @@ export interface ISettings {
   sideCollapsed: boolean
   sideDocTitle: string
 
-  shortcutThemeImages: Record<string, any>[]
+  shortcutThemeImages: IBannerImage[]
   shortcutThemeShowWeather: boolean
   shortcutTitle: string
   shortcutDockCount: number
@@ -175,7 +192,7 @@ export interface ISettings {
   superTitle: string
   superOverType: OverType
   superCardStyle: ICardType
-  superImages: Record<string, any>[]
+  superImages: IBannerImage[]
   superFooterHTML: string
   superDocTitle: string
 
@@ -196,8 +213,6 @@ export interface ISettings {
   components: IComponentProps[]
 
   runtime: number
-
-  [key: string]: any
 }
 
 export type internalProps = {
