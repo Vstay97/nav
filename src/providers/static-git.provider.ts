@@ -24,17 +24,20 @@ const s = gitRepoUrl.split('/')
 export const authorName = s.at(-2)
 export const repoName = s.at(-1)
 
-export let imageRepo = ''
-export let imageBranch = ''
-
-if (imageRepoUrl) {
+/** 解析 imageRepoUrl（形如 `user/repo?branch=image`），模块加载时计算一次后不可变 */
+function parseImageRepo(): { imageRepo: string; imageBranch: string } {
+  if (!imageRepoUrl) {
+    return { imageRepo: '', imageBranch: '' }
+  }
   const split = imageRepoUrl.split('?')
-  imageRepo = split[0].split('/').at(-1) || ''
   const query = qs.parse(split.at(-1) || '')
-  if (query['branch']) {
-    imageBranch = query['branch'] as string
+  return {
+    imageRepo: split[0].split('/').at(-1) || '',
+    imageBranch: (query['branch'] as string) || '',
   }
 }
+
+export const { imageRepo, imageBranch } = parseImageRepo()
 
 export function isGitee() {
   return navConfig.gitRepoUrl.includes('gitee.com')

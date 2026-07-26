@@ -119,6 +119,7 @@
               >
                 <app-card
                   [cardStyle]="commonService.settings.simCardStyle"
+                  [showRate]="commonService.settings.showRate"
                   [dataSource]="el"
                   [indexs]="[commonService.page, commonService.id, i, j]"
                   [searchKeyword]="commonService.searchKeyword"
@@ -139,7 +140,7 @@
 
 <app-footer
   className="sim-footer"
-  [content]="commonService.settings.simFooterHTML"
+  [content]="commonService.settings.simFooterHTML || commonService.settings.footerContent"
 />
 <app-fixbar
   (onCollapse)="commonService.onCollapseAll()"

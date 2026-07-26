@@ -137,6 +137,7 @@
                   >
                     <app-card
                       [cardStyle]="commonService.settings.sideCardStyle"
+                      [showRate]="commonService.settings.showRate"
                       [dataSource]="el"
                       [indexs]="[commonService.page, commonService.id, i, j]"
                       [searchKeyword]="commonService.searchKeyword"
@@ -156,7 +157,7 @@
 
       <app-footer
         className="side-footer"
-        [content]="commonService.settings.sideFooterHTML"
+        [content]="commonService.settings.sideFooterHTML || commonService.settings.footerContent"
       />
     </nz-layout>
   </nz-layout>

@@ -71,6 +71,7 @@
         >
           <app-card
             [cardStyle]="commonService.settings.appCardStyle"
+            [showRate]="commonService.settings.showRate"
             [dataSource]="el"
             [indexs]="[commonService.page, commonService.id, i, j]"
             [searchKeyword]="commonService.searchKeyword"
@@ -81,5 +82,5 @@
     </div>
   </div>
 
-  <app-footer />
+  <app-footer [content]="commonService.settings.footerContent" />
 </section>

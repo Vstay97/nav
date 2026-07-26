@@ -30,7 +30,7 @@
           ></span
         >
       </div>
-      <div class="rate" *ngIf="settings.showRate">
+      <div class="rate" *ngIf="showRate">
         <nz-rate
           [ngModel]="dataSource.rate"
           [nzDisabled]="!isLogin"
@@ -296,7 +296,7 @@
       </div>
 
       <div class="bottom-bar">
-        <div class="rate2" *ngIf="settings.showRate">{{ getRate }}</div>
+        <div class="rate2" *ngIf="showRate">{{ getRate }}</div>
         <tag-list [data]="dataSource.tags" *ngIf="dataSource.tags?.length" />
 
         <div class="actions" *ngIf="isLogin">

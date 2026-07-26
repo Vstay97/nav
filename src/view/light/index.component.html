@@ -111,6 +111,7 @@
                 >
                   <app-card
                     [cardStyle]="commonService.settings.lightCardStyle"
+                    [showRate]="commonService.settings.showRate"
                     [dataSource]="el"
                     [indexs]="[commonService.page, commonService.id, i, j]"
                     [searchKeyword]="commonService.searchKeyword"
@@ -142,7 +143,9 @@
     </div>
   </div>
 
-  <app-footer [content]="commonService.settings.lightFooterHTML" />
+  <app-footer
+    [content]="commonService.settings.lightFooterHTML || commonService.settings.footerContent"
+  />
   <app-fixbar
     (onCollapse)="commonService.onCollapseAll()"
     [collapsed]="commonService.collapsed"

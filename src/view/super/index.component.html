@@ -120,6 +120,7 @@
             j
           ]"
           [cardStyle]="commonService.settings.superCardStyle"
+          [showRate]="commonService.settings.showRate"
           [dataSource]="el"
           [searchKeyword]="commonService.searchKeyword"
         />
@@ -156,7 +157,9 @@
     </div>
   </div>
 
-  <app-footer [content]="commonService.settings.superFooterHTML" />
+  <app-footer
+    [content]="commonService.settings.superFooterHTML || commonService.settings.footerContent"
+  />
 
   <app-fixbar [showCollapse]="false" />
 </section>

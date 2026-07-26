@@ -3,7 +3,6 @@
 // See https://github.com/xjh22222228/nav
 
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core'
-import { navStore } from 'src/store/nav.store'
 import { dialogService } from 'src/services/dialog'
 import { compilerTemplate } from 'src/utils/util'
 import { NgIf } from '@angular/common';
@@ -26,9 +25,7 @@ export class FooterComponent {
   constructor() {}
 
   ngOnInit() {
-    this.footerContent = compilerTemplate(
-      this.content || navStore.settings().footerContent
-    )
+    this.footerContent = compilerTemplate(this.content)
   }
 
   ngOnDestroy() {

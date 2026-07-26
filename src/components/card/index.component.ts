@@ -11,9 +11,8 @@ import {
 import { isLogin } from 'src/utils/user'
 import { copyText, getTextContent } from 'src/utils'
 import { setWebsiteList, deleteByWeb } from 'src/utils/web'
-import { IWebProps, ICardType, ISettings } from 'src/types'
+import { IWebProps, ICardType } from 'src/types'
 import { $t } from 'src/locale'
-import { navStore } from 'src/store/nav.store'
 import { dialogService } from 'src/services/dialog'
 import { JumpService } from 'src/services/jump'
 import { NgIf, NgSwitch, NgSwitchCase, NgFor, NgSwitchDefault } from '@angular/common';
@@ -56,15 +55,12 @@ export class CardComponent implements OnInit {
   @Input() dataSource: IWebProps | Record<string, any> = {}
   @Input() indexs: Array<number> = []
   @Input() cardStyle: ICardType = 'standard'
+  @Input() showRate: boolean = false
 
   $t = $t
   isLogin: boolean = isLogin
   copyUrlDone = false
   copyPathDone = false
-
-  get settings(): ISettings {
-    return navStore.settings()
-  }
 
   constructor(public jumpService: JumpService) {}
 
