@@ -175,7 +175,7 @@ export class WebManagementService {
     return errorWebs
   }
 
-  /** 弹确认框后同步网站数据到远端（loading 状态由回调管理） */
+  /** 弹确认框后同步网站数据到远端（loading 状态由回调管理；失败给出与同步动作关联的提示与重试指引） */
   confirmAndSync(onLoading: (loading: boolean) => void): void {
     this.modal.info({
       nzTitle: $t('_syncDataOut'),
@@ -183,9 +183,17 @@ export class WebManagementService {
       nzContent: $t('_confirmSyncTip'),
       nzOnOk: () => {
         onLoading(true)
-        this.syncToRemote()
+        // 返回 Promise：ng-zorro 等待确认动作完成，同时避免未处理的 promise 拒绝
+        return this.syncToRemote()
           .then(() => {
             this.message.success($t('_syncSuccessTip'))
+          })
+          .catch((error: any) => {
+            const detail = error?.message ? ` (${error.message})` : ''
+            this.notification.error(
+              $t('_syncData'),
+              `${$t('_syncFailTip')}${detail}`
+            )
           })
           .finally(() => {
             onLoading(false)
