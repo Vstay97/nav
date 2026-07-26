@@ -1,9 +1,5 @@
-import {
-  adapterWebsiteList,
-  deleteByWeb,
-  updateByWeb,
-  toggleCollapseAll,
-} from './web'
+import { deleteByWeb, updateByWeb, toggleCollapseAll } from './web'
+import { adapterWebsiteList } from 'src/providers/static-git.provider'
 import { navStore } from 'src/store/nav.store'
 import { IWebProps } from 'src/types'
 

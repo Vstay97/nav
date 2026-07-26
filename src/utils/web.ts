@@ -1,102 +1,12 @@
-import event from 'src/utils/mitt'
-import localforage from 'localforage'
-import navConfig from '../../nav.config.json'
-import { updateFileContent } from 'src/api'
-import { isLogin } from './user'
 import { IWebProps, INavProps } from '../types'
 import { navStore } from 'src/store/nav.store'
-import { STORAGE_KEY_MAP, DB_PATH } from 'src/constants'
-import { isSelfDevelop } from './util'
+import { dataProvider } from 'src/providers'
 import { queryString } from './index'
-import { $t } from 'src/locale'
-
-export function adapterWebsiteList(websiteList: any[]) {
-  function filterOwn(item: IWebProps) {
-    if (item.ownVisible && !isLogin) {
-      return false
-    }
-    return true
-  }
-  websiteList = websiteList.filter(filterOwn)
-  for (let i = 0; i < websiteList.length; i++) {
-    const item = websiteList[i]
-
-    if (Array.isArray(item.nav)) {
-      item.nav = item.nav.filter(filterOwn)
-      adapterWebsiteList(item.nav)
-    }
-  }
-
-  return websiteList
-}
-
-export async function fetchWeb() {
-  if (isSelfDevelop) {
-    return
-  }
-  function finish(dbData: any[]) {
-    navStore.setWebsiteList(dbData)
-    event.emit('WEB_FINISH')
-    window.__FINISHED__ = true
-  }
-  let data = adapterWebsiteList(navStore.websiteList())
-  if (!isLogin) {
-    return finish(data)
-  }
-  const storageDate = window.localStorage.getItem(STORAGE_KEY_MAP.s_url)
-
-  // 检测到网站更新，清除缓存本地保存记录失效
-  if (storageDate !== navConfig.datetime) {
-    const whiteList = [
-      STORAGE_KEY_MAP.token,
-      STORAGE_KEY_MAP.isDark,
-      STORAGE_KEY_MAP.authCode,
-    ]
-    const len = window.localStorage.length
-    for (let i = 0; i < len; i++) {
-      const key = window.localStorage.key(i) as string
-      if (whiteList.includes(key)) {
-        continue
-      }
-      window.localStorage.removeItem(key)
-    }
-    window.localStorage.setItem(STORAGE_KEY_MAP.s_url, navConfig.datetime)
-    localforage.removeItem(STORAGE_KEY_MAP.website)
-    finish(data)
-    if (isLogin) {
-      setTimeout(() => {
-        event.emit('NOTIFICATION', {
-          type: 'success',
-          title: $t('_buildSuccess'),
-          content: navConfig.datetime,
-          config: {
-            nzDuration: 0,
-          },
-        })
-      }, 1000)
-    }
-    return
-  }
-
-  try {
-    const dbData: any =
-      (await localforage.getItem(STORAGE_KEY_MAP.website)) || data
-    finish(dbData)
-  } catch {
-    finish(data)
-  }
-}
 
 export function setWebsiteList(v?: INavProps[]): Promise<any> {
   v = v || navStore.websiteList()
   navStore.setWebsiteList(v)
-  if (isSelfDevelop) {
-    return updateFileContent({
-      content: JSON.stringify(v),
-      path: DB_PATH,
-    })
-  }
-  return localforage.setItem(STORAGE_KEY_MAP.website, v)
+  return dataProvider.saveWebsiteList(v)
 }
 
 export function toggleCollapseAll(wsList?: INavProps[]): boolean {
@@ -109,7 +19,7 @@ export function toggleCollapseAll(wsList?: INavProps[]): boolean {
     return item
   })
   navStore.touchWebsiteList()
-  if (!isSelfDevelop) {
+  if (dataProvider.persistUiState) {
     setWebsiteList(wsList)
   }
   return collapsed

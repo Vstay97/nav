@@ -6,11 +6,11 @@ import { Component } from '@angular/core'
 import { INavProps } from 'src/types'
 import { isMobile } from 'src/utils'
 import { setWebsiteList } from 'src/utils/web'
+import { dataProvider } from 'src/providers'
 import { navStore } from 'src/store/nav.store'
 import { $t } from 'src/locale'
 import { CommonService } from 'src/services/common'
 import { STORAGE_KEY_MAP } from 'src/constants'
-import { isSelfDevelop } from 'src/utils/util'
 
 @Component({
   selector: 'app-side',
@@ -48,7 +48,7 @@ export default class SideComponent {
         data.collapsed = false
       }
     })
-    if (!isSelfDevelop) {
+    if (dataProvider.persistUiState) {
       setWebsiteList(this.websiteList)
     }
   }

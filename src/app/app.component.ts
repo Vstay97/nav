@@ -8,11 +8,11 @@ import { queryString, setLocation, isMobile, getDefaultTheme } from '../utils'
 import { en_US, NzI18nService, zh_CN } from 'ng-zorro-antd/i18n'
 import { getLocale } from 'src/locale'
 import { navStore } from 'src/store/nav.store'
-import { verifyToken, getContentes } from 'src/api'
+import { dataProvider } from 'src/providers'
+import { verifyToken } from 'src/api'
 import { getToken, userLogout, isLogin } from 'src/utils/user'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NzNotificationService } from 'ng-zorro-antd/notification'
-import { fetchWeb } from 'src/utils/web'
 import { isSelfDevelop } from 'src/utils/util'
 import { routes } from './app-routing.module'
 import Alert from './alert-event'
@@ -81,8 +81,9 @@ export class AppComponent {
         })
     }
 
+    const fetchPromise = dataProvider.fetchInitialData()
     if (isSelfDevelop) {
-      getContentes().then(() => {
+      fetchPromise.then(() => {
         // 处理默认主题
         const currentRoutes = this.router.config
         const defaultTheme = getDefaultTheme().toLowerCase()
@@ -101,15 +102,11 @@ export class AppComponent {
           this.router.navigate([defaultTheme])
         }
         this.updateDocumentTitle()
-        this.fetchIng = false
-        event.emit('WEB_FINISH')
-        window.__FINISHED__ = true
-      })
-    } else {
-      fetchWeb().finally(() => {
-        this.fetchIng = false
       })
     }
+    fetchPromise.finally(() => {
+      this.fetchIng = false
+    })
   }
 
   goRoute() {

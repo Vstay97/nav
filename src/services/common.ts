@@ -12,9 +12,9 @@ import {
   getOverIndex,
 } from 'src/utils'
 import { setWebsiteList, toggleCollapseAll } from 'src/utils/web'
+import { dataProvider } from 'src/providers'
 import { INavProps, INavThreeProp, ISettings } from 'src/types'
 import { isLogin } from 'src/utils/user'
-import { isSelfDevelop } from 'src/utils/util'
 import event from 'src/utils/mitt'
 
 @Injectable({
@@ -122,7 +122,7 @@ export class CommonService {
     item.collapsed = !item.collapsed
     this.websiteList[this.page].nav[this.id].nav[index] = item
     navStore.touchWebsiteList()
-    if (!isSelfDevelop) {
+    if (dataProvider.persistUiState) {
       setWebsiteList(this.websiteList)
     }
   }
