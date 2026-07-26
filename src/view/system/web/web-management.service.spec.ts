@@ -48,6 +48,16 @@ function captureNzOnOk(modal: any): () => Promise<any> {
 }
 
 describe('WebManagementService', () => {
+  let snapshot: string
+
+  beforeEach(() => {
+    snapshot = JSON.stringify(navStore.websiteList())
+  })
+
+  afterEach(() => {
+    navStore.setWebsiteList(JSON.parse(snapshot))
+  })
+
   it('deleteWeb 删除成功：提示删除成功且条目从列表移除', () => {
     // spy 避免与其他 spec 共享 localforage 产生异步竞争
     spyOn(localforage, 'setItem').and.resolveTo(null as any)
