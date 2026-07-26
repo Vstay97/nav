@@ -10,6 +10,8 @@
     "build-gh-pages": "npm run setup && ng build --base-href ./ --index src/index.html",
     "build": "npm run setup && ng build --index src/index.html",
     "watch": "ng build --watch --configuration development",
+    "test:e2e": "playwright test",
+    "test:e2e:update": "playwright test --update-snapshots",
     "update": "git pull && (git remote add upstream https://gitee.com/xiejiahe/nav.git || true) && git fetch upstream main && git merge upstream/main --allow-unrelated-histories --no-edit && git push",
     "pull": "git pull"
   },
@@ -50,6 +52,7 @@
     "@angular-devkit/build-angular": "^18.2.6",
     "@angular/cli": "^18.2.6",
     "@angular/compiler-cli": "^18.2.6",
+    "@playwright/test": "^1.62.0",
     "@types/jasmine": "~5.1.4",
     "@types/nprogress": "^0.2.3",
     "body-parser": "^1.20.3",
@@ -64,6 +67,7 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "pm2": "^5.4.2",
+    "postcss-loader": "8.1.1",
     "ts-node": "~10.9.2",
     "typescript": "~5.5.4"
   }
