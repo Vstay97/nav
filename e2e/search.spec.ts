@@ -8,7 +8,7 @@ import { test, expect, waitAppReady } from './fixtures'
 
 test.describe('站内搜索', () => {
   test.beforeEach(async ({ appPage: page }) => {
-    await page.goto('/main.html#/side')
+    await page.goto('/side')
     await waitAppReady(page)
   })
 

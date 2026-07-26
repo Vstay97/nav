@@ -7,7 +7,6 @@
     "start": "npm run build-start && ng serve --port=7001",
     "build-start": "tsx ./scripts/start.mts",
     "setup": "npm run build-start && tsx ./scripts/build.mts",
-    "build-gh-pages": "npm run setup && ng build --base-href ./ --index src/index.html",
     "build": "npm run setup && ng build --index src/index.html",
     "watch": "ng build --watch --configuration development",
     "test": "ng test --watch=false --browsers=ChromeHeadless",

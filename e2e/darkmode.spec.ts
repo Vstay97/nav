@@ -11,7 +11,7 @@ test('暗黑模式切换', async ({ appPage: page }) => {
   await page.addInitScript(() => {
     window.localStorage.setItem('FIXBAR_OPEN', 'true')
   })
-  await page.goto('/main.html#/side')
+  await page.goto('/side')
   await waitAppReady(page)
   await stabilize(page)
 

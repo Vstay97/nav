@@ -29,7 +29,7 @@ test.describe('系统管理后台', () => {
 
   for (const { path, name } of PAGES) {
     test(`${name} /system/${path} 渲染并截图`, async ({ appPage: page }) => {
-      await page.goto(`/main.html#/system/${path}`)
+      await page.goto(`/system/${path}`)
       await waitAppReady(page)
 
       // 等待页内容实际渲染（登录态有清缓存等异步流程，表格/表单出现才算就绪）
@@ -49,7 +49,7 @@ test.describe('系统管理后台', () => {
 
 // 注意：此测试不可放在上方 describe 内（beforeEach 会注入登录态）
 test('未登录访问 /system 不渲染后台内容', async ({ appPage: page }) => {
-  await page.goto('/main.html#/system/web')
+  await page.goto('/system/web')
   await page.waitForTimeout(2000)
   // 未登录时后台布局不渲染（*ngIf="isLogin"），仅显示登录框（nz-modal 弹层）
   await expect(page.locator('nz-layout.system-layout')).toHaveCount(0)
