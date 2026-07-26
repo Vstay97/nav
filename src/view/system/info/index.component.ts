@@ -15,7 +15,7 @@ import config from '../../../../nav.config.json'
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss'],
 })
-export default class SystemInfoComponent {
+export class SystemInfoComponent {
   $t = $t
   isSelfDevelop = isSelfDevelop
   token = getToken()

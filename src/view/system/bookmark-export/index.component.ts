@@ -19,7 +19,7 @@ import LZString from 'lz-string'
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss'],
 })
-export default class SystemBookmarkExportComponent {
+export class SystemBookmarkExportComponent {
   $t = $t
   submitting = false
   isExportIcon = false

@@ -10,7 +10,7 @@ import { CommonService } from 'src/services/common'
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export default class WebpComponent {
+export class WebpComponent {
   open: boolean = false
 
   constructor(public commonService: CommonService) {}

@@ -3,29 +3,31 @@
 // See https://github.com/xjh22222228/nav
 
 import { Component } from '@angular/core'
-import { INavProps, INavTwoProp, INavThreeProp, IWebProps, ISettings } from 'src/types'
+import {
+  INavProps,
+  INavTwoProp,
+  INavThreeProp,
+  IWebProps,
+  ISettings,
+} from 'src/types'
 import { navStore } from 'src/store/nav.store'
-import { isLogin, removeWebsite } from 'src/utils/user'
+import { isLogin } from 'src/utils/user'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NzModalService } from 'ng-zorro-antd/modal'
 import { NzNotificationService } from 'ng-zorro-antd/notification'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { getTextContent } from 'src/utils'
-import { setWebsiteList, deleteByWeb } from 'src/utils/web'
-import { updateFileContent } from 'src/api'
-import { DB_PATH, STORAGE_KEY_MAP } from 'src/constants'
 import { $t } from 'src/locale'
-import { saveAs } from 'file-saver'
 import { isSelfDevelop } from 'src/utils/util'
 import { dialogService } from 'src/services/dialog'
 import config from '../../../../nav.config.json'
+import { WebManagementService } from './web-management.service'
 
 @Component({
   selector: 'app-admin',
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss'],
 })
-export default class WebpComponent {
+export class SystemWebComponent {
   $t = $t
   isSelfDevelop = isSelfDevelop
   validateForm!: FormGroup
@@ -61,7 +63,8 @@ export default class WebpComponent {
     private fb: FormBuilder,
     private modal: NzModalService,
     private notification: NzNotificationService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private webService: WebManagementService
   ) {
     this.validateForm = this.fb.group({
       title: ['', [Validators.required]],
@@ -132,25 +135,23 @@ export default class WebpComponent {
     }
   }
 
+  /** tabActive(0/1/2) → 分类索引路径（一级/二级/三级） */
+  private get categoryPath(): number[] {
+    if (this.tabActive === 1) {
+      return [this.oneIndex]
+    }
+    if (this.tabActive === 2) {
+      return [this.oneIndex, this.twoIndex]
+    }
+    return []
+  }
+
   getAllErrorWeb() {
     this.oneSelect = ''
     this.twoSelect = ''
     this.threeSelect = ''
     this.onTabChange()
-    const errorWebs: IWebProps[] = []
-    function r(nav: any) {
-      if (!Array.isArray(nav)) return
-
-      for (let i = 0; i < nav.length; i++) {
-        const item = nav[i]
-        if (item.url && item.ok === false) {
-          errorWebs.push(item)
-        } else {
-          r(item.nav)
-        }
-      }
-    }
-    r(this.websiteList)
+    const errorWebs = this.webService.collectErrorWebs()
     this.errorWebs = errorWebs
     if (errorWebs.length <= 0) {
       this.message.success('No error!')
@@ -161,47 +162,20 @@ export default class WebpComponent {
 
   onAllChecked(checked: boolean, type: 1 | 2 | 3 | 4) {
     this.setOfCheckedId.clear()
-    switch (type) {
-      case 1:
-        this.websiteList.forEach((item) => {
-          if (checked) {
-            this.setOfCheckedId.add(item.title)
-          } else {
-            this.setOfCheckedId.delete(item.title)
-          }
-        })
-        break
-
-      case 2:
-        this.twoTableData.forEach((item) => {
-          if (checked) {
-            this.setOfCheckedId.add(item.title as string)
-          } else {
-            this.setOfCheckedId.delete(item.title as string)
-          }
-        })
-        break
-
-      case 3:
-        this.threeTableData.forEach((item) => {
-          if (checked) {
-            this.setOfCheckedId.add(item.title as string)
-          } else {
-            this.setOfCheckedId.delete(item.title as string)
-          }
-        })
-        break
-
-      case 4:
-        this.websiteTableData.forEach((item) => {
-          if (checked) {
-            this.setOfCheckedId.add(item.name)
-          } else {
-            this.setOfCheckedId.delete(item.name)
-          }
-        })
-        break
+    const lists: Record<number, any[]> = {
+      1: this.websiteList,
+      2: this.twoTableData,
+      3: this.threeTableData,
+      4: this.websiteTableData,
     }
+    const key: 'title' | 'name' = type === 4 ? 'name' : 'title'
+    lists[type].forEach((item) => {
+      if (checked) {
+        this.setOfCheckedId.add(item[key])
+      } else {
+        this.setOfCheckedId.delete(item[key])
+      }
+    })
   }
 
   onItemChecked(idStr: any, checked: boolean) {
@@ -213,69 +187,24 @@ export default class WebpComponent {
   }
 
   onBatchDelete(type: 1 | 2 | 3 | 4) {
-    switch (type) {
-      case 1:
-        this.setOfCheckedId.forEach((value) => {
-          const idx = this.websiteList.findIndex((item) => item.title === value)
-          if (idx >= 0) {
-            this.websiteList.splice(idx, 1)
-          }
-        })
-        break
-
-      case 2:
-        {
-          if (this.oneIndex >= 0) {
-            this.websiteList[this.oneIndex].nav = this.websiteList[
-              this.oneIndex
-            ].nav.filter((item) => {
-              return !this.setOfCheckedId.has(item.title as string)
-            })
-          }
-        }
-        break
-
-      case 3:
-        {
-          if (this.oneIndex >= 0) {
-            if (this.twoIndex >= 0) {
-              this.websiteList[this.oneIndex].nav[this.twoIndex].nav =
-                this.websiteList[this.oneIndex].nav[this.twoIndex].nav.filter(
-                  (item) => {
-                    return !this.setOfCheckedId.has(item.title as string)
-                  }
-                )
-            }
-          }
-        }
-        break
-
-      case 4:
-        {
-          const deleteData: IWebProps[] = []
-          this.websiteTableData.forEach((item) => {
-            const has = !this.setOfCheckedId.has(item.name)
-            if (!has) {
-              deleteData.push(item)
-            }
-            return has
-          })
-          deleteData.forEach((item) => {
-            deleteByWeb({
-              ...item,
-              name: getTextContent(item.name),
-              desc: getTextContent(item.desc),
-            })
-          })
-          if (this.errorWebs.length) {
-            this.getAllErrorWeb()
-          }
-          this.message.success($t('_delSuccess'))
-        }
-        break
+    if (type <= 3) {
+      const path = type === 1 ? [] : type === 2 ? [this.oneIndex] : [this.oneIndex, this.twoIndex]
+      if (type > 1 && this.oneIndex < 0) {
+        // 与原实现一致：父索引无效时跳过
+      } else {
+        this.webService.deleteCategoriesBatch(path, this.setOfCheckedId)
+      }
+    } else {
+      const deleteData = this.websiteTableData.filter((item) =>
+        this.setOfCheckedId.has(item.name)
+      )
+      this.webService.deleteWebs(deleteData)
+      if (this.errorWebs.length) {
+        this.getAllErrorWeb()
+      }
     }
     this.onTabChange()
-    setWebsiteList(this.websiteList)
+    this.setOfCheckedId.clear()
   }
 
   handleReset() {
@@ -283,54 +212,21 @@ export default class WebpComponent {
       nzTitle: $t('_resetInitData'),
       nzContent: $t('_warnReset'),
       nzOnOk: () => {
-        this.message.success($t('_actionSuccess'))
-        window.localStorage.removeItem(STORAGE_KEY_MAP.s_url)
-        removeWebsite().finally(() => {
-          window.location.reload()
-        })
+        this.webService.resetLocalData()
       },
     })
   }
 
   handleDownloadBackup() {
-    const params: any = {
-      db: this.websiteList,
-      settings: navStore.settings(),
-      tag: navStore.tagList(),
-      search: navStore.searchEngineList(),
-      component: navStore.components(),
-    }
-    for (const k in params) {
-      saveAs(
-        new Blob([JSON.stringify(params[k])], {
-          type: 'text/plain;charset=utf-8',
-        }),
-        `${k}.json`
-      )
-    }
+    this.webService.downloadBackup()
   }
 
   handleUploadBackup(e: any) {
-    const that = this
     const files = e.target.files
     if (files.length <= 0) {
       return
     }
-    const file = files[0]
-    const fileReader = new FileReader()
-    fileReader.readAsText(file)
-    fileReader.onload = function (data) {
-      try {
-        const { result } = data.target as any
-        navStore.setWebsiteList(JSON.parse(result))
-        that.message.success($t('_actionSuccess'))
-        setWebsiteList(that.websiteList).finally(() => {
-          location.reload()
-        })
-      } catch (error: any) {
-        that.notification.error($t('_error'), error.message)
-      }
-    }
+    this.webService.uploadBackupFile(files[0])
   }
 
   goBack() {
@@ -395,183 +291,68 @@ export default class WebpComponent {
 
   // 删除一级分类
   handleConfirmDelOne(idx: number) {
-    this.websiteList.splice(idx, 1)
-    this.message.success($t('_delSuccess'))
-    setWebsiteList(this.websiteList)
-  }
-
-  // 上移一级
-  moveOneUp(index: number): void {
-    if (index === 0) {
-      return
-    }
-    const current = this.websiteList[index]
-    const prev = this.websiteList[index - 1]
-    this.websiteList[index - 1] = current
-    this.websiteList[index] = prev
-    setWebsiteList(this.websiteList)
-  }
-
-  // 下移一级
-  moveOneDown(index: number): void {
-    if (index === this.websiteList.length - 1) {
-      return
-    }
-    const current = this.websiteList[index]
-    const next = this.websiteList[index + 1]
-    this.websiteList[index + 1] = current
-    this.websiteList[index] = next
-    setWebsiteList(this.websiteList)
-  }
-
-  // 上移二级
-  moveTwoUp(index: number): void {
-    try {
-      if (index === 0) {
-        return
-      }
-      const current = this.websiteList[this.oneIndex].nav[index]
-      const prev = this.websiteList[this.oneIndex].nav[index - 1]
-      this.websiteList[this.oneIndex].nav[index - 1] = current
-      this.websiteList[this.oneIndex].nav[index] = prev
-      setWebsiteList(this.websiteList)
-    } catch (error: any) {
-      this.notification.error($t('_error'), error.message)
-    }
-  }
-
-  // 下移二级
-  moveTwoDown(index: number): void {
-    try {
-      if (index === this.websiteList[this.oneIndex].nav.length - 1) {
-        return
-      }
-      const current = this.websiteList[this.oneIndex].nav[index]
-      const next = this.websiteList[this.oneIndex].nav[index + 1]
-      this.websiteList[this.oneIndex].nav[index + 1] = current
-      this.websiteList[this.oneIndex].nav[index] = next
-      setWebsiteList(this.websiteList)
-    } catch (error: any) {
-      this.notification.error($t('_error'), error.message)
-    }
+    this.webService.deleteCategoryAt([], idx)
   }
 
   // 删除二级分类
   handleConfirmDelTwo(idx: number) {
-    this.twoTableData.splice(idx, 1)
-    this.message.success($t('_delSuccess'))
-    setWebsiteList(this.websiteList)
-  }
-
-  // 上移三级
-  moveThreeUp(index: number): void {
-    try {
-      if (index === 0) {
-        return
-      }
-      const current =
-        this.websiteList[this.oneIndex].nav[this.twoIndex].nav[index]
-      const prev =
-        this.websiteList[this.oneIndex].nav[this.twoIndex].nav[index - 1]
-      this.websiteList[this.oneIndex].nav[this.twoIndex].nav[index - 1] =
-        current
-      this.websiteList[this.oneIndex].nav[this.twoIndex].nav[index] = prev
-      setWebsiteList(this.websiteList)
-    } catch (error: any) {
-      this.notification.error($t('_error'), error.message)
-    }
-  }
-
-  // 下移三级
-  moveThreeDown(index: number): void {
-    try {
-      if (
-        index ===
-        this.websiteList[this.oneIndex].nav[this.twoIndex].nav.length - 1
-      ) {
-        return
-      }
-      const current =
-        this.websiteList[this.oneIndex].nav[this.twoIndex].nav[index]
-      const next =
-        this.websiteList[this.oneIndex].nav[this.twoIndex].nav[index + 1]
-      this.websiteList[this.oneIndex].nav[this.twoIndex].nav[index + 1] =
-        current
-      this.websiteList[this.oneIndex].nav[this.twoIndex].nav[index] = next
-      setWebsiteList(this.websiteList)
-    } catch (error: any) {
-      this.notification.error($t('_error'), error.message)
-    }
+    this.webService.deleteCategoryAt([this.oneIndex], idx)
   }
 
   // 删除三级分类
   handleConfirmDelThree(idx: number) {
-    this.threeTableData.splice(idx, 1)
-    this.message.success($t('_delSuccess'))
-    setWebsiteList(this.websiteList)
+    this.webService.deleteCategoryAt([this.oneIndex, this.twoIndex], idx)
   }
 
-  // 上移网站
+  // 上移/下移一级
+  moveOneUp(index: number): void {
+    this.webService.moveItem([], index, -1)
+  }
+
+  moveOneDown(index: number): void {
+    this.webService.moveItem([], index, 1)
+  }
+
+  // 上移/下移二级
+  moveTwoUp(index: number): void {
+    this.webService.moveItem([this.oneIndex], index, -1)
+  }
+
+  moveTwoDown(index: number): void {
+    this.webService.moveItem([this.oneIndex], index, 1)
+  }
+
+  // 上移/下移三级
+  moveThreeUp(index: number): void {
+    this.webService.moveItem([this.oneIndex, this.twoIndex], index, -1)
+  }
+
+  moveThreeDown(index: number): void {
+    this.webService.moveItem([this.oneIndex, this.twoIndex], index, 1)
+  }
+
+  // 上移/下移网站
   moveWebUp(index: number): void {
-    try {
-      if (index === 0) {
-        return
-      }
-      const current =
-        this.websiteList[this.oneIndex].nav[this.twoIndex].nav[this.threeIndex]
-          .nav[index]
-      const prev =
-        this.websiteList[this.oneIndex].nav[this.twoIndex].nav[this.threeIndex]
-          .nav[index - 1]
-      this.websiteList[this.oneIndex].nav[this.twoIndex].nav[
-        this.threeIndex
-      ].nav[index - 1] = current
-      this.websiteList[this.oneIndex].nav[this.twoIndex].nav[
-        this.threeIndex
-      ].nav[index] = prev
-      setWebsiteList(this.websiteList)
-    } catch (error: any) {
-      this.notification.error($t('_error'), error.message)
-    }
+    this.webService.moveItem(
+      [this.oneIndex, this.twoIndex, this.threeIndex],
+      index,
+      -1
+    )
   }
 
-  // 下移网站
   moveWebDown(index: number): void {
-    try {
-      if (
-        index ===
-        this.websiteList[this.oneIndex].nav[this.twoIndex].nav[this.threeIndex]
-          .nav.length -
-          1
-      ) {
-        return
-      }
-      const current =
-        this.websiteList[this.oneIndex].nav[this.twoIndex].nav[this.threeIndex]
-          .nav[index]
-      const next =
-        this.websiteList[this.oneIndex].nav[this.twoIndex].nav[this.threeIndex]
-          .nav[index + 1]
-      this.websiteList[this.oneIndex].nav[this.twoIndex].nav[
-        this.threeIndex
-      ].nav[index + 1] = current
-      this.websiteList[this.oneIndex].nav[this.twoIndex].nav[
-        this.threeIndex
-      ].nav[index] = next
-      setWebsiteList(this.websiteList)
-    } catch (error: any) {
-      this.notification.error($t('_error'), error.message)
-    }
+    this.webService.moveItem(
+      [this.oneIndex, this.twoIndex, this.threeIndex],
+      index,
+      1
+    )
   }
 
   // 删除网站
   handleConfirmDelWebsite(data: any, idx: number) {
-    const ok = deleteByWeb(data)
-    if (ok) {
-      this.message.success($t('_delSuccess'))
-      if (this.errorWebs.length) {
-        this.getAllErrorWeb()
-      }
+    const ok = this.webService.deleteWeb(data)
+    if (ok && this.errorWebs.length) {
+      this.getAllErrorWeb()
     }
   }
 
@@ -618,12 +399,8 @@ export default class WebpComponent {
       nzContent: $t('_confirmSyncTip'),
       nzOnOk: () => {
         this.syncLoading = true
-
-        updateFileContent({
-          message: 'update db',
-          content: JSON.stringify(this.websiteList),
-          path: DB_PATH,
-        })
+        this.webService
+          .syncToRemote()
           .then(() => {
             this.message.success($t('_syncSuccessTip'))
           })
@@ -635,8 +412,6 @@ export default class WebpComponent {
   }
 
   handleOk() {
-    const createdAt = Date.now()
-
     for (const i in this.validateForm.controls) {
       this.validateForm.controls[i].markAsDirty()
       this.validateForm.controls[i].updateValueAndValidity()
@@ -650,118 +425,16 @@ export default class WebpComponent {
     }
     title = title.trim()
 
-    if (this.isEdit) {
-      switch (this.tabActive) {
-        // 编辑一级分类
-        case 0:
-          {
-            const exists = this.websiteList.some((item) => item.title === title)
-            if (exists && this.websiteList[this.editIdx].title !== title) {
-              return this.message.error(`${$t('_repeatAdd')} "${title}"`)
-            }
-            this.websiteList[this.editIdx].title = title
-            this.websiteList[this.editIdx].icon = icon
-            this.websiteList[this.editIdx].ownVisible = ownVisible
-          }
-          break
-
-        // 编辑二级分类
-        case 1:
-          {
-            const exists = this.twoTableData.some(
-              (item) => item.title === title
-            )
-            if (exists && this.twoTableData[this.editIdx].title !== title) {
-              return this.message.error(`${$t('_repeatAdd')} "${title}"`)
-            }
-            this.twoTableData[this.editIdx].title = title
-            this.twoTableData[this.editIdx].icon = icon
-            this.twoTableData[this.editIdx].ownVisible = ownVisible
-          }
-          break
-
-        // 编辑三级分类
-        case 2:
-          {
-            const exists = this.threeTableData.some(
-              (item) => item.title === title
-            )
-            if (exists && this.threeTableData[this.editIdx].title !== title) {
-              return this.message.error(`${$t('_repeatAdd')} "${title}"`)
-            }
-            this.threeTableData[this.editIdx].title = title
-            this.threeTableData[this.editIdx].icon = icon
-            this.threeTableData[this.editIdx].ownVisible = ownVisible
-          }
-          break
-      }
-
-      this.message.success($t('_saveSuccess'))
-    } else {
-      switch (this.tabActive) {
-        // 新增一级分类
-        case 0:
-          {
-            const exists = this.websiteList.some((item) => item.title === title)
-            if (exists) {
-              return this.message.error(`${$t('_repeatAdd')} "${title}"`)
-            }
-
-            this.websiteList.unshift({
-              createdAt,
-              title,
-              icon,
-              ownVisible,
-              nav: [],
-            })
-          }
-          break
-
-        // 新增二级分类
-        case 1:
-          {
-            const exists = this.twoTableData.some(
-              (item) => item.title === title
-            )
-            if (exists) {
-              return this.message.error(`${$t('_repeatAdd')} "${title}"`)
-            }
-
-            this.twoTableData.unshift({
-              createdAt,
-              title,
-              icon,
-              ownVisible,
-              nav: [],
-            })
-          }
-          break
-
-        // 新增三级分类
-        case 2:
-          {
-            const exists = this.threeTableData.some(
-              (item) => item.title === title
-            )
-            if (exists) {
-              return this.message.error(`${$t('_repeatAdd')} "${title}"`)
-            }
-
-            this.threeTableData.unshift({
-              createdAt,
-              title,
-              icon,
-              ownVisible,
-              nav: [],
-            })
-          }
-          break
-      }
-      this.message.success($t('_addSuccess'))
+    const ok = this.webService.saveCategory(
+      this.categoryPath,
+      this.isEdit ? this.editIdx : null,
+      { title, icon, ownVisible }
+    )
+    if (!ok) {
+      return
     }
 
     this.validateForm.reset()
     this.toggleCreateModal()
-    setWebsiteList(this.websiteList)
   }
 }

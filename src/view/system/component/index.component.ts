@@ -25,7 +25,7 @@ import { isSelfDevelop } from 'src/utils/util'
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss'],
 })
-export default class SystemComponentComponent {
+export class SystemComponentComponent {
   @ViewChild('calendar') calendarChild!: CalendarDrawerComponent
   @ViewChild('runtime') runtimeChild!: RuntimeDrawerComponent
   @ViewChild('offwork') offworkChild!: OffWorkDrawerComponent

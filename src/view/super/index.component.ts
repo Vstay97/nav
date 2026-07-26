@@ -13,7 +13,7 @@ import { dialogService } from 'src/services/dialog'
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss'],
 })
-export default class SideComponent {
+export class SuperComponent {
   $t = $t
 
   constructor(

@@ -16,7 +16,7 @@ import { navStore } from 'src/store/nav.store'
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss'],
 })
-export default class SystemSearchComponent {
+export class SystemSearchComponent {
   $t = $t
   submitting: boolean = false
 

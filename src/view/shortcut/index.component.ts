@@ -13,7 +13,7 @@ import { $t } from 'src/locale'
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss'],
 })
-export default class ShortcutComponent {
+export class ShortcutComponent {
   $t = $t
   isMobile = isMobile()
   shortcutThemeImage =

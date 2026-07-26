@@ -12,7 +12,7 @@ import { JumpService } from 'src/services/jump'
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss'],
 })
-export default class LightComponent {
+export class LightComponent {
   constructor(
     public commonService: CommonService,
     public jumpService: JumpService

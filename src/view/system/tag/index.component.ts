@@ -17,7 +17,7 @@ import { isSelfDevelop } from 'src/utils/util'
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss'],
 })
-export default class SystemTagComponent {
+export class SystemTagComponent {
   $t = $t
   isSelfDevelop = isSelfDevelop
   submitting: boolean = false

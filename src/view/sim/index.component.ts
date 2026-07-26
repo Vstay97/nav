@@ -11,7 +11,7 @@ import { CommonService } from 'src/services/common'
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss'],
 })
-export default class SimComponent {
+export class SimComponent {
   get description(): string {
     const internal = navStore.internal()
     return navStore

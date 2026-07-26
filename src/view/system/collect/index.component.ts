@@ -20,7 +20,7 @@ import { ITagProp } from 'src/types'
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss'],
 })
-export default class CollectComponent {
+export class CollectComponent {
   $t = $t
   isSelfDevelop = isSelfDevelop
   submitting: boolean = false

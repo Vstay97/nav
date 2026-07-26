@@ -17,7 +17,7 @@ import { STORAGE_KEY_MAP } from 'src/constants'
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss'],
 })
-export default class SideComponent {
+export class SideComponent {
   $t = $t
   isCollapsed = isMobile() || navStore.settings().sideCollapsed
 

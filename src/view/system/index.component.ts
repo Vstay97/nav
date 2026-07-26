@@ -15,7 +15,7 @@ import { isSelfDevelop, removeDark } from 'src/utils/util'
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss'],
 })
-export default class SystemComponent {
+export class SystemComponent {
   isSelfDevelop = isSelfDevelop
   $t = $t
   isLogin: boolean = isLogin

@@ -27,7 +27,7 @@ const extraForm: Record<string, any> = {
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss'],
 })
-export default class SystemSettingComponent {
+export class SystemSettingComponent {
   $t = $t
   validateForm!: FormGroup
   submitting: boolean = false

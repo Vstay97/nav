@@ -13,7 +13,7 @@ import { getUserInfo, updateUserInfo } from 'src/api'
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss'],
 })
-export default class VipAuthComponent {
+export class VipAuthComponent {
   $t = $t
   submitting: boolean = false
   isPermission = !!getAuthCode()
