@@ -10,7 +10,8 @@ import { NzNotificationService } from 'ng-zorro-antd/notification'
 import { NzModalService } from 'ng-zorro-antd/modal'
 import { SETTING_PATH } from 'src/constants'
 import { updateFileContent, spiderWeb } from 'src/api'
-import { settings, components } from 'src/store'
+import { navStore } from 'src/store/nav.store'
+import { ISettings } from 'src/types'
 import { isSelfDevelop, compilerTemplate } from 'src/utils/util'
 import { componentTitleMap } from '../component/types'
 import event from 'src/utils/mitt'
@@ -31,10 +32,13 @@ export default class SystemSettingComponent {
   $t = $t
   validateForm!: FormGroup
   submitting: boolean = false
-  settings = settings
   tabActive = 0
   isSelfDevelop = isSelfDevelop
   textareaSize = { minRows: 3, maxRows: 20 }
+
+  get settings(): ISettings {
+    return navStore.settings()
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -42,6 +46,8 @@ export default class SystemSettingComponent {
     private message: NzMessageService,
     private modal: NzModalService
   ) {
+    const settings = navStore.settings()
+    const components = navStore.components()
     extraForm['componentOptions'] = components.map((item) => {
       const checked = settings.components.some(
         (c) => item.type === c.type && item.id === c.id

@@ -2,7 +2,7 @@
 // Copyright @ 2018-present xiejiahe. All rights reserved.
 import config from '../../../nav.config.json'
 import { Component, ChangeDetectionStrategy } from '@angular/core'
-import { settings } from 'src/store'
+import { navStore } from 'src/store/nav.store'
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -14,7 +14,10 @@ export class IconGitComponent {
   gitRepoUrl: string = config.gitRepoUrl.includes('github.com/xjh22222228')
     ? 'https://github.com/xjh22222228/nav'
     : config.gitRepoUrl
-  showGithub = settings.showGithub
+
+  get showGithub() {
+    return navStore.settings().showGithub
+  }
 
   constructor() {}
 }

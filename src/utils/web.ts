@@ -4,7 +4,7 @@ import navConfig from '../../nav.config.json'
 import { updateFileContent } from 'src/api'
 import { isLogin } from './user'
 import { IWebProps, INavProps } from '../types'
-import { websiteList } from 'src/store'
+import { navStore } from 'src/store/nav.store'
 import { STORAGE_KEY_MAP, DB_PATH } from 'src/constants'
 import { isSelfDevelop } from './util'
 import { queryString } from './index'
@@ -34,15 +34,12 @@ export async function fetchWeb() {
   if (isSelfDevelop) {
     return
   }
-  function finish(dbData: any) {
-    dbData.forEach((item: any) => {
-      websiteList.push(item)
-    })
+  function finish(dbData: any[]) {
+    navStore.setWebsiteList(dbData)
     event.emit('WEB_FINISH')
     window.__FINISHED__ = true
   }
-  let data = adapterWebsiteList(websiteList)
-  websiteList.splice(0, websiteList.length)
+  let data = adapterWebsiteList(navStore.websiteList())
   if (!isLogin) {
     return finish(data)
   }
@@ -91,7 +88,8 @@ export async function fetchWeb() {
 }
 
 export function setWebsiteList(v?: INavProps[]): Promise<any> {
-  v = v || websiteList
+  v = v || navStore.websiteList()
+  navStore.setWebsiteList(v)
   if (isSelfDevelop) {
     return updateFileContent({
       content: JSON.stringify(v),
@@ -102,7 +100,7 @@ export function setWebsiteList(v?: INavProps[]): Promise<any> {
 }
 
 export function toggleCollapseAll(wsList?: INavProps[]): boolean {
-  wsList ||= websiteList
+  wsList ||= navStore.websiteList()
   const { page, id } = queryString()
   const collapsed = !wsList[page].nav[id].collapsed
   wsList[page].nav[id].collapsed = collapsed
@@ -110,6 +108,7 @@ export function toggleCollapseAll(wsList?: INavProps[]): boolean {
     item.collapsed = collapsed
     return item
   })
+  navStore.touchWebsiteList()
   if (!isSelfDevelop) {
     setWebsiteList(wsList)
   }
@@ -143,9 +142,9 @@ export function deleteByWeb(data: IWebProps): boolean {
     }
   }
 
-  f(websiteList)
+  f(navStore.websiteList())
   if (hasDelete) {
-    setWebsiteList(websiteList)
+    setWebsiteList()
     const { q } = queryString()
     // 在搜索结果删除需要刷新重新刷结果
     q && window.location.reload()
@@ -177,7 +176,7 @@ export function updateByWeb(oldData: IWebProps, newData: IWebProps) {
     }
   }
 
-  f(websiteList)
-  setWebsiteList(websiteList)
+  f(navStore.websiteList())
+  setWebsiteList()
   return ok
 }

@@ -7,7 +7,7 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router'
 import { queryString, setLocation, isMobile, getDefaultTheme } from '../utils'
 import { en_US, NzI18nService, zh_CN } from 'ng-zorro-antd/i18n'
 import { getLocale } from 'src/locale'
-import { settings } from 'src/store'
+import { navStore } from 'src/store/nav.store'
 import { verifyToken, getContentes } from 'src/api'
 import { getToken, userLogout, isLogin } from 'src/utils/user'
 import { NzMessageService } from 'ng-zorro-antd/message'
@@ -44,6 +44,7 @@ export class AppComponent {
   }
 
   updateDocumentTitle() {
+    const settings = navStore.settings()
     const url = this.router.url.split('?')[0].slice(1)
     const theme = (url === '' ? settings.theme : url).toLowerCase()
     const title = (settings as unknown as Record<string, string>)[
@@ -67,8 +68,8 @@ export class AppComponent {
       verifyToken(token)
         .then((res) => {
           const data = res.data || {}
-          if (!settings.email && data.email) {
-            settings.email = data.email
+          if (!navStore.settings().email && data.email) {
+            navStore.patchSettings({ email: data.email })
           }
           event.emit('GITHUB_USER_INFO', data)
         })
@@ -112,6 +113,7 @@ export class AppComponent {
   }
 
   goRoute() {
+    const settings = navStore.settings()
     // is App
     if (settings.appTheme !== 'Current' && isMobile()) {
       const url = (this.router.url.split('?')[0] || '').toLowerCase()

@@ -3,7 +3,7 @@
 // See https://github.com/xjh22222228/nav
 
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core'
-import { settings } from 'src/store'
+import { navStore } from 'src/store/nav.store'
 import { compilerTemplate } from 'src/utils/util'
 import event from 'src/utils/mitt'
 
@@ -23,7 +23,7 @@ export class FooterComponent {
 
   ngOnInit() {
     this.footerContent = compilerTemplate(
-      this.content || settings.footerContent
+      this.content || navStore.settings().footerContent
     )
   }
 

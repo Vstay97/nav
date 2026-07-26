@@ -9,7 +9,7 @@ import { NzModalService } from 'ng-zorro-antd/modal'
 import { ITagPropValues } from 'src/types'
 import { updateFileContent } from 'src/api'
 import { TAG_PATH } from 'src/constants'
-import { tagList } from 'src/store'
+import { navStore } from 'src/store/nav.store'
 import { isSelfDevelop } from 'src/utils/util'
 
 @Component({
@@ -20,9 +20,13 @@ import { isSelfDevelop } from 'src/utils/util'
 export default class SystemTagComponent {
   $t = $t
   isSelfDevelop = isSelfDevelop
-  tagList: ITagPropValues[] = tagList
   submitting: boolean = false
-  incrementId = Math.max(...tagList.map((item) => Number(item.id))) + 1
+  incrementId =
+    Math.max(...navStore.tagList().map((item) => Number(item.id))) + 1
+
+  get tagList(): ITagPropValues[] {
+    return navStore.tagList()
+  }
 
   constructor(
     private message: NzMessageService,

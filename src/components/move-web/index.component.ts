@@ -5,7 +5,7 @@
 import { Component } from '@angular/core'
 import { $t } from 'src/locale'
 import { setWebsiteList } from 'src/utils/web'
-import { websiteList } from '../../store'
+import { navStore } from 'src/store/nav.store'
 import { INavProps, INavTwoProp, INavThreeProp, IWebProps } from '../../types'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import event from 'src/utils/mitt'
@@ -17,7 +17,6 @@ import event from 'src/utils/mitt'
 })
 export class MoveWebComponent {
   $t = $t
-  websiteList: INavProps[] = websiteList
   twoOptList: INavTwoProp[] = []
   threeOptList: INavThreeProp[] = []
   isCopy = false
@@ -28,6 +27,10 @@ export class MoveWebComponent {
   showModal = false
   indexs: Array<number> = []
   level = 4
+
+  get websiteList(): INavProps[] {
+    return navStore.websiteList()
+  }
 
   constructor(private message: NzMessageService) {
     event.on('MOVE_WEB', (props: any) => {

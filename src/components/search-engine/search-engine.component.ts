@@ -8,7 +8,7 @@ import {
   queryString,
 } from '../../utils'
 import { Router } from '@angular/router'
-import { searchEngineList } from 'src/store'
+import { navStore } from 'src/store/nav.store'
 import { ISearchEngineProps } from '../../types'
 import { SearchType } from './index'
 import { $t } from 'src/locale'
@@ -22,11 +22,14 @@ export class SearchEngineComponent {
   @Input() size: 'small' | 'default' | 'large' = 'default'
 
   $t = $t
-  searchEngineList: ISearchEngineProps[] = searchEngineList
   currentEngine: ISearchEngineProps = getDefaultSearchEngine()
   SearchType = SearchType
   searchTypeValue = SearchType.All
   keyword = queryString().q
+
+  get searchEngineList(): ISearchEngineProps[] {
+    return navStore.searchEngineList()
+  }
 
   constructor(private router: Router) {}
 

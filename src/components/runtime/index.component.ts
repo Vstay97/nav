@@ -3,7 +3,7 @@
 // See https://github.com/xjh22222228/nav
 
 import { Component, Input } from '@angular/core'
-import { settings } from 'src/store'
+import { navStore } from 'src/store/nav.store'
 import { IComponentProps } from 'src/types'
 
 @Component({
@@ -18,7 +18,7 @@ export class RuntimeComponent {
   unit = ''
 
   constructor() {
-    let now = Date.now() - settings.runtime
+    let now = Date.now() - navStore.settings().runtime
     now = now < 0 ? 0 : now
     const diffYear = Math.floor(now / (1000 * 60 * 60 * 24 * 365))
     if (diffYear > 0) {

@@ -11,9 +11,9 @@ import {
 import { isLogin } from 'src/utils/user'
 import { copyText, getTextContent } from 'src/utils'
 import { setWebsiteList, deleteByWeb } from 'src/utils/web'
-import { INavProps, IWebProps, ICardType } from 'src/types'
+import { INavProps, IWebProps, ICardType, ISettings } from 'src/types'
 import { $t } from 'src/locale'
-import { settings, websiteList } from 'src/store'
+import { navStore } from 'src/store/nav.store'
 import { JumpService } from 'src/services/jump'
 import event from 'src/utils/mitt'
 
@@ -30,11 +30,17 @@ export class CardComponent implements OnInit {
   @Input() cardStyle: ICardType = 'standard'
 
   $t = $t
-  settings = settings
-  websiteList: INavProps[] = websiteList
   isLogin: boolean = isLogin
   copyUrlDone = false
   copyPathDone = false
+
+  get settings(): ISettings {
+    return navStore.settings()
+  }
+
+  get websiteList(): INavProps[] {
+    return navStore.websiteList()
+  }
 
   constructor(public jumpService: JumpService) {}
 

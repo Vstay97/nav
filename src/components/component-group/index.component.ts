@@ -3,7 +3,7 @@
 // See https://github.com/xjh22222228/nav
 
 import { Component, Input } from '@angular/core'
-import { settings, components } from 'src/store'
+import { navStore } from 'src/store/nav.store'
 import { ComponentType, IComponentProps } from 'src/types'
 
 @Component({
@@ -19,9 +19,11 @@ export class ComponentGroupComponent {
 
   constructor() {
     const c: IComponentProps[] = []
+    const components = navStore.components()
+    const settingsComponents = navStore.settings().components
     // 按照系统设置顺序排序显示
     components.forEach((item) => {
-      const has = settings.components.find(
+      const has = settingsComponents.find(
         (c) => c.type === item.type && c.id === item.id
       )
       if (has) {

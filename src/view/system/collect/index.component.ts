@@ -7,11 +7,12 @@ import { $t } from 'src/locale'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NzNotificationService } from 'ng-zorro-antd/notification'
 import { NzModalService } from 'ng-zorro-antd/modal'
-import { websiteList, tagMap } from 'src/store'
+import { navStore } from 'src/store/nav.store'
 import { setAuthCode, getAuthCode } from 'src/utils/user'
 import { getUserCollect, delUserCollect, updateFileContent } from 'src/api'
 import { DB_PATH } from 'src/constants'
 import { isSelfDevelop } from 'src/utils/util'
+import { ITagProp } from 'src/types'
 import event from 'src/utils/mitt'
 
 @Component({
@@ -26,7 +27,10 @@ export default class CollectComponent {
   isPermission = !!getAuthCode()
   dataList: Array<any> = []
   authCode = ''
-  tagMap = tagMap
+
+  get tagMap(): ITagProp {
+    return navStore.tagMap()
+  }
 
   constructor(
     private message: NzMessageService,
@@ -78,6 +82,7 @@ export default class CollectComponent {
     let twoIndex = 0
     let threeIndex = 0
     try {
+      const websiteList = navStore.websiteList()
       oneIndex = websiteList.findIndex(
         (item) => item.title === data.extra.oneName
       )
@@ -123,7 +128,7 @@ export default class CollectComponent {
         this.submitting = true
         updateFileContent({
           message: 'update db',
-          content: JSON.stringify(websiteList),
+          content: JSON.stringify(navStore.websiteList()),
           path: DB_PATH,
         })
           .then(() => {

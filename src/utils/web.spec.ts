@@ -4,7 +4,7 @@ import {
   updateByWeb,
   toggleCollapseAll,
 } from './web'
-import { websiteList } from 'src/store'
+import { navStore } from 'src/store/nav.store'
 import { IWebProps } from 'src/types'
 
 function buildWeb(over: Partial<IWebProps> = {}): IWebProps {
@@ -67,34 +67,33 @@ describe('deleteByWeb / updateByWeb（操作全局 websiteList）', () => {
   let snapshot: string
 
   beforeEach(() => {
-    snapshot = JSON.stringify(websiteList)
+    snapshot = JSON.stringify(navStore.websiteList())
     window.history.pushState({}, '', window.location.pathname)
   })
 
   afterEach(() => {
-    websiteList.splice(0, websiteList.length)
-    websiteList.push(...JSON.parse(snapshot))
+    navStore.setWebsiteList(JSON.parse(snapshot))
     window.history.pushState({}, '', window.location.pathname)
   })
 
   it('deleteByWeb 按 id 删除并返回 true', () => {
-    const target = websiteList[0].nav[0].nav[0].nav[0] as IWebProps
-    const before = JSON.stringify(websiteList)
+    const target = navStore.websiteList()[0].nav[0].nav[0].nav[0] as IWebProps
+    const before = JSON.stringify(navStore.websiteList())
     const ok = deleteByWeb({ ...target })
     expect(ok).toBe(true)
-    expect(JSON.stringify(websiteList)).not.toBe(before)
+    expect(JSON.stringify(navStore.websiteList())).not.toBe(before)
     // 再删一次返回 false
     expect(deleteByWeb({ ...target })).toBe(false)
   })
 
   it('updateByWeb 按 id 更新字段', () => {
-    const target = websiteList[0].nav[0].nav[0].nav[0] as IWebProps
+    const target = navStore.websiteList()[0].nav[0].nav[0].nav[0] as IWebProps
     const ok = updateByWeb({ ...target }, {
       ...target,
       name: '已改名E2E单元',
     } as IWebProps)
     expect(ok).toBe(true)
-    const after = websiteList[0].nav[0].nav[0].nav[0] as IWebProps
+    const after = navStore.websiteList()[0].nav[0].nav[0].nav[0] as IWebProps
     expect(after.name).toBe('已改名E2E单元')
   })
 
@@ -103,17 +102,17 @@ describe('deleteByWeb / updateByWeb（操作全局 websiteList）', () => {
       'location',
       JSON.stringify({ page: 0, id: 0 })
     )
-    const node = websiteList[0].nav[0]
+    const node = navStore.websiteList()[0].nav[0]
     const before = !!node.collapsed
-    const now = toggleCollapseAll(websiteList)
+    const now = toggleCollapseAll()
     expect(now).toBe(!before)
-    expect(!!websiteList[0].nav[0].collapsed).toBe(!before)
+    expect(!!navStore.websiteList()[0].nav[0].collapsed).toBe(!before)
     // 三级分组同步折叠状态
-    for (const three of websiteList[0].nav[0].nav) {
+    for (const three of navStore.websiteList()[0].nav[0].nav) {
       expect(!!three.collapsed).toBe(!before)
     }
     // 还原
-    toggleCollapseAll(websiteList)
-    expect(!!websiteList[0].nav[0].collapsed).toBe(before)
+    toggleCollapseAll()
+    expect(!!navStore.websiteList()[0].nav[0].collapsed).toBe(before)
   })
 })

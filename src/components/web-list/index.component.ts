@@ -3,7 +3,7 @@
 // See https://github.com/xjh22222228/nav
 
 import { Component, Input } from '@angular/core'
-import { websiteList, settings } from 'src/store'
+import { navStore } from 'src/store/nav.store'
 import { IWebProps, INavProps, TopType } from 'src/types'
 import { queryString, fuzzySearch, isMobile, getDefaultTheme } from 'src/utils'
 import { isLogin } from 'src/utils/user'
@@ -27,8 +27,11 @@ export class WebListComponent {
   @Input() search = true
   @Input() overflow = false
 
-  websiteList: INavProps[] = websiteList
   dataList: IWebProps[] = []
+
+  get websiteList(): INavProps[] {
+    return navStore.websiteList()
+  }
 
   constructor(
     private router: Router,
@@ -98,7 +101,7 @@ export class WebListComponent {
         }
       }
     }
-    r(websiteList)
+    r(this.websiteList)
 
     // @ts-ignore
     this.dataList = dataList.sort((a: any, b: any) => {

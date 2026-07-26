@@ -14,7 +14,7 @@ import { NzModalService } from 'ng-zorro-antd/modal'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { isLogin } from 'src/utils/user'
 import { updateFileContent } from 'src/api'
-import { websiteList, settings } from 'src/store'
+import { navStore } from 'src/store/nav.store'
 import { DB_PATH, STORAGE_KEY_MAP } from 'src/constants'
 import { Router, ActivatedRoute } from '@angular/router'
 import { $t, getLocale } from 'src/locale'
@@ -35,13 +35,19 @@ export class FixbarComponent {
   @Output() onCollapse = new EventEmitter()
 
   $t = $t
-  settings = settings
   language = getLocale()
-  websiteList = websiteList
   isDark: boolean = isDarkFn()
   syncLoading = false
   isLogin = isLogin
   open = localStorage.getItem(STORAGE_KEY_MAP.fixbarOpen) === 'true'
+
+  get settings() {
+    return navStore.settings()
+  }
+
+  get websiteList() {
+    return navStore.websiteList()
+  }
   themeList = [
     {
       name: $t('_switchTo') + ' Super',
@@ -80,6 +86,7 @@ export class FixbarComponent {
     }
 
     const url = this.router.url.split('?')[0]
+    const settings = navStore.settings()
     const defaultTheme = settings.theme?.toLowerCase?.()
     this.themeList = this.themeList
       .map((item) => {

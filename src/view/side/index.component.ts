@@ -6,8 +6,7 @@ import { Component } from '@angular/core'
 import { INavProps } from 'src/types'
 import { isMobile } from 'src/utils'
 import { setWebsiteList } from 'src/utils/web'
-import { websiteList } from 'src/store'
-import { settings } from 'src/store'
+import { navStore } from 'src/store/nav.store'
 import { $t } from 'src/locale'
 import { CommonService } from 'src/services/common'
 import { STORAGE_KEY_MAP } from 'src/constants'
@@ -20,14 +19,17 @@ import { isSelfDevelop } from 'src/utils/util'
 })
 export default class SideComponent {
   $t = $t
-  websiteList: INavProps[] = websiteList
-  isCollapsed = isMobile() || settings.sideCollapsed
+  isCollapsed = isMobile() || navStore.settings().sideCollapsed
 
   constructor(public commonService: CommonService) {
     const localCollapsed = localStorage.getItem(STORAGE_KEY_MAP.sideCollapsed)
     if (localCollapsed) {
       this.isCollapsed = localCollapsed === 'true'
     }
+  }
+
+  get websiteList(): INavProps[] {
+    return navStore.websiteList()
   }
 
   get nzXXl(): number {

@@ -3,7 +3,7 @@
 // See https://github.com/xjh22222228/nav
 
 import { INavProps } from '../types'
-import { websiteList } from '../store'
+import { navStore } from 'src/store/nav.store'
 import { $t } from '../locale'
 
 let id = -Date.now()
@@ -67,7 +67,7 @@ function findAllNoCate(roolDL: Element) {
 }
 
 export function parseBookmark(htmlStr: string) {
-  const copyWebList = JSON.parse(JSON.stringify(websiteList))
+  const copyWebList = JSON.parse(JSON.stringify(navStore.websiteList()))
   const data: INavProps[] = []
   const importEl = document.createElement('div')
   importEl.innerHTML = htmlStr

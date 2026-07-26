@@ -10,9 +10,10 @@ import { IWebProps, IWebTag, TopType } from 'src/types'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { saveUserCollect, getWebInfo } from 'src/api'
 import { $t } from 'src/locale'
-import { settings, websiteList, tagList, tagMap } from 'src/store'
+import { navStore } from 'src/store/nav.store'
 import { isLogin } from 'src/utils/user'
 import event from 'src/utils/mitt'
+import { ISettings, ITagPropValues } from 'src/types'
 
 @Component({
   selector: 'app-create-web',
@@ -25,10 +26,8 @@ export class CreateWebComponent {
   $t = $t
   isLogin: boolean = isLogin
   validateForm!: FormGroup
-  tagList = tagList
   uploading = false
   getting = false
-  settings = settings
   showModal = false
   detail: any = null
   isMove = false // 提交完是否可以移动
@@ -40,6 +39,14 @@ export class CreateWebComponent {
     { label: TopType[1], value: TopType.Side, checked: false },
     { label: TopType[2], value: TopType.Shortcut, checked: false },
   ]
+
+  get tagList(): ITagPropValues[] {
+    return navStore.tagList()
+  }
+
+  get settings(): ISettings {
+    return navStore.settings()
+  }
 
   constructor(private fb: FormBuilder, private message: NzMessageService) {
     event.on('CREATE_WEB', (props: any) => {
@@ -103,6 +110,7 @@ export class CreateWebComponent {
     this.validateForm.get('rate')!.setValue(detail?.rate ?? 5)
     if (detail) {
       if (Array.isArray(detail.tags)) {
+        const tagMap = navStore.tagMap()
         detail.tags.forEach((item: IWebTag) => {
           ;(this.validateForm?.get('urlArr') as FormArray).push?.(
             this.fb.group({
@@ -146,7 +154,7 @@ export class CreateWebComponent {
   }
 
   async onUrlBlur(e: any) {
-    if (!settings.openSearch) {
+    if (!this.settings.openSearch) {
       return
     }
 
@@ -258,6 +266,7 @@ export class CreateWebComponent {
         const oneIndex = this.oneIndex ?? page
         const twoIndex = this.twoIndex ?? id
         const threeIndex = this.threeIndex || 0
+        const websiteList = navStore.websiteList()
         const w = websiteList[oneIndex].nav[twoIndex].nav[threeIndex].nav
         this.uploading = true
         if (this.isLogin) {

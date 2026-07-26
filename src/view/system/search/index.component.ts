@@ -9,7 +9,7 @@ import { ISearchEngineProps } from 'src/types'
 import { updateFileContent } from 'src/api'
 import { NzModalService } from 'ng-zorro-antd/modal'
 import { SEARCH_PATH } from 'src/constants'
-import { searchEngineList } from 'src/store'
+import { navStore } from 'src/store/nav.store'
 
 @Component({
   selector: 'system-tag',
@@ -18,8 +18,11 @@ import { searchEngineList } from 'src/store'
 })
 export default class SystemSearchComponent {
   $t = $t
-  searchList: ISearchEngineProps[] = searchEngineList
   submitting: boolean = false
+
+  get searchList(): ISearchEngineProps[] {
+    return navStore.searchEngineList()
+  }
 
   constructor(
     private message: NzMessageService,

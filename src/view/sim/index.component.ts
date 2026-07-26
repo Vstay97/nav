@@ -3,7 +3,7 @@
 
 import { Component } from '@angular/core'
 import { isLogin } from 'src/utils/user'
-import { settings, internal } from 'src/store'
+import { navStore } from 'src/store/nav.store'
 import { CommonService } from 'src/services/common'
 
 @Component({
@@ -12,10 +12,15 @@ import { CommonService } from 'src/services/common'
   styleUrls: ['./index.component.scss'],
 })
 export default class SimComponent {
-  description: string = settings.simThemeDesc.replace(
-    '${total}',
-    String(isLogin ? internal.loginViewCount : internal.userViewCount)
-  )
+  get description(): string {
+    const internal = navStore.internal()
+    return navStore
+      .settings()
+      .simThemeDesc.replace(
+        '${total}',
+        String(isLogin ? internal.loginViewCount : internal.userViewCount)
+      )
+  }
 
   constructor(public commonService: CommonService) {}
 

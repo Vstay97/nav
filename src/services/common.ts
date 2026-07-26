@@ -4,7 +4,7 @@
 
 import { Injectable } from '@angular/core'
 import { Router, ActivatedRoute } from '@angular/router'
-import { websiteList, settings } from 'src/store'
+import { navStore } from 'src/store/nav.store'
 import {
   queryString,
   fuzzySearch,
@@ -12,7 +12,7 @@ import {
   getOverIndex,
 } from 'src/utils'
 import { setWebsiteList, toggleCollapseAll } from 'src/utils/web'
-import { INavProps, INavThreeProp } from 'src/types'
+import { INavProps, INavThreeProp, ISettings } from 'src/types'
 import { isLogin } from 'src/utils/user'
 import { isSelfDevelop } from 'src/utils/util'
 import event from 'src/utils/mitt'
@@ -22,8 +22,6 @@ import event from 'src/utils/mitt'
 })
 export class CommonService {
   isLogin = isLogin
-  settings = settings
-  websiteList: INavProps[] = websiteList
   currentList: INavThreeProp[] = []
   id = 0
   page = 0
@@ -31,7 +29,6 @@ export class CommonService {
   selectedIndex = 0 // 第三级菜单选中
   searchKeyword = ''
   overIndex = Number.MAX_SAFE_INTEGER
-  title: string = settings.title.trim().split(/\s/)[0]
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {
     const init = () => {
@@ -44,7 +41,7 @@ export class CommonService {
         this.sliceMax = 0
 
         if (q) {
-          this.currentList = fuzzySearch(websiteList, q)
+          this.currentList = fuzzySearch(this.websiteList, q)
         } else {
           this.currentList = matchCurrentList()
         }
@@ -62,8 +59,20 @@ export class CommonService {
     }
   }
 
+  get settings(): ISettings {
+    return navStore.settings()
+  }
+
+  get websiteList(): INavProps[] {
+    return navStore.websiteList()
+  }
+
+  get title(): string {
+    return this.settings.title.trim().split(/\s/)[0]
+  }
+
   handleCilckTopNav(index: number) {
-    const id = websiteList[index].id || 0
+    const id = this.websiteList[index].id || 0
     this.router.navigate([this.router.url.split('?')[0]], {
       queryParams: {
         page: index,
@@ -74,7 +83,7 @@ export class CommonService {
   }
   handleSidebarNav(index: number, pageIndex?: number) {
     const { page } = queryString()
-    websiteList[pageIndex ?? page].id = index
+    this.websiteList[pageIndex ?? page].id = index
     this.router.navigate([this.router.url.split('?')[0]], {
       queryParams: {
         page: pageIndex ?? page,
@@ -90,7 +99,7 @@ export class CommonService {
 
   onCollapseAll = (e?: Event) => {
     e?.stopPropagation()
-    toggleCollapseAll(websiteList)
+    toggleCollapseAll(this.websiteList)
   }
 
   trackByItem(a: any, item: any) {
@@ -103,7 +112,7 @@ export class CommonService {
 
   get collapsed() {
     try {
-      return !!websiteList[this.page].nav[this.id].collapsed
+      return !!this.websiteList[this.page].nav[this.id].collapsed
     } catch (error) {
       return false
     }
@@ -112,6 +121,7 @@ export class CommonService {
   onCollapse = (item: any, index: number) => {
     item.collapsed = !item.collapsed
     this.websiteList[this.page].nav[this.id].nav[index] = item
+    navStore.touchWebsiteList()
     if (!isSelfDevelop) {
       setWebsiteList(this.websiteList)
     }

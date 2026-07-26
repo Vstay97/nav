@@ -3,15 +3,8 @@
 // See https://github.com/xjh22222228/nav
 
 import { Component } from '@angular/core'
-import { INavProps, INavTwoProp, INavThreeProp, IWebProps } from 'src/types'
-import {
-  websiteList,
-  settings,
-  searchEngineList,
-  tagList,
-  internal,
-  components,
-} from 'src/store'
+import { INavProps, INavTwoProp, INavThreeProp, IWebProps, ISettings } from 'src/types'
+import { navStore } from 'src/store/nav.store'
 import { isLogin, removeWebsite } from 'src/utils/user'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NzModalService } from 'ng-zorro-antd/modal'
@@ -35,10 +28,7 @@ import config from '../../../../nav.config.json'
 export default class WebpComponent {
   $t = $t
   isSelfDevelop = isSelfDevelop
-  settings = settings
-  internal = internal
   validateForm!: FormGroup
-  websiteList: INavProps[] = websiteList
   gitRepoUrl = config.gitRepoUrl
   isLogin = isLogin
   showCreateModal = false
@@ -54,6 +44,18 @@ export default class WebpComponent {
   checkedAll = false
   setOfCheckedId = new Set<string>()
   errorWebs: IWebProps[] = []
+
+  get settings(): ISettings {
+    return navStore.settings()
+  }
+
+  get internal() {
+    return navStore.internal()
+  }
+
+  get websiteList(): INavProps[] {
+    return navStore.websiteList()
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -293,10 +295,10 @@ export default class WebpComponent {
   handleDownloadBackup() {
     const params: any = {
       db: this.websiteList,
-      settings,
-      tag: tagList,
-      search: searchEngineList,
-      component: components,
+      settings: navStore.settings(),
+      tag: navStore.tagList(),
+      search: navStore.searchEngineList(),
+      component: navStore.components(),
     }
     for (const k in params) {
       saveAs(
@@ -320,7 +322,7 @@ export default class WebpComponent {
     fileReader.onload = function (data) {
       try {
         const { result } = data.target as any
-        that.websiteList = JSON.parse(result)
+        navStore.setWebsiteList(JSON.parse(result))
         that.message.success($t('_actionSuccess'))
         setWebsiteList(that.websiteList).finally(() => {
           location.reload()

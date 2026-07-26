@@ -2,7 +2,7 @@
 import english from './english'
 import zh_CN from './zh_CN'
 import { STORAGE_KEY_MAP } from 'src/constants'
-import { settings } from 'src/store'
+import { navStore } from 'src/store/nav.store'
 
 const o = {
   en: english,
@@ -11,7 +11,8 @@ const o = {
 
 export function getLocale(): string {
   return (
-    window.localStorage.getItem(STORAGE_KEY_MAP.language) || settings.language
+    window.localStorage.getItem(STORAGE_KEY_MAP.language) ||
+    navStore.settings().language
   )
 }
 

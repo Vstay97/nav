@@ -5,15 +5,7 @@ import config from '../../nav.config.json'
 import http, { httpNav } from '../utils/http'
 import qs from 'qs'
 import { encode } from 'js-base64'
-import {
-  settings,
-  websiteList,
-  tagList,
-  getTagMap,
-  searchEngineList,
-  internal,
-  components,
-} from 'src/store'
+import { navStore } from 'src/store/nav.store'
 import { ISettings } from 'src/types'
 import { isSelfDevelop } from 'src/utils/util'
 import { isLogin } from 'src/utils/user'
@@ -56,23 +48,14 @@ export function verifyToken(token: string) {
 // 获取自有部署内容
 export function getContentes() {
   return http.post('/api/contents/get').then((res: any) => {
-    websiteList.splice(0, websiteList.length)
-    searchEngineList.splice(0, searchEngineList.length)
-    tagList.splice(0, tagList.length)
-    components.splice(0, components.length)
-
-    internal.loginViewCount = res.data.internal.loginViewCount
-    internal.userViewCount = res.data.internal.userViewCount
-    websiteList.push(...res.data.webs)
-    tagList.push(...res.data.tags)
-    searchEngineList.push(...res.data.search)
-    components.push(...res.data.components)
-    const resSettings = res.data.settings as ISettings
-    for (const k in resSettings) {
-      // @ts-ignore
-      settings[k] = resSettings[k]
-    }
-    getTagMap()
+    navStore.replaceAllContents({
+      webs: res.data.webs,
+      tags: res.data.tags,
+      search: res.data.search,
+      components: res.data.components,
+      settings: res.data.settings as ISettings,
+      internal: res.data.internal,
+    })
     return res
   })
 }
@@ -279,11 +262,11 @@ export function getCDN(path: string) {
   if (isGitee()) {
     return `https://gitee.com/${authorName}/${repo}/raw/${branch}/${path}`
   }
-  return `https://${settings.gitHubCDN}/gh/${authorName}/${repo}@${branch}/${path}`
+  return `https://${navStore.settings().gitHubCDN}/gh/${authorName}/${repo}@${branch}/${path}`
 }
 
 function requestActionUrl() {
-  const url = settings.actionUrl
+  const url = navStore.settings().actionUrl
   if (url) {
     const img = document.createElement('img')
     img.src = url

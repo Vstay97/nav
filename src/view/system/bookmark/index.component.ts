@@ -9,7 +9,7 @@ import { NzMessageService } from 'ng-zorro-antd/message'
 import { setWebsiteList } from 'src/utils/web'
 import { parseBookmark } from 'src/utils/bookmark'
 import { INavProps } from 'src/types'
-import { websiteList } from 'src/store'
+import { navStore } from 'src/store/nav.store'
 
 @Component({
   selector: 'system-bookmark',
@@ -18,7 +18,10 @@ import { websiteList } from 'src/store'
 })
 export default class SystemBookmarkComponent {
   $t = $t
-  websiteList: INavProps[] = websiteList
+
+  get websiteList(): INavProps[] {
+    return navStore.websiteList()
+  }
 
   constructor(
     private message: NzMessageService,
@@ -45,8 +48,8 @@ export default class SystemBookmarkComponent {
           )
         } else {
           that.message.success($t('_importSuccess'))
-          that.websiteList = result
-          setWebsiteList(that.websiteList)
+          navStore.setWebsiteList(result)
+          setWebsiteList(result)
           setTimeout(() => window.location.reload(), 2000)
         }
       } catch (error: any) {

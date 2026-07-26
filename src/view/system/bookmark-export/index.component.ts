@@ -8,7 +8,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { parseBookmark } from 'src/utils/bookmark'
 import { INavProps, IWebProps } from 'src/types'
-import { websiteList } from 'src/store'
+import { navStore } from 'src/store/nav.store'
 import { bookmarksExport, getIconBase64 } from 'src/api'
 import { saveAs } from 'file-saver'
 import { getAuthCode } from 'src/utils/user'
@@ -22,11 +22,14 @@ import LZString from 'lz-string'
 export default class SystemBookmarkExportComponent {
   $t = $t
   submitting = false
-  websiteList: INavProps[] = websiteList
   isExportIcon = false
   seconds = 0
   currentNumber = 0
   countAll = 0
+
+  get websiteList(): INavProps[] {
+    return navStore.websiteList()
+  }
 
   constructor(
     private message: NzMessageService,

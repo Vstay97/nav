@@ -10,9 +10,9 @@ import {
   EventEmitter,
   ChangeDetectionStrategy,
 } from '@angular/core'
-import { INavThreeProp, INavProps } from 'src/types'
+import { INavThreeProp, INavProps, ISettings } from 'src/types'
 import { isLogin } from 'src/utils/user'
-import { websiteList, settings } from 'src/store'
+import { navStore } from 'src/store/nav.store'
 import event from 'src/utils/mitt'
 
 @Component({
@@ -27,8 +27,14 @@ export class ToolbarTitleWebComponent implements OnInit {
   @Output() onCollapse = new EventEmitter()
 
   isLogin = isLogin
-  websiteList: INavProps[] = websiteList
-  settings = settings
+
+  get websiteList(): INavProps[] {
+    return navStore.websiteList()
+  }
+
+  get settings(): ISettings {
+    return navStore.settings()
+  }
 
   constructor() {}
 

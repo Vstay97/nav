@@ -3,8 +3,8 @@
 
 import { Component } from '@angular/core'
 import { isDark as isDarkFn, getDateTime, isMobile } from 'src/utils'
-import { settings } from 'src/store'
-import { IWebProps } from 'src/types'
+import { navStore } from 'src/store/nav.store'
+import { IWebProps, ISettings } from 'src/types'
 import { JumpService } from 'src/services/jump'
 import { $t } from 'src/locale'
 import event from 'src/utils/mitt'
@@ -16,10 +16,10 @@ import event from 'src/utils/mitt'
 })
 export default class ShortcutComponent {
   $t = $t
-  settings = settings
   isMobile = isMobile()
   isDark: boolean = isDarkFn()
-  shortcutThemeImage = settings.shortcutThemeImages?.[0]?.['src']
+  shortcutThemeImage =
+    navStore.settings().shortcutThemeImages?.[0]?.['src']
   timer: any = null
   month = 0
   date = 0
@@ -30,6 +30,10 @@ export default class ShortcutComponent {
   dockList: IWebProps[] = []
   iconSize: number = 0
   frameLoad = false
+
+  get settings(): ISettings {
+    return navStore.settings()
+  }
 
   constructor(public jumpService: JumpService) {
     event.on('EVENT_DARK', (isDark: any) => {

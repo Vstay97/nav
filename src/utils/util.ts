@@ -3,13 +3,14 @@
 // See https://github.com/xjh22222228/nav
 
 import navConfig from '../../nav.config.json'
-import { internal } from 'src/store'
+import { navStore } from 'src/store/nav.store'
 import { isLogin } from 'src/utils/user'
 
 // 是否自有部署
 export const isSelfDevelop = !!navConfig.address
 
 export function compilerTemplate(str: string) {
+  const internal = navStore.internal()
   return str
     .replaceAll(
       '${total}',

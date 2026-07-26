@@ -14,7 +14,7 @@ import {
 import { STORAGE_KEY_MAP } from 'src/constants'
 import { isLogin } from './user'
 import { SearchType } from 'src/components/search-engine/index'
-import { websiteList, searchEngineList, settings } from 'src/store'
+import { navStore } from 'src/store/nav.store'
 import { $t } from 'src/locale'
 
 export function randomInt(max: number) {
@@ -227,10 +227,11 @@ export function queryString(): qs.ParsedQs & {
     } catch {}
   }
 
-  if (page > websiteList.length - 1) {
+  if (page > navStore.websiteList().length - 1) {
     page = 0
     id = 0
   } else {
+    const websiteList = navStore.websiteList()
     if (websiteList[page] && !(id <= websiteList[page].nav.length - 1)) {
       id = websiteList[page].nav.length - 1
     }
@@ -260,6 +261,7 @@ export function setLocation() {
 }
 
 export function getDefaultSearchEngine(): ISearchEngineProps {
+  const searchEngineList = navStore.searchEngineList()
   let DEFAULT = (searchEngineList[0] || {}) as ISearchEngineProps
   try {
     const engine = window.localStorage.getItem(STORAGE_KEY_MAP.engine)
@@ -342,6 +344,7 @@ export function getTextContent(value: string): string {
 
 export function matchCurrentList(): INavThreeProp[] {
   const { id, page } = queryString()
+  const websiteList = navStore.websiteList()
   let data: INavThreeProp[] = []
 
   try {
@@ -424,6 +427,7 @@ export function getDateTime() {
 }
 
 export function getDefaultTheme() {
+  const settings = navStore.settings()
   const t = isMobile() ? settings.appTheme : settings.theme
   if (t === 'Current') {
     return settings.theme

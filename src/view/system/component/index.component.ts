@@ -8,7 +8,7 @@ import { NzMessageService } from 'ng-zorro-antd/message'
 import { NzModalService } from 'ng-zorro-antd/modal'
 import { updateFileContent } from 'src/api'
 import { COMPONENT_PATH } from 'src/constants'
-import { components } from 'src/store'
+import { navStore } from 'src/store/nav.store'
 import { ComponentType, IComponentProps } from 'src/types'
 import { CalendarDrawerComponent } from 'src/components/calendar/drawer/index.component'
 import { RuntimeDrawerComponent } from 'src/components/runtime/drawer/index.component'
@@ -39,8 +39,11 @@ export default class SystemComponentComponent {
   isSelfDevelop = isSelfDevelop
   componentTitleMap = componentTitleMap
   ComponentType = ComponentType
-  components = components
   submitting: boolean = false
+
+  get components(): IComponentProps[] {
+    return navStore.components()
+  }
 
   constructor(
     private message: NzMessageService,
