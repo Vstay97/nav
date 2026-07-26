@@ -11,7 +11,7 @@ import {
 import { isLogin } from 'src/utils/user'
 import { copyText, getTextContent } from 'src/utils'
 import { setWebsiteList, deleteByWeb } from 'src/utils/web'
-import { INavProps, IWebProps, ICardType, ISettings } from 'src/types'
+import { IWebProps, ICardType, ISettings } from 'src/types'
 import { $t } from 'src/locale'
 import { navStore } from 'src/store/nav.store'
 import { dialogService } from 'src/services/dialog'
@@ -66,10 +66,6 @@ export class CardComponent implements OnInit {
     return navStore.settings()
   }
 
-  get websiteList(): INavProps[] {
-    return navStore.websiteList()
-  }
-
   constructor(public jumpService: JumpService) {}
 
   ngOnInit(): void {}
@@ -102,7 +98,7 @@ export class CardComponent implements OnInit {
 
   onRateChange(n: number) {
     this.dataSource.rate = n
-    setWebsiteList(this.websiteList)
+    setWebsiteList()
   }
 
   confirmDel() {

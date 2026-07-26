@@ -5,8 +5,8 @@
   "homepage": "https://github.com/xjh22222228/nav",
   "scripts": {
     "start": "npm run build-start && ng serve --port=7001",
-    "build-start": "ts-node ./scripts/start.mjs",
-    "setup": "npm run build-start && ts-node ./scripts/build.mjs",
+    "build-start": "node ./scripts/start.mjs",
+    "setup": "npm run build-start && node ./scripts/build.mjs",
     "build-gh-pages": "npm run setup && ng build --base-href ./ --index src/index.html",
     "build": "npm run setup && ng build --index src/index.html",
     "watch": "ng build --watch --configuration development",

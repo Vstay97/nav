@@ -18,11 +18,12 @@ describe('StaticGitProvider', () => {
   })
 
   it('saveWebsiteList 写入 localforage', async () => {
+    // spy 避免与其他 spec 共享 localforage 产生异步竞争
+    const spy = spyOn(localforage, 'setItem').and.resolveTo(null as any)
     const p = new StaticGitProvider()
     const list: any[] = [{ title: '测试分类', nav: [] }]
     await p.saveWebsiteList(list as any)
-    const stored = await localforage.getItem(STORAGE_KEY_MAP.website)
-    expect(stored as any).toEqual(list as any)
+    expect(spy).toHaveBeenCalledWith(STORAGE_KEY_MAP.website, list as any)
   })
 
   it('createBranch 在配置 imageRepoUrl 时为 no-op', async () => {
