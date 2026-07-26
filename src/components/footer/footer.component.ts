@@ -6,12 +6,16 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core'
 import { navStore } from 'src/store/nav.store'
 import { dialogService } from 'src/services/dialog'
 import { compilerTemplate } from 'src/utils/util'
+import { NgIf } from '@angular/common';
+import { SafeHtmlPipe } from 'src/pipe/safeHtml.pipe';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-footer',
-  templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-footer',
+    templateUrl: './footer.component.html',
+    styleUrls: ['./footer.component.scss'],
+    standalone: true,
+    imports: [NgIf, SafeHtmlPipe],
 })
 export class FooterComponent {
   @Input() className: string = ''

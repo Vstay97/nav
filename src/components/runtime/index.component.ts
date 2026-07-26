@@ -7,9 +7,10 @@ import { navStore } from 'src/store/nav.store'
 import { IComponentProps } from 'src/types'
 
 @Component({
-  selector: 'app-runtime',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    selector: 'app-runtime',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
 })
 export class RuntimeComponent {
   @Input() data!: IComponentProps

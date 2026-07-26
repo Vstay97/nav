@@ -4,7 +4,7 @@
 
 import { Component, effect } from '@angular/core'
 import { $t } from 'src/locale'
-import { FormBuilder, FormGroup } from '@angular/forms'
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NzNotificationService } from 'ng-zorro-antd/notification'
 import { NzModalService } from 'ng-zorro-antd/modal'
@@ -15,6 +15,23 @@ import { ISettings } from 'src/types'
 import { isSelfDevelop, compilerTemplate } from 'src/utils/util'
 import { componentTitleMap } from '../component/types'
 import footTemplate from 'src/components/footer/template'
+import { NzFormDirective, NzFormItemComponent, NzFormLabelComponent, NzFormControlComponent } from 'ng-zorro-antd/form';
+import { NzRowDirective, NzColDirective } from 'ng-zorro-antd/grid';
+import { UploadComponent } from '../../../components/upload/index.component';
+import { NzInputDirective, NzAutosizeDirective } from 'ng-zorro-antd/input';
+import { NzSelectComponent, NzOptionComponent } from 'ng-zorro-antd/select';
+import { NgIf, NgFor } from '@angular/common';
+import { NzRadioGroupComponent, NzRadioComponent } from 'ng-zorro-antd/radio';
+import { NzPopoverDirective } from 'ng-zorro-antd/popover';
+import { NzCheckboxComponent, NzCheckboxGroupComponent } from 'ng-zorro-antd/checkbox';
+import { NzTabSetComponent, NzTabComponent } from 'ng-zorro-antd/tabs';
+import { NzTableComponent, NzTheadComponent, NzTrDirective, NzTableCellDirective, NzThMeasureDirective, NzTbodyComponent } from 'ng-zorro-antd/table';
+import { NzPopconfirmDirective } from 'ng-zorro-antd/popconfirm';
+import { NzSliderComponent } from 'ng-zorro-antd/slider';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
+import { NzWaveDirective } from 'ng-zorro-antd/core/wave';
+import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
+import { SafeHtmlPipe } from 'src/pipe/safeHtml.pipe';
 
 // 额外添加的字段，但不添加到配置中
 const extraForm: Record<string, any> = {
@@ -23,9 +40,45 @@ const extraForm: Record<string, any> = {
 }
 
 @Component({
-  selector: 'system-setting',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    selector: 'system-setting',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        NzFormDirective,
+        NzRowDirective,
+        NzFormItemComponent,
+        NzColDirective,
+        NzFormLabelComponent,
+        NzFormControlComponent,
+        UploadComponent,
+        NzInputDirective,
+        NzSelectComponent,
+        NzOptionComponent,
+        NgIf,
+        NzRadioGroupComponent,
+        NzRadioComponent,
+        NzPopoverDirective,
+        NzAutosizeDirective,
+        NzCheckboxComponent,
+        NzCheckboxGroupComponent,
+        NzTabSetComponent,
+        NzTabComponent,
+        NzTableComponent,
+        NzTheadComponent,
+        NzTrDirective,
+        NzTableCellDirective,
+        NzThMeasureDirective,
+        NzTbodyComponent,
+        NgFor,
+        NzPopconfirmDirective,
+        NzSliderComponent,
+        NzButtonComponent,
+        NzWaveDirective,
+        ɵNzTransitionPatchDirective,
+        SafeHtmlPipe,
+    ],
 })
 export class SystemSettingComponent {
   $t = $t

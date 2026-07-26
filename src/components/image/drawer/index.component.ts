@@ -4,12 +4,39 @@
 
 import { Component, EventEmitter, Output } from '@angular/core'
 import { $t } from 'src/locale'
-import { FormBuilder, FormGroup } from '@angular/forms'
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
+import { NzDrawerComponent, NzDrawerContentDirective } from 'ng-zorro-antd/drawer';
+import { NzFormDirective, NzFormItemComponent, NzFormLabelComponent, NzFormControlComponent } from 'ng-zorro-antd/form';
+import { NzRowDirective, NzColDirective } from 'ng-zorro-antd/grid';
+import { NzInputGroupComponent, NzInputGroupWhitSuffixOrPrefixDirective, NzInputDirective } from 'ng-zorro-antd/input';
+import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
+import { UploadComponent } from '../../upload/index.component';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
+import { NzWaveDirective } from 'ng-zorro-antd/core/wave';
 
 @Component({
-  selector: 'image-drawer',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    selector: 'image-drawer',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
+    imports: [
+        NzDrawerComponent,
+        NzDrawerContentDirective,
+        ReactiveFormsModule,
+        NzFormDirective,
+        NzRowDirective,
+        NzFormItemComponent,
+        NzColDirective,
+        NzFormLabelComponent,
+        NzFormControlComponent,
+        NzInputGroupComponent,
+        ɵNzTransitionPatchDirective,
+        NzInputGroupWhitSuffixOrPrefixDirective,
+        NzInputDirective,
+        UploadComponent,
+        NzButtonComponent,
+        NzWaveDirective,
+    ],
 })
 export class ImageDrawerComponent {
   @Output() ok = new EventEmitter<void>()

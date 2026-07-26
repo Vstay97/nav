@@ -2,12 +2,15 @@
 // Copyright @ 2018-present xiejiahe. All rights reserved.
 // See https://github.com/xjh22222228/nav
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core'
+import { NgIf, NgStyle } from '@angular/common';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-logo',
-  templateUrl: './logo.component.html',
-  styleUrls: ['./logo.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-logo',
+    templateUrl: './logo.component.html',
+    styleUrls: ['./logo.component.scss'],
+    standalone: true,
+    imports: [NgIf, NgStyle],
 })
 export class LogoComponent {
   @Input() src: string = ''

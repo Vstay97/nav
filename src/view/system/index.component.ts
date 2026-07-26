@@ -6,14 +6,36 @@
 import { Component } from '@angular/core'
 import { $t } from 'src/locale'
 import { isLogin, userLogout, getAuthCode } from 'src/utils/user'
-import { Router } from '@angular/router'
+import { Router, RouterOutlet } from '@angular/router'
 import { VERSION } from 'src/constants'
 import { isSelfDevelop, removeDark } from 'src/utils/util'
+import { NgIf } from '@angular/common';
+import { NzLayoutComponent, NzSiderComponent, NzContentComponent } from 'ng-zorro-antd/layout';
+import { NzMenuDirective, NzSubMenuComponent, NzMenuItemComponent } from 'ng-zorro-antd/menu';
+import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
+import { NzWaveDirective } from 'ng-zorro-antd/core/wave';
+import { LoginComponent } from '../../components/login/login.component';
 
 @Component({
-  selector: 'app-system',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    selector: 'app-system',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        NzLayoutComponent,
+        NzSiderComponent,
+        NzMenuDirective,
+        ɵNzTransitionPatchDirective,
+        NzSubMenuComponent,
+        NzMenuItemComponent,
+        NzContentComponent,
+        NzButtonComponent,
+        NzWaveDirective,
+        RouterOutlet,
+        LoginComponent,
+    ],
 })
 export class SystemComponent {
   isSelfDevelop = isSelfDevelop

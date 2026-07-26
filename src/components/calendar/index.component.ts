@@ -7,9 +7,10 @@ import { getDateTime, getDayOfYear } from 'src/utils'
 import { IComponentProps } from 'src/types'
 
 @Component({
-  selector: 'app-calendar',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    selector: 'app-calendar',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
 })
 export class CalendarComponent {
   @Input() data!: IComponentProps

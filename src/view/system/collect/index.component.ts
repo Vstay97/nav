@@ -14,11 +14,38 @@ import { getUserCollect, delUserCollect, updateFileContent } from 'src/api'
 import { DB_PATH } from 'src/constants'
 import { isSelfDevelop } from 'src/utils/util'
 import { ITagProp } from 'src/types'
+import { NzSpinComponent } from 'ng-zorro-antd/spin';
+import { NgIf, NgFor } from '@angular/common';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
+import { NzWaveDirective } from 'ng-zorro-antd/core/wave';
+import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
+import { NzTableComponent, NzTheadComponent, NzTrDirective, NzTableCellDirective, NzThMeasureDirective, NzTbodyComponent } from 'ng-zorro-antd/table';
+import { NzPopconfirmDirective } from 'ng-zorro-antd/popconfirm';
+import { LogoComponent } from '../../../components/logo/logo.component';
+import { TagListComponent } from '../../../components/tag-list/index.component';
 
 @Component({
-  selector: 'user-collect',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    selector: 'user-collect',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
+    imports: [
+        NzSpinComponent,
+        NgIf,
+        NzButtonComponent,
+        NzWaveDirective,
+        ɵNzTransitionPatchDirective,
+        NzTableComponent,
+        NzTheadComponent,
+        NzTrDirective,
+        NzTableCellDirective,
+        NzThMeasureDirective,
+        NzTbodyComponent,
+        NgFor,
+        NzPopconfirmDirective,
+        LogoComponent,
+        TagListComponent,
+    ],
 })
 export class CollectComponent {
   $t = $t

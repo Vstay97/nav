@@ -16,12 +16,40 @@ import { $t } from 'src/locale'
 import { navStore } from 'src/store/nav.store'
 import { dialogService } from 'src/services/dialog'
 import { JumpService } from 'src/services/jump'
+import { NgIf, NgSwitch, NgSwitchCase, NgFor, NgSwitchDefault } from '@angular/common';
+import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
+import { NzIconDirective } from 'ng-zorro-antd/icon';
+import { NzRateComponent } from 'ng-zorro-antd/rate';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { LogoComponent } from '../logo/logo.component';
+import { TagListComponent } from '../tag-list/index.component';
+import { NzTooltipDirective } from 'ng-zorro-antd/tooltip';
+import { NzPopconfirmDirective } from 'ng-zorro-antd/popconfirm';
+import { SafeHtmlPipe } from 'src/pipe/safeHtml.pipe';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-card',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-card',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        NgSwitch,
+        NgSwitchCase,
+        ɵNzTransitionPatchDirective,
+        NzIconDirective,
+        NgFor,
+        NzRateComponent,
+        ReactiveFormsModule,
+        FormsModule,
+        LogoComponent,
+        TagListComponent,
+        NzTooltipDirective,
+        NzPopconfirmDirective,
+        NgSwitchDefault,
+        SafeHtmlPipe,
+    ],
 })
 export class CardComponent implements OnInit {
   @Input() searchKeyword: string = ''

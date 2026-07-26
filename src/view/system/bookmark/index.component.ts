@@ -12,9 +12,10 @@ import { INavProps } from 'src/types'
 import { navStore } from 'src/store/nav.store'
 
 @Component({
-  selector: 'system-bookmark',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    selector: 'system-bookmark',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
 })
 export class SystemBookmarkComponent {
   $t = $t

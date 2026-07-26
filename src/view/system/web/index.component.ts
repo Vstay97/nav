@@ -13,19 +13,76 @@ import {
 import { navStore } from 'src/store/nav.store'
 import { isLogin } from 'src/utils/user'
 import { NzMessageService } from 'ng-zorro-antd/message'
-import { NzModalService } from 'ng-zorro-antd/modal'
+import { NzModalService, NzModalComponent, NzModalContentDirective } from 'ng-zorro-antd/modal'
 import { NzNotificationService } from 'ng-zorro-antd/notification'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms'
 import { $t } from 'src/locale'
 import { isSelfDevelop } from 'src/utils/util'
 import { dialogService } from 'src/services/dialog'
 import config from '../../../../nav.config.json'
 import { WebManagementService } from './web-management.service'
+import { NgIf, NgFor } from '@angular/common';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
+import { NzWaveDirective } from 'ng-zorro-antd/core/wave';
+import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
+import { NzTooltipDirective } from 'ng-zorro-antd/tooltip';
+import { NzTabSetComponent, NzTabComponent } from 'ng-zorro-antd/tabs';
+import { NzPopconfirmDirective } from 'ng-zorro-antd/popconfirm';
+import { NzTableComponent, NzTheadComponent, NzTrDirective, NzTableCellDirective, NzThMeasureDirective, NzThSelectionComponent, NzTbodyComponent, NzTdAddOnComponent } from 'ng-zorro-antd/table';
+import { LogoComponent } from '../../../components/logo/logo.component';
+import { NzIconDirective } from 'ng-zorro-antd/icon';
+import { NzSelectComponent, NzOptionComponent } from 'ng-zorro-antd/select';
+import { TagListComponent } from '../../../components/tag-list/index.component';
+import { NzFormDirective, NzFormItemComponent, NzFormLabelComponent, NzFormControlComponent } from 'ng-zorro-antd/form';
+import { NzRowDirective, NzColDirective } from 'ng-zorro-antd/grid';
+import { NzInputDirective, NzInputGroupComponent, NzInputGroupWhitSuffixOrPrefixDirective } from 'ng-zorro-antd/input';
+import { NzSwitchComponent } from 'ng-zorro-antd/switch';
+import { UploadComponent } from '../../../components/upload/index.component';
 
 @Component({
-  selector: 'app-admin',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    selector: 'app-admin',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        NzButtonComponent,
+        NzWaveDirective,
+        ɵNzTransitionPatchDirective,
+        NzTooltipDirective,
+        NzTabSetComponent,
+        NzTabComponent,
+        NzPopconfirmDirective,
+        NzTableComponent,
+        NzTheadComponent,
+        NzTrDirective,
+        NzTableCellDirective,
+        NzThMeasureDirective,
+        NzThSelectionComponent,
+        NzTbodyComponent,
+        NgFor,
+        NzTdAddOnComponent,
+        LogoComponent,
+        NzIconDirective,
+        NzSelectComponent,
+        ReactiveFormsModule,
+        FormsModule,
+        NzOptionComponent,
+        TagListComponent,
+        NzModalComponent,
+        NzModalContentDirective,
+        NzFormDirective,
+        NzRowDirective,
+        NzFormItemComponent,
+        NzColDirective,
+        NzFormLabelComponent,
+        NzFormControlComponent,
+        NzInputDirective,
+        NzSwitchComponent,
+        NzInputGroupComponent,
+        NzInputGroupWhitSuffixOrPrefixDirective,
+        UploadComponent,
+    ],
 })
 export class SystemWebComponent {
   $t = $t

@@ -7,11 +7,33 @@ import { $t } from 'src/locale'
 import { CommonService } from 'src/services/common'
 import { JumpService } from 'src/services/jump'
 import { dialogService } from 'src/services/dialog'
+import { NgIf, NgFor } from '@angular/common';
+import { NzSpinComponent } from 'ng-zorro-antd/spin';
+import { WebMoreMenuComponent } from '../../components/web-more-menu/index.component';
+import { ComponentGroupComponent } from '../../components/component-group/index.component';
+import { SearchEngineComponent } from '../../components/search-engine/search-engine.component';
+import { CardComponent } from '../../components/card/index.component';
+import { NoDataComponent } from '../../components/no-data/no-data.component';
+import { FooterComponent } from '../../components/footer/footer.component';
+import { FixbarComponent } from '../../components/fixbar/index.component';
 
 @Component({
-  selector: 'app-side',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    selector: 'app-side',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        NzSpinComponent,
+        NgFor,
+        WebMoreMenuComponent,
+        ComponentGroupComponent,
+        SearchEngineComponent,
+        CardComponent,
+        NoDataComponent,
+        FooterComponent,
+        FixbarComponent,
+    ],
 })
 export class SuperComponent {
   $t = $t

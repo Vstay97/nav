@@ -6,11 +6,20 @@ import { Component, EventEmitter, Output } from '@angular/core'
 import { $t } from 'src/locale'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { createFile, getCDN, imageBranch } from 'src/api'
+import { NgIf } from '@angular/common';
+import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
+import { NzIconDirective } from 'ng-zorro-antd/icon';
 
 @Component({
-  selector: 'app-upload',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    selector: 'app-upload',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        ɵNzTransitionPatchDirective,
+        NzIconDirective,
+    ],
 })
 export class UploadComponent {
   @Output() onChange = new EventEmitter()

@@ -11,11 +11,37 @@ import { updateFileContent } from 'src/api'
 import { TAG_PATH } from 'src/constants'
 import { navStore } from 'src/store/nav.store'
 import { isSelfDevelop } from 'src/utils/util'
+import { NzButtonComponent } from 'ng-zorro-antd/button';
+import { NzWaveDirective } from 'ng-zorro-antd/core/wave';
+import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
+import { NgIf, NgFor } from '@angular/common';
+import { NzTableComponent, NzTheadComponent, NzTrDirective, NzTableCellDirective, NzThMeasureDirective, NzTbodyComponent } from 'ng-zorro-antd/table';
+import { NzInputDirective } from 'ng-zorro-antd/input';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { NzPopconfirmDirective } from 'ng-zorro-antd/popconfirm';
 
 @Component({
-  selector: 'system-tag',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    selector: 'system-tag',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
+    imports: [
+        NzButtonComponent,
+        NzWaveDirective,
+        ɵNzTransitionPatchDirective,
+        NgIf,
+        NzTableComponent,
+        NzTheadComponent,
+        NzTrDirective,
+        NzTableCellDirective,
+        NzThMeasureDirective,
+        NzTbodyComponent,
+        NgFor,
+        NzInputDirective,
+        ReactiveFormsModule,
+        FormsModule,
+        NzPopconfirmDirective,
+    ],
 })
 export class SystemTagComponent {
   $t = $t

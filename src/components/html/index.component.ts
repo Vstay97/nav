@@ -4,12 +4,15 @@
 
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core'
 import { IComponentProps } from 'src/types'
+import { SafeHtmlPipe } from 'src/pipe/safeHtml.pipe';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-html',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-html',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
+    imports: [SafeHtmlPipe],
 })
 export class HTMLComponent {
   @Input() data!: IComponentProps

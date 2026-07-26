@@ -14,12 +14,21 @@ import { INavThreeProp, INavProps, ISettings } from 'src/types'
 import { isLogin } from 'src/utils/user'
 import { navStore } from 'src/store/nav.store'
 import { dialogService } from 'src/services/dialog'
+import { NgIf } from '@angular/common';
+import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
+import { NzIconDirective } from 'ng-zorro-antd/icon';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-toolbar-title',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-toolbar-title',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        ɵNzTransitionPatchDirective,
+        NzIconDirective,
+    ],
 })
 export class ToolbarTitleWebComponent implements OnInit {
   @Input() index: number = 0

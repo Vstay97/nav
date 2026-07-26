@@ -19,12 +19,28 @@ import { DB_PATH, STORAGE_KEY_MAP } from 'src/constants'
 import { Router, ActivatedRoute } from '@angular/router'
 import { $t, getLocale } from 'src/locale'
 import { addDark, removeDark } from 'src/utils/util'
+import { NgIf, NgFor } from '@angular/common';
+import { NzDropDownDirective, NzDropdownMenuComponent } from 'ng-zorro-antd/dropdown';
+import { NzMenuDirective, NzMenuItemComponent } from 'ng-zorro-antd/menu';
+import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
+import { NzTooltipDirective } from 'ng-zorro-antd/tooltip';
 
 @Component({
-  selector: 'app-fixbar',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-fixbar',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        NzDropDownDirective,
+        NzDropdownMenuComponent,
+        NzMenuDirective,
+        NgFor,
+        ɵNzTransitionPatchDirective,
+        NzMenuItemComponent,
+        NzTooltipDirective,
+    ],
 })
 export class FixbarComponent {
   @Input() showTop: boolean = true

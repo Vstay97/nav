@@ -9,11 +9,14 @@ import { getToken } from 'src/utils/user'
 import { VERSION } from 'src/constants'
 import { isSelfDevelop } from 'src/utils/util'
 import config from '../../../../nav.config.json'
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'system-info',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    selector: 'system-info',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
+    imports: [NgIf],
 })
 export class SystemInfoComponent {
   $t = $t

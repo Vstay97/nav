@@ -8,9 +8,10 @@ import { navStore } from 'src/store/nav.store'
 import dayjs from 'dayjs'
 
 @Component({
-  selector: 'app-countdown',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    selector: 'app-countdown',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
 })
 export class CountdownComponent {
   @Input() data!: IComponentProps

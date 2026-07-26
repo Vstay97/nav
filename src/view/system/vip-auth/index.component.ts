@@ -7,11 +7,29 @@ import { $t } from 'src/locale'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { setAuthCode, getAuthCode, removeAuthCode } from 'src/utils/user'
 import { getUserInfo, updateUserInfo } from 'src/api'
+import { NzSpinComponent } from 'ng-zorro-antd/spin';
+import { NgIf } from '@angular/common';
+import { NzInputDirective } from 'ng-zorro-antd/input';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
+import { NzWaveDirective } from 'ng-zorro-antd/core/wave';
+import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
 
 @Component({
-  selector: 'user-collect',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    selector: 'user-collect',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
+    imports: [
+        NzSpinComponent,
+        NgIf,
+        NzInputDirective,
+        ReactiveFormsModule,
+        FormsModule,
+        NzButtonComponent,
+        NzWaveDirective,
+        ɵNzTransitionPatchDirective,
+    ],
 })
 export class VipAuthComponent {
   $t = $t

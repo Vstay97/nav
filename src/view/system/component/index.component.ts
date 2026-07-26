@@ -19,11 +19,55 @@ import { HTMLDrawerComponent } from 'src/components/html/drawer/index.component'
 import { HolidayDrawerComponent } from 'src/components/holiday/drawer/index.component'
 import { componentTitleMap } from './types'
 import { isSelfDevelop } from 'src/utils/util'
+import { NzButtonComponent } from 'ng-zorro-antd/button';
+import { NzWaveDirective } from 'ng-zorro-antd/core/wave';
+import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
+import { NgIf, NgFor, NgSwitch, NgSwitchCase } from '@angular/common';
+import { CalendarComponent } from '../../../components/calendar/index.component';
+import { RuntimeComponent } from '../../../components/runtime/index.component';
+import { OffWorkComponent } from '../../../components/off-work/index.component';
+import { ImageComponent } from '../../../components/image/index.component';
+import { CountdownComponent } from '../../../components/countdown/index.component';
+import { HTMLComponent } from '../../../components/html/index.component';
+import { HolidayComponent } from '../../../components/holiday/index.component';
+import { NzPopconfirmDirective } from 'ng-zorro-antd/popconfirm';
+import { CalendarDrawerComponent as CalendarDrawerComponent_1 } from '../../../components/calendar/drawer/index.component';
+import { RuntimeDrawerComponent as RuntimeDrawerComponent_1 } from '../../../components/runtime/drawer/index.component';
+import { OffWorkDrawerComponent as OffWorkDrawerComponent_1 } from '../../../components/off-work/drawer/index.component';
+import { ImageDrawerComponent as ImageDrawerComponent_1 } from '../../../components/image/drawer/index.component';
+import { CountdownDrawerComponent as CountdownDrawerComponent_1 } from '../../../components/countdown/drawer/index.component';
+import { HTMLDrawerComponent as HTMLDrawerComponent_1 } from '../../../components/html/drawer/index.component';
+import { HolidayDrawerComponent as HolidayDrawerComponent_1 } from '../../../components/holiday/drawer/index.component';
 
 @Component({
-  selector: 'system-component',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    selector: 'system-component',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
+    imports: [
+        NzButtonComponent,
+        NzWaveDirective,
+        ɵNzTransitionPatchDirective,
+        NgIf,
+        NgFor,
+        NgSwitch,
+        NgSwitchCase,
+        CalendarComponent,
+        RuntimeComponent,
+        OffWorkComponent,
+        ImageComponent,
+        CountdownComponent,
+        HTMLComponent,
+        HolidayComponent,
+        NzPopconfirmDirective,
+        CalendarDrawerComponent_1,
+        RuntimeDrawerComponent_1,
+        OffWorkDrawerComponent_1,
+        ImageDrawerComponent_1,
+        CountdownDrawerComponent_1,
+        HTMLDrawerComponent_1,
+        HolidayDrawerComponent_1,
+    ],
 })
 export class SystemComponentComponent {
   @ViewChild('calendar') calendarChild!: CalendarDrawerComponent

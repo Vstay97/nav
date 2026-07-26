@@ -3,7 +3,7 @@
 // See https://github.com/xjh22222228/nav
 
 import { Component } from '@angular/core'
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router'
+import { Router, ActivatedRoute, NavigationEnd, RouterOutlet } from '@angular/router'
 import { queryString, setLocation, isMobile, getDefaultTheme } from '../utils'
 import { en_US, NzI18nService, zh_CN } from 'ng-zorro-antd/i18n'
 import { getLocale } from 'src/locale'
@@ -14,13 +14,27 @@ import { getToken, userLogout, isLogin } from 'src/utils/user'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NzNotificationService } from 'ng-zorro-antd/notification'
 import { isSelfDevelop } from 'src/utils/util'
-import { routes } from './app-routing.module'
+import { routes } from './app.routes'
 import { registerNotifyServices } from 'src/services/notify'
+import { NgIf } from '@angular/common';
+import { NzSpinComponent } from 'ng-zorro-antd/spin';
+import { IconGitComponent } from '../components/icon-git/icon-git.component';
+import { CreateWebComponent } from '../components/create-web/index.component';
+import { MoveWebComponent } from '../components/move-web/index.component';
 
 @Component({
-  selector: 'app-xiejiahe',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+    selector: 'app-xiejiahe',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        NzSpinComponent,
+        IconGitComponent,
+        RouterOutlet,
+        CreateWebComponent,
+        MoveWebComponent,
+    ],
 })
 export class AppComponent {
   isLogin: boolean = isLogin

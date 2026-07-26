@@ -7,11 +7,28 @@ import { navStore } from 'src/store/nav.store'
 import { IWebProps, ISettings } from 'src/types'
 import { JumpService } from 'src/services/jump'
 import { $t } from 'src/locale'
+import { NgStyle, NgIf, NgFor } from '@angular/common';
+import { SearchEngineComponent } from '../../components/search-engine/search-engine.component';
+import { WebListComponent } from '../../components/web-list/index.component';
+import { NzTooltipDirective } from 'ng-zorro-antd/tooltip';
+import { LogoComponent } from '../../components/logo/logo.component';
+import { FixbarComponent } from '../../components/fixbar/index.component';
 
 @Component({
-  selector: 'app-shortcut',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    selector: 'app-shortcut',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
+    imports: [
+        NgStyle,
+        SearchEngineComponent,
+        WebListComponent,
+        NgIf,
+        NgFor,
+        NzTooltipDirective,
+        LogoComponent,
+        FixbarComponent,
+    ],
 })
 export class ShortcutComponent {
   $t = $t

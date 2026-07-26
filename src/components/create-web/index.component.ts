@@ -5,7 +5,7 @@
 import { Component, Output, EventEmitter, effect } from '@angular/core'
 import { queryString, getTextContent } from 'src/utils'
 import { setWebsiteList, updateByWeb } from 'src/utils/web'
-import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms'
+import { FormBuilder, FormGroup, Validators, FormArray, ReactiveFormsModule } from '@angular/forms'
 import { IWebProps, IWebTag, TopType } from 'src/types'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { saveUserCollect, getWebInfo } from 'src/api'
@@ -14,11 +14,55 @@ import { navStore } from 'src/store/nav.store'
 import { dialogService } from 'src/services/dialog'
 import { isLogin } from 'src/utils/user'
 import { ISettings, ITagPropValues } from 'src/types'
+import { NzModalComponent, NzModalContentDirective } from 'ng-zorro-antd/modal';
+import { NgIf, NgFor } from '@angular/common';
+import { NzFormDirective, NzFormItemComponent, NzFormLabelComponent, NzFormControlComponent } from 'ng-zorro-antd/form';
+import { NzRowDirective, NzColDirective } from 'ng-zorro-antd/grid';
+import { NzInputDirective, NzInputGroupComponent, NzInputGroupWhitSuffixOrPrefixDirective, NzAutosizeDirective } from 'ng-zorro-antd/input';
+import { NzSwitchComponent } from 'ng-zorro-antd/switch';
+import { NzCheckboxGroupComponent } from 'ng-zorro-antd/checkbox';
+import { NzRateComponent } from 'ng-zorro-antd/rate';
+import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
+import { LogoComponent } from '../logo/logo.component';
+import { NzIconDirective } from 'ng-zorro-antd/icon';
+import { UploadComponent } from '../upload/index.component';
+import { NzSelectComponent, NzOptionComponent } from 'ng-zorro-antd/select';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
+import { NzWaveDirective } from 'ng-zorro-antd/core/wave';
 
 @Component({
-  selector: 'app-create-web',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    selector: 'app-create-web',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
+    imports: [
+        NzModalComponent,
+        NzModalContentDirective,
+        NgIf,
+        NgFor,
+        ReactiveFormsModule,
+        NzFormDirective,
+        NzRowDirective,
+        NzFormItemComponent,
+        NzColDirective,
+        NzFormLabelComponent,
+        NzFormControlComponent,
+        NzInputDirective,
+        NzSwitchComponent,
+        NzCheckboxGroupComponent,
+        NzRateComponent,
+        NzInputGroupComponent,
+        ɵNzTransitionPatchDirective,
+        NzInputGroupWhitSuffixOrPrefixDirective,
+        LogoComponent,
+        NzIconDirective,
+        UploadComponent,
+        NzAutosizeDirective,
+        NzSelectComponent,
+        NzOptionComponent,
+        NzButtonComponent,
+        NzWaveDirective,
+    ],
 })
 export class CreateWebComponent {
   @Output() onOk = new EventEmitter()

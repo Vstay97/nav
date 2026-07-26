@@ -5,11 +5,42 @@ import { Component } from '@angular/core'
 import { isLogin } from 'src/utils/user'
 import { navStore } from 'src/store/nav.store'
 import { CommonService } from 'src/services/common'
+import { NgIf, NgFor } from '@angular/common';
+import { NzSpinComponent } from 'ng-zorro-antd/spin';
+import { SwiperComponent } from '../../components/swiper/index.component';
+import { ComponentGroupComponent } from '../../components/component-group/index.component';
+import { SearchEngineComponent } from '../../components/search-engine/search-engine.component';
+import { WebMoreMenuComponent } from '../../components/web-more-menu/index.component';
+import { ToolbarTitleWebComponent } from '../../components/toolbar-title/index.component';
+import { NzRowDirective, NzColDirective } from 'ng-zorro-antd/grid';
+import { CardComponent } from '../../components/card/index.component';
+import { NoDataComponent } from '../../components/no-data/no-data.component';
+import { FooterComponent } from '../../components/footer/footer.component';
+import { FixbarComponent } from '../../components/fixbar/index.component';
+import { SafeHtmlPipe } from 'src/pipe/safeHtml.pipe';
 
 @Component({
-  selector: 'app-sim',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    selector: 'app-sim',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        NzSpinComponent,
+        SwiperComponent,
+        ComponentGroupComponent,
+        SearchEngineComponent,
+        NgFor,
+        WebMoreMenuComponent,
+        ToolbarTitleWebComponent,
+        NzRowDirective,
+        NzColDirective,
+        CardComponent,
+        NoDataComponent,
+        FooterComponent,
+        FixbarComponent,
+        SafeHtmlPipe,
+    ],
 })
 export class SimComponent {
   get description(): string {

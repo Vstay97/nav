@@ -4,13 +4,40 @@
 
 import { Component, EventEmitter, Output } from '@angular/core'
 import { $t } from 'src/locale'
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms'
+import { FormBuilder, FormGroup, FormArray, ReactiveFormsModule } from '@angular/forms'
 import dayjs from 'dayjs'
+import { NzDrawerComponent, NzDrawerContentDirective } from 'ng-zorro-antd/drawer';
+import { NzFormDirective, NzFormItemComponent, NzFormLabelComponent, NzFormControlComponent } from 'ng-zorro-antd/form';
+import { NgFor } from '@angular/common';
+import { NzRowDirective, NzColDirective } from 'ng-zorro-antd/grid';
+import { NzInputDirective } from 'ng-zorro-antd/input';
+import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
+import { NzWaveDirective } from 'ng-zorro-antd/core/wave';
+import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
 
 @Component({
-  selector: 'holiday-drawer',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    selector: 'holiday-drawer',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
+    imports: [
+        NzDrawerComponent,
+        NzDrawerContentDirective,
+        ReactiveFormsModule,
+        NzFormDirective,
+        NgFor,
+        NzRowDirective,
+        NzFormItemComponent,
+        NzColDirective,
+        NzFormLabelComponent,
+        NzFormControlComponent,
+        NzInputDirective,
+        NzDatePickerComponent,
+        NzButtonComponent,
+        NzWaveDirective,
+        ɵNzTransitionPatchDirective,
+    ],
 })
 export class HolidayDrawerComponent {
   @Output() ok = new EventEmitter<void>()

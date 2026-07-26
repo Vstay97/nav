@@ -3,12 +3,15 @@
 import config from '../../../nav.config.json'
 import { Component, ChangeDetectionStrategy } from '@angular/core'
 import { navStore } from 'src/store/nav.store'
+import { NgIf } from '@angular/common';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-icon-git',
-  templateUrl: './icon-git.component.html',
-  styleUrls: ['./icon-git.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-icon-git',
+    templateUrl: './icon-git.component.html',
+    styleUrls: ['./icon-git.component.scss'],
+    standalone: true,
+    imports: [NgIf],
 })
 export class IconGitComponent {
   gitRepoUrl: string = config.gitRepoUrl.includes('github.com/xjh22222228')

@@ -4,13 +4,44 @@
 
 import { Component, EventEmitter, Output } from '@angular/core'
 import { $t } from 'src/locale'
-import { FormBuilder, FormGroup } from '@angular/forms'
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import dayjs from 'dayjs'
+import { NzDrawerComponent, NzDrawerContentDirective } from 'ng-zorro-antd/drawer';
+import { NzFormDirective, NzFormItemComponent, NzFormLabelComponent, NzFormControlComponent } from 'ng-zorro-antd/form';
+import { NzRowDirective, NzColDirective } from 'ng-zorro-antd/grid';
+import { NzColorPickerComponent } from 'ng-zorro-antd/color-picker';
+import { NzInputDirective, NzInputGroupComponent, NzInputGroupWhitSuffixOrPrefixDirective } from 'ng-zorro-antd/input';
+import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
+import { UploadComponent } from '../../upload/index.component';
+import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
+import { NzWaveDirective } from 'ng-zorro-antd/core/wave';
 
 @Component({
-  selector: 'countdown-drawer',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    selector: 'countdown-drawer',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
+    imports: [
+        NzDrawerComponent,
+        NzDrawerContentDirective,
+        ReactiveFormsModule,
+        NzFormDirective,
+        NzRowDirective,
+        NzFormItemComponent,
+        NzColDirective,
+        NzFormLabelComponent,
+        NzFormControlComponent,
+        NzColorPickerComponent,
+        NzInputDirective,
+        NzInputGroupComponent,
+        ɵNzTransitionPatchDirective,
+        NzInputGroupWhitSuffixOrPrefixDirective,
+        UploadComponent,
+        NzDatePickerComponent,
+        NzButtonComponent,
+        NzWaveDirective,
+    ],
 })
 export class CountdownDrawerComponent {
   @Output() ok = new EventEmitter<void>()

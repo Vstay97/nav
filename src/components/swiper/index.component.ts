@@ -4,12 +4,22 @@
 
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core'
 import { JumpService } from 'src/services/jump'
+import { NgIf, NgStyle, NgFor } from '@angular/common';
+import { NzCarouselComponent, NzCarouselContentDirective } from 'ng-zorro-antd/carousel';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-swiper',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-swiper',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        NgStyle,
+        NzCarouselComponent,
+        NgFor,
+        NzCarouselContentDirective,
+    ],
 })
 export class SwiperComponent {
   @Input() images: any[] = []

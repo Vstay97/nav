@@ -11,11 +11,50 @@ import { navStore } from 'src/store/nav.store'
 import { $t } from 'src/locale'
 import { CommonService } from 'src/services/common'
 import { STORAGE_KEY_MAP } from 'src/constants'
+import { NzLayoutComponent, NzSiderComponent, NzContentComponent } from 'ng-zorro-antd/layout';
+import { NgIf, NgFor } from '@angular/common';
+import { NzSpinComponent } from 'ng-zorro-antd/spin';
+import { NzMenuDirective, NzSubMenuComponent, NzMenuItemComponent } from 'ng-zorro-antd/menu';
+import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
+import { SwiperComponent } from '../../components/swiper/index.component';
+import { ComponentGroupComponent } from '../../components/component-group/index.component';
+import { SearchEngineComponent } from '../../components/search-engine/search-engine.component';
+import { WebListComponent } from '../../components/web-list/index.component';
+import { ToolbarTitleWebComponent } from '../../components/toolbar-title/index.component';
+import { NzRowDirective, NzColDirective } from 'ng-zorro-antd/grid';
+import { CardComponent } from '../../components/card/index.component';
+import { NoDataComponent } from '../../components/no-data/no-data.component';
+import { FooterComponent } from '../../components/footer/footer.component';
+import { FixbarComponent } from '../../components/fixbar/index.component';
 
 @Component({
-  selector: 'app-side',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    selector: 'app-side',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
+    imports: [
+        NzLayoutComponent,
+        NgIf,
+        NzSpinComponent,
+        NzSiderComponent,
+        NzMenuDirective,
+        NgFor,
+        ɵNzTransitionPatchDirective,
+        NzSubMenuComponent,
+        NzMenuItemComponent,
+        SwiperComponent,
+        ComponentGroupComponent,
+        SearchEngineComponent,
+        NzContentComponent,
+        WebListComponent,
+        ToolbarTitleWebComponent,
+        NzRowDirective,
+        NzColDirective,
+        CardComponent,
+        NoDataComponent,
+        FooterComponent,
+        FixbarComponent,
+    ],
 })
 export class SideComponent {
   $t = $t

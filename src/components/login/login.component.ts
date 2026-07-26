@@ -8,11 +8,24 @@ import { verifyToken, updateFileContent, createBranch } from 'src/api'
 import { setToken, removeToken, removeWebsite } from 'src/utils/user'
 import { $t } from 'src/locale'
 import { isSelfDevelop } from 'src/utils/util'
+import { NzModalComponent, NzModalContentDirective } from 'ng-zorro-antd/modal';
+import { NzInputDirective } from 'ng-zorro-antd/input';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    standalone: true,
+    imports: [
+        NzModalComponent,
+        NzModalContentDirective,
+        NzInputDirective,
+        ReactiveFormsModule,
+        FormsModule,
+        NgIf,
+    ],
 })
 export class LoginComponent implements OnInit {
   @Input() visible: boolean = false

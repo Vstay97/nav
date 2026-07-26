@@ -7,10 +7,11 @@ import { IComponentProps } from 'src/types'
 import { JumpService } from 'src/services/jump'
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-image',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-image',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
 })
 export class ImageComponent {
   @Input() data!: IComponentProps

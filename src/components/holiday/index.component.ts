@@ -6,11 +6,14 @@ import { Component, Input, effect } from '@angular/core'
 import { IComponentProps } from 'src/types'
 import { navStore } from 'src/store/nav.store'
 import dayjs from 'dayjs'
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-holiday',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    selector: 'app-holiday',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
+    imports: [NgIf, NgFor],
 })
 export class HolidayComponent {
   @Input() data!: IComponentProps

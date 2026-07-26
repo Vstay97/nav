@@ -4,11 +4,26 @@
 
 import { Component } from '@angular/core'
 import { CommonService } from 'src/services/common'
+import { NgFor, NgIf } from '@angular/common';
+import { SearchEngineComponent } from '../../../components/search-engine/search-engine.component';
+import { NzRowDirective, NzColDirective } from 'ng-zorro-antd/grid';
+import { CardComponent } from '../../../components/card/index.component';
+import { FooterComponent } from '../../../components/footer/footer.component';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+    selector: 'app-home',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    standalone: true,
+    imports: [
+        NgFor,
+        SearchEngineComponent,
+        NgIf,
+        NzRowDirective,
+        NzColDirective,
+        CardComponent,
+        FooterComponent,
+    ],
 })
 export class WebpComponent {
   open: boolean = false

@@ -5,11 +5,33 @@
 import { Component, Input } from '@angular/core'
 import { navStore } from 'src/store/nav.store'
 import { ComponentType, IComponentProps } from 'src/types'
+import { NgIf, NgFor, NgSwitch, NgSwitchCase } from '@angular/common';
+import { CalendarComponent } from '../calendar/index.component';
+import { RuntimeComponent } from '../runtime/index.component';
+import { OffWorkComponent } from '../off-work/index.component';
+import { ImageComponent } from '../image/index.component';
+import { CountdownComponent } from '../countdown/index.component';
+import { HTMLComponent } from '../html/index.component';
+import { HolidayComponent } from '../holiday/index.component';
 
 @Component({
-  selector: 'component-group',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    selector: 'component-group',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        NgSwitch,
+        NgSwitchCase,
+        CalendarComponent,
+        RuntimeComponent,
+        OffWorkComponent,
+        ImageComponent,
+        CountdownComponent,
+        HTMLComponent,
+        HolidayComponent,
+    ],
 })
 export class ComponentGroupComponent {
   @Input() direction: string = ''

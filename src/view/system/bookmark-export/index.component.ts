@@ -13,11 +13,23 @@ import { bookmarksExport, getIconBase64 } from 'src/api'
 import { saveAs } from 'file-saver'
 import { getAuthCode } from 'src/utils/user'
 import LZString from 'lz-string'
+import { NgIf } from '@angular/common';
+import { NzSpinComponent } from 'ng-zorro-antd/spin';
+import { NzSwitchComponent } from 'ng-zorro-antd/switch';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'system-bookmark-export',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
+    selector: 'system-bookmark-export',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        NzSpinComponent,
+        NzSwitchComponent,
+        ReactiveFormsModule,
+        FormsModule,
+    ],
 })
 export class SystemBookmarkExportComponent {
   $t = $t
