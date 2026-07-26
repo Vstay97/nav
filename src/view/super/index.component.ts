@@ -7,6 +7,7 @@ import { $t } from 'src/locale'
 import { CommonService } from 'src/services/common'
 import { JumpService } from 'src/services/jump'
 import { dialogService } from 'src/services/dialog'
+import { BaseThemeComponent } from '../base-theme.component'
 import { NgIf, NgFor } from '@angular/common';
 import { NzSpinComponent } from 'ng-zorro-antd/spin';
 import { WebMoreMenuComponent } from '../../components/web-more-menu/index.component';
@@ -35,22 +36,17 @@ import { FixbarComponent } from '../../components/fixbar/index.component';
         FixbarComponent,
     ],
 })
-export class SuperComponent {
+export class SuperComponent extends BaseThemeComponent {
+  protected readonly overTypeKey = 'superOverType' as const
+  protected override overflowSelector = '.topnav .over-item'
+
   $t = $t
 
   constructor(
-    public commonService: CommonService,
+    commonService: CommonService,
     public jumpService: JumpService
-  ) {}
-
-  ngAfterViewInit() {
-    if (this.commonService.settings.superOverType === 'ellipsis') {
-      this.commonService.getOverIndex('.topnav .over-item')
-    }
-  }
-
-  ngOnDestroy() {
-    this.commonService.overIndex = Number.MAX_SAFE_INTEGER
+  ) {
+    super(commonService)
   }
 
   openCreateWebModal() {

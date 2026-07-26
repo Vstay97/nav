@@ -5,6 +5,7 @@ import { Component } from '@angular/core'
 import { isLogin } from 'src/utils/user'
 import { navStore } from 'src/store/nav.store'
 import { CommonService } from 'src/services/common'
+import { BaseThemeComponent } from '../base-theme.component'
 import { NgIf, NgFor } from '@angular/common';
 import { NzSpinComponent } from 'ng-zorro-antd/spin';
 import { SwiperComponent } from '../../components/swiper/index.component';
@@ -42,7 +43,9 @@ import { SafeHtmlPipe } from 'src/pipe/safeHtml.pipe';
         SafeHtmlPipe,
     ],
 })
-export class SimComponent {
+export class SimComponent extends BaseThemeComponent {
+  protected readonly overTypeKey = 'simOverType' as const
+
   get description(): string {
     const internal = navStore.internal()
     return navStore
@@ -53,15 +56,7 @@ export class SimComponent {
       )
   }
 
-  constructor(public commonService: CommonService) {}
-
-  ngOnDestroy() {
-    this.commonService.overIndex = Number.MAX_SAFE_INTEGER
-  }
-
-  ngAfterViewInit() {
-    if (this.commonService.settings.simOverType === 'ellipsis') {
-      this.commonService.getOverIndex('.top-nav .over-item')
-    }
+  constructor(commonService: CommonService) {
+    super(commonService)
   }
 }

@@ -63,32 +63,14 @@ export class FixbarComponent {
   get websiteList() {
     return navStore.websiteList()
   }
-  themeList = [
-    {
-      name: $t('_switchTo') + ' Super',
-      url: '/super',
-    },
-    {
-      name: $t('_switchTo') + ' Light',
-      url: '/light',
-    },
-    {
-      name: $t('_switchTo') + ' Sim',
-      url: '/sim',
-    },
-    {
-      name: $t('_switchTo') + ' Side',
-      url: '/side',
-    },
-    {
-      name: $t('_switchTo') + ' Shortcut',
-      url: '/shortcut',
-    },
-    {
-      name: $t('_switchTo') + ' App',
-      url: '/app',
-    },
-  ]
+
+  // 菜单顺序与原硬编码一致
+  themeList = ['Super', 'Light', 'Sim', 'Side', 'Shortcut', 'App'].map(
+    (name) => ({
+      name: $t('_switchTo') + ' ' + name,
+      url: '/' + name.toLowerCase(),
+    })
+  )
 
   constructor(
     private message: NzMessageService,

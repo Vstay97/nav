@@ -6,6 +6,7 @@ import { Component } from '@angular/core'
 import { randomBgImg } from 'src/utils'
 import { CommonService } from 'src/services/common'
 import { JumpService } from 'src/services/jump'
+import { BaseThemeComponent } from '../base-theme.component'
 import { NgIf, NgFor } from '@angular/common';
 import { ComponentGroupComponent } from '../../components/component-group/index.component';
 import { WebMoreMenuComponent } from '../../components/web-more-menu/index.component';
@@ -39,23 +40,17 @@ import { FixbarComponent } from '../../components/fixbar/index.component';
         FixbarComponent,
     ],
 })
-export class LightComponent {
+export class LightComponent extends BaseThemeComponent {
+  protected readonly overTypeKey = 'lightOverType' as const
+
   constructor(
-    public commonService: CommonService,
+    commonService: CommonService,
     public jumpService: JumpService
-  ) {}
+  ) {
+    super(commonService)
+  }
 
   ngOnInit() {
     randomBgImg()
-  }
-
-  ngOnDestroy() {
-    this.commonService.overIndex = Number.MAX_SAFE_INTEGER
-  }
-
-  ngAfterViewInit() {
-    if (this.commonService.settings.lightOverType === 'ellipsis') {
-      this.commonService.getOverIndex('.top-nav .over-item')
-    }
   }
 }

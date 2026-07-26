@@ -5,49 +5,17 @@
 import { Routes } from '@angular/router'
 import { isSelfDevelop } from 'src/utils/util'
 import { getDefaultTheme } from 'src/utils'
+import { THEME_REGISTRY } from 'src/view/themes.registry'
+
+// 主题路由由注册表生成（新增主题只需在 themes.registry.ts 注册）
+const themeRoutes: Routes = THEME_REGISTRY.map((t) => ({
+  path: t.path,
+  loadComponent: t.loadComponent,
+  data: t.path === 'light' ? { renderLinear: true, data: {} } : {},
+}))
 
 export const routes: Routes = [
-  {
-    path: 'sim',
-    loadComponent: () =>
-      import('../view/sim/index.component').then((m) => m.SimComponent),
-    data: {},
-  },
-  {
-    path: 'super',
-    loadComponent: () =>
-      import('../view/super/index.component').then((m) => m.SuperComponent),
-    data: {},
-  },
-  {
-    path: 'side',
-    loadComponent: () =>
-      import('../view/side/index.component').then((m) => m.SideComponent),
-    data: {},
-  },
-  {
-    path: 'shortcut',
-    loadComponent: () =>
-      import('../view/shortcut/index.component').then(
-        (m) => m.ShortcutComponent
-      ),
-    data: {},
-  },
-  {
-    path: 'light',
-    loadComponent: () =>
-      import('../view/light/index.component').then((m) => m.LightComponent),
-    data: {
-      renderLinear: true,
-      data: {},
-    },
-  },
-  {
-    path: 'app',
-    loadComponent: () =>
-      import('../view/app/default/app.component').then((m) => m.WebpComponent),
-    data: {},
-  },
+  ...themeRoutes,
   {
     path: 'system',
     loadComponent: () =>

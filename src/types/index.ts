@@ -7,6 +7,7 @@ export type ThemeType =
   | 'Light'
   | 'Sim'
   | 'Side'
+  | 'Super'
   | 'App'
   | 'Shortcut'
 
