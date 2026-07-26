@@ -4,7 +4,7 @@
 
 import { Component, Input } from '@angular/core'
 import { getDateTime, getDayOfYear } from 'src/utils'
-import { IComponentProps } from 'src/types'
+import { ICalendarComponent } from 'src/types'
 
 @Component({
     selector: 'app-calendar',
@@ -13,7 +13,7 @@ import { IComponentProps } from 'src/types'
     standalone: true,
 })
 export class CalendarComponent {
-  @Input() data!: IComponentProps
+  @Input() data!: ICalendarComponent
 
   date = ''
   day = ''

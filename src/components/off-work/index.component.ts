@@ -3,7 +3,7 @@
 // See https://github.com/xjh22222228/nav
 
 import { Component, Input, effect } from '@angular/core'
-import { IComponentProps } from 'src/types'
+import { IOffWorkComponent } from 'src/types'
 import { navStore } from 'src/store/nav.store'
 import { NgIf } from '@angular/common';
 
@@ -15,7 +15,7 @@ import { NgIf } from '@angular/common';
     imports: [NgIf],
 })
 export class OffWorkComponent {
-  @Input() data!: IComponentProps
+  @Input() data!: IOffWorkComponent
 
   countdownStr = ''
   isRest = false

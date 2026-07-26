@@ -15,13 +15,13 @@
 <div class="flex gap-4 w-full flex-wrap select-none">
   <div *ngFor="let item of components; let idx = index; trackBy: trackByItem">
     <ng-container [ngSwitch]="item.type">
-      <app-calendar *ngSwitchCase="ComponentType.Calendar" [data]="item" />
-      <app-runtime *ngSwitchCase="ComponentType.Runtime" [data]="item" />
-      <app-offwork *ngSwitchCase="ComponentType.OffWork" [data]="item" />
-      <app-image *ngSwitchCase="ComponentType.Image" [data]="item" />
-      <app-countdown *ngSwitchCase="ComponentType.Countdown" [data]="item" />
-      <app-html *ngSwitchCase="ComponentType.HTML" [data]="item" />
-      <app-holiday *ngSwitchCase="ComponentType.Holiday" [data]="item" />
+      <app-calendar *ngSwitchCase="ComponentType.Calendar" [data]="$any(item)" />
+      <app-runtime *ngSwitchCase="ComponentType.Runtime" [data]="$any(item)" />
+      <app-offwork *ngSwitchCase="ComponentType.OffWork" [data]="$any(item)" />
+      <app-image *ngSwitchCase="ComponentType.Image" [data]="$any(item)" />
+      <app-countdown *ngSwitchCase="ComponentType.Countdown" [data]="$any(item)" />
+      <app-html *ngSwitchCase="ComponentType.HTML" [data]="$any(item)" />
+      <app-holiday *ngSwitchCase="ComponentType.Holiday" [data]="$any(item)" />
     </ng-container>
 
     <div class="text-center mt-3">

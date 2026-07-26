@@ -3,7 +3,7 @@
 // See https://github.com/xjh22222228/nav
 
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core'
-import { IComponentProps } from 'src/types'
+import { IImageComponent } from 'src/types'
 import { JumpService } from 'src/services/jump'
 
 @Component({
@@ -14,7 +14,7 @@ import { JumpService } from 'src/services/jump'
     standalone: true,
 })
 export class ImageComponent {
-  @Input() data!: IComponentProps
+  @Input() data!: IImageComponent
 
   constructor(public jumpService: JumpService) {}
 }

@@ -3,7 +3,7 @@
 // See https://github.com/xjh22222228/nav
 
 import { Component, Input, effect } from '@angular/core'
-import { IComponentProps } from 'src/types'
+import { IHolidayComponent } from 'src/types'
 import { navStore } from 'src/store/nav.store'
 import dayjs from 'dayjs'
 import { NgIf, NgFor } from '@angular/common';
@@ -16,7 +16,7 @@ import { NgIf, NgFor } from '@angular/common';
     imports: [NgIf, NgFor],
 })
 export class HolidayComponent {
-  @Input() data!: IComponentProps
+  @Input() data!: IHolidayComponent
   items: any[] = []
 
   constructor() {

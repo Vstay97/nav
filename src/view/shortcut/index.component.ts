@@ -6,6 +6,8 @@ import { getDateTime, isMobile } from 'src/utils'
 import { navStore } from 'src/store/nav.store'
 import { IWebProps, ISettings } from 'src/types'
 import { JumpService } from 'src/services/jump'
+import { CommonService } from 'src/services/common'
+import { BaseThemeComponent } from '../base-theme.component'
 import { $t } from 'src/locale'
 import { NgStyle, NgIf, NgFor } from '@angular/common';
 import { SearchEngineComponent } from '../../components/search-engine/search-engine.component';
@@ -30,7 +32,9 @@ import { FixbarComponent } from '../../components/fixbar/index.component';
         FixbarComponent,
     ],
 })
-export class ShortcutComponent {
+export class ShortcutComponent extends BaseThemeComponent {
+  protected readonly overTypeKey = null
+
   $t = $t
   isMobile = isMobile()
   shortcutThemeImage =
@@ -57,7 +61,11 @@ export class ShortcutComponent {
     return navStore.dockList()
   }
 
-  constructor(public jumpService: JumpService) {
+  constructor(
+    commonService: CommonService,
+    public jumpService: JumpService
+  ) {
+    super(commonService)
     this.getDateTime()
   }
 
@@ -143,8 +151,9 @@ export class ShortcutComponent {
     this.dayText = dayText
   }
 
-  ngOnDestroy() {
+  override ngOnDestroy() {
     clearTimeout(this.timer)
+    super.ngOnDestroy()
   }
 
   trackByItemWeb(a: any, item: any) {

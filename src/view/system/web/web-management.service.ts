@@ -5,6 +5,7 @@
 import { Injectable } from '@angular/core'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NzNotificationService } from 'ng-zorro-antd/notification'
+import { NzModalService } from 'ng-zorro-antd/modal'
 import { saveAs } from 'file-saver'
 import { INavProps, IWebProps } from 'src/types'
 import { navStore } from 'src/store/nav.store'
@@ -34,7 +35,8 @@ export interface ICategoryPayload {
 export class WebManagementService {
   constructor(
     private message: NzMessageService,
-    private notification: NzNotificationService
+    private notification: NzNotificationService,
+    private modal: NzModalService
   ) {}
 
   private get websiteList(): INavProps[] {
@@ -171,6 +173,34 @@ export class WebManagementService {
     }
     r(this.websiteList)
     return errorWebs
+  }
+
+  /** 弹确认框后同步网站数据到远端（loading 状态由回调管理） */
+  confirmAndSync(onLoading: (loading: boolean) => void): void {
+    this.modal.info({
+      nzTitle: $t('_syncDataOut'),
+      nzOkText: $t('_confirmSync'),
+      nzContent: $t('_confirmSyncTip'),
+      nzOnOk: () => {
+        onLoading(true)
+        this.syncToRemote()
+          .then(() => {
+            this.message.success($t('_syncSuccessTip'))
+          })
+          .finally(() => {
+            onLoading(false)
+          })
+      },
+    })
+  }
+
+  /** 弹确认框后清空本地缓存并刷新（恢复初始数据） */
+  confirmAndReset(): void {
+    this.modal.info({
+      nzTitle: $t('_resetInitData'),
+      nzContent: $t('_warnReset'),
+      nzOnOk: () => this.resetLocalData(),
+    })
   }
 
   /** 同步网站数据到远端 */

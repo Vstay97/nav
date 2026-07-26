@@ -3,7 +3,7 @@
 // See https://github.com/xjh22222228/nav
 
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core'
-import { IComponentProps } from 'src/types'
+import { IHTMLComponent } from 'src/types'
 import { SafeHtmlPipe } from 'src/pipe/safeHtml.pipe';
 
 @Component({
@@ -15,7 +15,7 @@ import { SafeHtmlPipe } from 'src/pipe/safeHtml.pipe';
     imports: [SafeHtmlPipe],
 })
 export class HTMLComponent {
-  @Input() data!: IComponentProps
+  @Input() data!: IHTMLComponent
 
   constructor() {}
 }

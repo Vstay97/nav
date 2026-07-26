@@ -10,6 +10,7 @@ import { dataProvider } from 'src/providers'
 import { navStore } from 'src/store/nav.store'
 import { $t } from 'src/locale'
 import { CommonService } from 'src/services/common'
+import { BaseThemeComponent } from '../base-theme.component'
 import { STORAGE_KEY_MAP } from 'src/constants'
 import { NzLayoutComponent, NzSiderComponent, NzContentComponent } from 'ng-zorro-antd/layout';
 import { NgIf, NgFor } from '@angular/common';
@@ -56,11 +57,14 @@ import { FixbarComponent } from '../../components/fixbar/index.component';
         FixbarComponent,
     ],
 })
-export class SideComponent {
+export class SideComponent extends BaseThemeComponent {
+  protected readonly overTypeKey = null
+
   $t = $t
   isCollapsed = isMobile() || navStore.settings().sideCollapsed
 
-  constructor(public commonService: CommonService) {
+  constructor(commonService: CommonService) {
+    super(commonService)
     const localCollapsed = localStorage.getItem(STORAGE_KEY_MAP.sideCollapsed)
     if (localCollapsed) {
       this.isCollapsed = localCollapsed === 'true'

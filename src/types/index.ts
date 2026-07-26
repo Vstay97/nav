@@ -26,28 +26,76 @@ export enum ComponentType {
   Holiday = 7,
 }
 
-/**
- * 页面小组件配置（日历/下班/运行时长/图片/倒计时/HTML/节日）。
- * type 决定组件种类，其余字段按种类取用，故全部显式声明为可选。
- */
-export interface IComponentProps {
+interface IComponentBase {
   id: number
-  type: ComponentType
+}
+
+/** 日历组件（type 1） */
+export interface ICalendarComponent extends IComponentBase {
+  type: ComponentType.Calendar
   topColor?: string
   bgColor?: string
+}
+
+/** 下班倒计时组件（type 2） */
+export interface IOffWorkComponent extends IComponentBase {
+  type: ComponentType.OffWork
   workTitle?: string
   restTitle?: string
   startDate?: number
-  date?: number | string
+  date?: number
+}
+
+/** 运行时长组件（type 3） */
+export interface IRuntimeComponent extends IComponentBase {
+  type: ComponentType.Runtime
   title?: string
+}
+
+/** 图片组件（type 4） */
+export interface IImageComponent extends IComponentBase {
+  type: ComponentType.Image
   url?: string
   go?: string
   text?: string
-  html?: string
-  items?: Array<Record<string, unknown>>
+}
+
+/** 倒计时组件（type 5） */
+export interface ICountdownComponent extends IComponentBase {
+  type: ComponentType.Countdown
+  topColor?: string
+  bgColor?: string
+  url?: string
+  title?: string
   dateColor?: string
   dayColor?: string
+  date?: number | string
 }
+
+/** 自定义 HTML 组件（type 6） */
+export interface IHTMLComponent extends IComponentBase {
+  type: ComponentType.HTML
+  html?: string
+}
+
+/** 节假日组件（type 7） */
+export interface IHolidayComponent extends IComponentBase {
+  type: ComponentType.Holiday
+  items?: Array<Record<string, unknown>>
+}
+
+/**
+ * 页面小组件配置（判别联合：以 type 字段为判别式，
+ * 组件模板/逻辑按 type 窄化后获得完整字段类型）
+ */
+export type IComponentProps =
+  | ICalendarComponent
+  | IOffWorkComponent
+  | IRuntimeComponent
+  | IImageComponent
+  | ICountdownComponent
+  | IHTMLComponent
+  | IHolidayComponent
 
 export type ICardType = 'standard' | 'column' | 'example' | 'retro' | 'original'
 
@@ -135,7 +183,67 @@ export interface ISearchEngineProps {
   isInner: boolean
 }
 
-export interface ISettings {
+/** App 主题配置 */
+export interface IAppThemeSettings {
+  appCardStyle: ICardType
+  appDocTitle: string
+}
+
+/** Light 主题配置 */
+export interface ILightThemeSettings {
+  lightCardStyle: ICardType
+  lightOverType: OverType
+  lightImages: IBannerImage[]
+  lightFooterHTML: string
+  lightDocTitle: string
+}
+
+/** Sim 主题配置 */
+export interface ISimThemeSettings {
+  simThemeImages: IBannerImage[]
+  simThemeDesc: string
+  simThemeHeight: number
+  simThemeAutoplay: boolean
+  simCardStyle: ICardType
+  simTitle: string
+  simOverType: OverType
+  simFooterHTML: string
+  simDocTitle: string
+}
+
+/** Side 主题配置 */
+export interface ISideThemeSettings {
+  sideThemeImages: IBannerImage[]
+  sideThemeHeight: number
+  sideThemeAutoplay: boolean
+  sideCardStyle: ICardType
+  sideTitle: string
+  sideFooterHTML: string
+  sideCollapsed: boolean
+  sideDocTitle: string
+}
+
+/** Shortcut 主题配置 */
+export interface IShortcutThemeSettings {
+  shortcutThemeImages: IBannerImage[]
+  shortcutThemeShowWeather: boolean
+  shortcutTitle: string
+  shortcutDockCount: number
+  shortcutDocTitle: string
+}
+
+/** Super 主题配置 */
+export interface ISuperThemeSettings {
+  superTitle: string
+  superOverType: OverType
+  superCardStyle: ICardType
+  superImages: IBannerImage[]
+  superFooterHTML: string
+  superDocTitle: string
+}
+
+/** 站点全局（跨主题）配置 */
+export interface IBaseSettings {
   favicon: string
   language: 'zh-CN' | 'en'
   loading: string
@@ -156,47 +264,6 @@ export interface ISettings {
   checkUrl: boolean
   errorUrlCount?: number
 
-  appCardStyle: ICardType
-  appDocTitle: string
-
-  lightCardStyle: ICardType
-  lightOverType: OverType
-  lightImages: IBannerImage[]
-  lightFooterHTML: string
-  lightDocTitle: string
-
-  simThemeImages: IBannerImage[]
-  simThemeDesc: string
-  simThemeHeight: number
-  simThemeAutoplay: boolean
-  simCardStyle: ICardType
-  simTitle: string
-  simOverType: OverType
-  simFooterHTML: string
-  simDocTitle: string
-
-  sideThemeImages: IBannerImage[]
-  sideThemeHeight: number
-  sideThemeAutoplay: boolean
-  sideCardStyle: ICardType
-  sideTitle: string
-  sideFooterHTML: string
-  sideCollapsed: boolean
-  sideDocTitle: string
-
-  shortcutThemeImages: IBannerImage[]
-  shortcutThemeShowWeather: boolean
-  shortcutTitle: string
-  shortcutDockCount: number
-  shortcutDocTitle: string
-
-  superTitle: string
-  superOverType: OverType
-  superCardStyle: ICardType
-  superImages: IBannerImage[]
-  superFooterHTML: string
-  superDocTitle: string
-
   showRate: boolean
 
   allowCollect: boolean
@@ -215,6 +282,19 @@ export interface ISettings {
 
   runtime: number
 }
+
+/**
+ * 站点全部设置（主题配置按主题分组的子接口组合；
+ * 数据文件格式不变，仍为平铺键）
+ */
+export interface ISettings
+  extends IBaseSettings,
+    IAppThemeSettings,
+    ILightThemeSettings,
+    ISimThemeSettings,
+    ISideThemeSettings,
+    IShortcutThemeSettings,
+    ISuperThemeSettings {}
 
 export type internalProps = {
   loginViewCount: number

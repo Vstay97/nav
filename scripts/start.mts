@@ -7,7 +7,7 @@ import path from 'path'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc.js'
 import timezone from 'dayjs/plugin/timezone.js'
-import defaultDb from './db.mjs'
+import defaultDb from './db.mts'
 import yaml from 'js-yaml'
 import LZString from 'lz-string'
 import {

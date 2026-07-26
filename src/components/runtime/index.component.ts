@@ -4,7 +4,7 @@
 
 import { Component, Input } from '@angular/core'
 import { navStore } from 'src/store/nav.store'
-import { IComponentProps } from 'src/types'
+import { IRuntimeComponent } from 'src/types'
 
 @Component({
     selector: 'app-runtime',
@@ -13,7 +13,7 @@ import { IComponentProps } from 'src/types'
     standalone: true,
 })
 export class RuntimeComponent {
-  @Input() data!: IComponentProps
+  @Input() data!: IRuntimeComponent
 
   runDays = 0
   unit = ''

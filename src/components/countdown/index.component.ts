@@ -3,7 +3,7 @@
 // See https://github.com/xjh22222228/nav
 
 import { Component, Input, effect } from '@angular/core'
-import { IComponentProps } from 'src/types'
+import { ICountdownComponent } from 'src/types'
 import { navStore } from 'src/store/nav.store'
 import dayjs from 'dayjs'
 
@@ -14,7 +14,7 @@ import dayjs from 'dayjs'
     standalone: true,
 })
 export class CountdownComponent {
-  @Input() data!: IComponentProps
+  @Input() data!: ICountdownComponent
   component: Record<string, any> = {}
 
   constructor() {

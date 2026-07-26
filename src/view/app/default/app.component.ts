@@ -4,6 +4,7 @@
 
 import { Component } from '@angular/core'
 import { CommonService } from 'src/services/common'
+import { BaseThemeComponent } from '../../base-theme.component'
 import { NgFor, NgIf } from '@angular/common';
 import { SearchEngineComponent } from '../../../components/search-engine/search-engine.component';
 import { NzRowDirective, NzColDirective } from 'ng-zorro-antd/grid';
@@ -25,10 +26,14 @@ import { FooterComponent } from '../../../components/footer/footer.component';
         FooterComponent,
     ],
 })
-export class WebpComponent {
+export class WebpComponent extends BaseThemeComponent {
+  protected readonly overTypeKey = null
+
   open: boolean = false
 
-  constructor(public commonService: CommonService) {}
+  constructor(commonService: CommonService) {
+    super(commonService)
+  }
 
   ngOnInit() {}
 

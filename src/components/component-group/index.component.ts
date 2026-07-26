@@ -49,10 +49,11 @@ export class ComponentGroupComponent {
         (c) => c.type === item.type && c.id === item.id
       )
       if (has) {
+        // 合并后判别式 type 保持 item 的取值，显式断言为原联合类型
         c.push({
           ...item,
           ...has,
-        })
+        } as IComponentProps)
       }
     })
     this.components = c
