@@ -51,3 +51,7 @@ _upload
 test.md
 data/collect.json
 /test-results
+
+# IDE / Agent 工具产物
+/.codegraph/
+/.qoder/
