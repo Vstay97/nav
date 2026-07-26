@@ -8,12 +8,12 @@ import { NzMessageService } from 'ng-zorro-antd/message'
 import { NzNotificationService } from 'ng-zorro-antd/notification'
 import { NzModalService } from 'ng-zorro-antd/modal'
 import { navStore } from 'src/store/nav.store'
+import { dialogService } from 'src/services/dialog'
 import { setAuthCode, getAuthCode } from 'src/utils/user'
 import { getUserCollect, delUserCollect, updateFileContent } from 'src/api'
 import { DB_PATH } from 'src/constants'
 import { isSelfDevelop } from 'src/utils/util'
 import { ITagProp } from 'src/types'
-import event from 'src/utils/mitt'
 
 @Component({
   selector: 'user-collect',
@@ -97,14 +97,14 @@ export default class CollectComponent {
     }
 
     try {
-      event.emit('CREATE_WEB', {
+      dialogService.openCreateWeb({
         detail: data,
         oneIndex,
         twoIndex,
         threeIndex,
         isMove: true,
       })
-      event.emit('SET_CREATE_WEB', {
+      dialogService.setCreateWeb({
         detail: null,
         callback() {
           that.handleDelete(idx)

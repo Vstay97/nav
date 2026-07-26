@@ -19,7 +19,6 @@ import { DB_PATH, STORAGE_KEY_MAP } from 'src/constants'
 import { Router, ActivatedRoute } from '@angular/router'
 import { $t, getLocale } from 'src/locale'
 import { addDark, removeDark } from 'src/utils/util'
-import mitt from 'src/utils/mitt'
 
 @Component({
   selector: 'app-fixbar',
@@ -144,7 +143,7 @@ export class FixbarComponent {
 
   toggleMode() {
     this.isDark = !this.isDark
-    mitt.emit('EVENT_DARK', this.isDark)
+    navStore.setDark(this.isDark)
     window.localStorage.setItem(
       STORAGE_KEY_MAP.isDark,
       String(Number(this.isDark))

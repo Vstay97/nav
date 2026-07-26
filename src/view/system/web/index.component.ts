@@ -17,7 +17,7 @@ import { DB_PATH, STORAGE_KEY_MAP } from 'src/constants'
 import { $t } from 'src/locale'
 import { saveAs } from 'file-saver'
 import { isSelfDevelop } from 'src/utils/util'
-import event from 'src/utils/mitt'
+import { dialogService } from 'src/services/dialog'
 import config from '../../../../nav.config.json'
 
 @Component({
@@ -338,7 +338,7 @@ export default class WebpComponent {
   }
 
   openMoveWebModal(data: any, index: number, level?: number) {
-    event.emit('MOVE_WEB', {
+    dialogService.openMoveWeb({
       indexs: [this.oneIndex, this.twoIndex, this.threeIndex, index],
       data: [data],
       level,
@@ -349,7 +349,7 @@ export default class WebpComponent {
     if (this.tabActive === 3 && !this.threeSelect) {
       return this.message.error($t('_sel3'))
     }
-    event.emit('CREATE_WEB', {
+    dialogService.openCreateWeb({
       oneIndex: this.oneIndex,
       twoIndex: this.twoIndex,
       threeIndex: this.threeIndex,
@@ -357,7 +357,7 @@ export default class WebpComponent {
   }
 
   openEditModal(detail: IWebProps) {
-    event.emit('CREATE_WEB', {
+    dialogService.openCreateWeb({
       detail,
     })
   }

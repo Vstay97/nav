@@ -8,8 +8,8 @@ import LZString from 'lz-string'
 import { encode } from 'js-base64'
 import navConfig from '../../nav.config.json'
 import http, { httpNav } from 'src/utils/http'
-import event from 'src/utils/mitt'
 import { navStore } from 'src/store/nav.store'
+import { notify } from 'src/services/notify'
 import { isLogin } from 'src/utils/user'
 import { $t } from 'src/locale'
 import { DB_PATH, STORAGE_KEY_MAP } from 'src/constants'
@@ -84,8 +84,7 @@ export class StaticGitProvider implements IDataProvider {
   async fetchInitialData(): Promise<void> {
     const finish = (dbData: any[]) => {
       navStore.setWebsiteList(dbData)
-      event.emit('WEB_FINISH')
-      window.__FINISHED__ = true
+      navStore.markReady()
     }
     const data = adapterWebsiteList(navStore.websiteList())
     if (!isLogin) {
@@ -113,7 +112,7 @@ export class StaticGitProvider implements IDataProvider {
       localforage.removeItem(STORAGE_KEY_MAP.website)
       finish(data)
       setTimeout(() => {
-        event.emit('NOTIFICATION', {
+        notify({
           type: 'success',
           title: $t('_buildSuccess'),
           content: navConfig.datetime,

@@ -2,10 +2,10 @@
 // Copyright @ 2018-present xiejiahe. All rights reserved.
 // See https://github.com/xjh22222228/nav
 
-import { Component, Input } from '@angular/core'
+import { Component, Input, effect } from '@angular/core'
 import { IComponentProps } from 'src/types'
+import { navStore } from 'src/store/nav.store'
 import dayjs from 'dayjs'
-import event from 'src/utils/mitt'
 
 @Component({
   selector: 'app-countdown',
@@ -16,15 +16,22 @@ export class CountdownComponent {
   @Input() data!: IComponentProps
   component: Record<string, any> = {}
 
-  constructor() {}
-
-  ngOnInit() {
-    this.init()
-    event.on('COMPONENT_OK', () => {
+  constructor() {
+    let first = true
+    effect(() => {
+      navStore.componentOkTick()
+      if (first) {
+        first = false
+        return
+      }
       setTimeout(() => {
         this.init()
       }, 100)
     })
+  }
+
+  ngOnInit() {
+    this.init()
   }
 
   init() {

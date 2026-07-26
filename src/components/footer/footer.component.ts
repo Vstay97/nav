@@ -4,8 +4,8 @@
 
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core'
 import { navStore } from 'src/store/nav.store'
+import { dialogService } from 'src/services/dialog'
 import { compilerTemplate } from 'src/utils/util'
-import event from 'src/utils/mitt'
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,7 +35,7 @@ export class FooterComponent {
   }
 
   handleApplyWeb() {
-    event.emit('CREATE_WEB')
+    dialogService.openCreateWeb()
   }
 
   ngAfterViewInit() {

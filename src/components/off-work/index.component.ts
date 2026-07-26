@@ -2,9 +2,9 @@
 // Copyright @ 2018-present xiejiahe. All rights reserved.
 // See https://github.com/xjh22222228/nav
 
-import { Component, Input } from '@angular/core'
+import { Component, Input, effect } from '@angular/core'
 import { IComponentProps } from 'src/types'
-import event from 'src/utils/mitt'
+import { navStore } from 'src/store/nav.store'
 
 @Component({
   selector: 'app-offwork',
@@ -23,16 +23,22 @@ export class OffWorkComponent {
       'visibilitychange',
       this.visibilitychange.bind(this)
     )
-  }
-
-  ngOnInit() {
-    this.init()
-    event.on('COMPONENT_OK', () => {
+    let first = true
+    effect(() => {
+      navStore.componentOkTick()
+      if (first) {
+        first = false
+        return
+      }
       clearTimeout(this.timer)
       setTimeout(() => {
         this.init()
       }, 100)
     })
+  }
+
+  ngOnInit() {
+    this.init()
   }
 
   ngOnDestroy() {

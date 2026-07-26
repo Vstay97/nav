@@ -2,7 +2,7 @@
 // Copyright @ 2018-present xiejiahe. All rights reserved.
 // See https://github.com/xjh22222228/nav
 
-import { Component } from '@angular/core'
+import { Component, effect } from '@angular/core'
 import { $t } from 'src/locale'
 import { FormBuilder, FormGroup } from '@angular/forms'
 import { NzMessageService } from 'ng-zorro-antd/message'
@@ -14,7 +14,6 @@ import { navStore } from 'src/store/nav.store'
 import { ISettings } from 'src/types'
 import { isSelfDevelop, compilerTemplate } from 'src/utils/util'
 import { componentTitleMap } from '../component/types'
-import event from 'src/utils/mitt'
 import footTemplate from 'src/components/footer/template'
 
 // 额外添加的字段，但不添加到配置中
@@ -70,10 +69,13 @@ export default class SystemSettingComponent {
     }
     this.validateForm = this.fb.group(groupPayload)
 
-    event.on('GITHUB_USER_INFO', (data: any) => {
-      this.validateForm
-        .get('email')!
-        .setValue(this.settings.email || data.email || '')
+    effect(() => {
+      const data = navStore.githubUserInfo()
+      if (data) {
+        this.validateForm
+          .get('email')!
+          .setValue(this.settings.email || data['email'] || '')
+      }
     })
   }
 

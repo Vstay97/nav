@@ -19,7 +19,6 @@ import { HTMLDrawerComponent } from 'src/components/html/drawer/index.component'
 import { HolidayDrawerComponent } from 'src/components/holiday/drawer/index.component'
 import { componentTitleMap } from './types'
 import { isSelfDevelop } from 'src/utils/util'
-import event from 'src/utils/mitt'
 
 @Component({
   selector: 'system-component',
@@ -105,7 +104,7 @@ export default class SystemComponentComponent {
       ...this.components[index],
       ...values,
     }
-    event.emit('COMPONENT_OK')
+    navStore.notifyComponentOk()
   }
 
   handleSubmit() {

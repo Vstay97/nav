@@ -16,11 +16,22 @@ import {
   internalProps,
   INavProps,
   IComponentProps,
+  IWebProps,
 } from 'src/types'
 import navConfig from '../../nav.config.json'
 
 // 与 src/utils/util.ts 的 isSelfDevelop 一致（此处内联以避免 store <-> utils 循环依赖）
 const isSelfDevelop = !!navConfig.address
+
+// 与 src/utils/index.ts 的 isDark() 一致（内联避免循环依赖；STORAGE_KEY_MAP.isDark = 'isDark'）
+function readIsDark(): boolean {
+  const storageVal = window.localStorage.getItem('isDark')
+  const darkMode = window?.matchMedia?.('(prefers-color-scheme: dark)')?.matches
+  if (!storageVal && darkMode) {
+    return darkMode
+  }
+  return Boolean(Number(storageVal))
+}
 
 /**
  * NavStore —— 全局状态的单一可信源（响应式）
@@ -65,6 +76,21 @@ class NavStore {
     }
     return map
   })
+
+  /** 应用数据是否已就绪（替代 WEB_FINISH 事件 / window.__FINISHED__） */
+  readonly ready = signal(false)
+
+  /** Shortcut 主题 Dock 栏数据（替代 DOCK_LIST 事件） */
+  readonly dockList = signal<IWebProps[]>([])
+
+  /** 暗黑模式状态（替代 EVENT_DARK 事件；初始值与 localStorage/系统偏好一致） */
+  readonly isDark = signal(readIsDark())
+
+  /** GitHub 用户信息（替代 GITHUB_USER_INFO 事件） */
+  readonly githubUserInfo = signal<Record<string, any> | null>(null)
+
+  /** 小组件配置保存后的刷新信号（替代 COMPONENT_OK 事件） */
+  readonly componentOkTick = signal(0)
 
   // ==================== actions ====================
 
@@ -118,6 +144,29 @@ class NavStore {
 
   setInternal(internal: internalProps) {
     this.internal.set({ ...internal })
+  }
+
+  /** 标记应用数据就绪（同时保留 window.__FINISHED__ 供外部探针使用） */
+  markReady() {
+    this.ready.set(true)
+    window.__FINISHED__ = true
+  }
+
+  setDockList(list: IWebProps[]) {
+    this.dockList.set([...list])
+  }
+
+  setDark(isDark: boolean) {
+    this.isDark.set(isDark)
+  }
+
+  setGithubUserInfo(info: Record<string, any> | null) {
+    this.githubUserInfo.set(info)
+  }
+
+  /** 通知各小组件：配置已保存，请重新初始化 */
+  notifyComponentOk() {
+    this.componentOkTick.update((n) => n + 1)
   }
 
   /** 自有部署拉取全量内容（替代 getContentes 中的 splice/push/逐键赋值） */

@@ -2,12 +2,11 @@
 // Copyright @ 2018-present xiejiahe. All rights reserved.
 
 import { Component } from '@angular/core'
-import { isDark as isDarkFn, getDateTime, isMobile } from 'src/utils'
+import { getDateTime, isMobile } from 'src/utils'
 import { navStore } from 'src/store/nav.store'
 import { IWebProps, ISettings } from 'src/types'
 import { JumpService } from 'src/services/jump'
 import { $t } from 'src/locale'
-import event from 'src/utils/mitt'
 
 @Component({
   selector: 'app-shortcut',
@@ -17,7 +16,6 @@ import event from 'src/utils/mitt'
 export default class ShortcutComponent {
   $t = $t
   isMobile = isMobile()
-  isDark: boolean = isDarkFn()
   shortcutThemeImage =
     navStore.settings().shortcutThemeImages?.[0]?.['src']
   timer: any = null
@@ -27,7 +25,6 @@ export default class ShortcutComponent {
   minutes = ''
   seconds = ''
   dayText = ''
-  dockList: IWebProps[] = []
   iconSize: number = 0
   frameLoad = false
 
@@ -35,13 +32,15 @@ export default class ShortcutComponent {
     return navStore.settings()
   }
 
+  get isDark(): boolean {
+    return navStore.isDark()
+  }
+
+  get dockList(): IWebProps[] {
+    return navStore.dockList()
+  }
+
   constructor(public jumpService: JumpService) {
-    event.on('EVENT_DARK', (isDark: any) => {
-      this.isDark = isDark
-    })
-    event.on('DOCK_LIST', (dockList: any) => {
-      this.dockList = dockList
-    })
     this.getDateTime()
   }
 

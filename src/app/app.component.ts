@@ -15,8 +15,7 @@ import { NzMessageService } from 'ng-zorro-antd/message'
 import { NzNotificationService } from 'ng-zorro-antd/notification'
 import { isSelfDevelop } from 'src/utils/util'
 import { routes } from './app-routing.module'
-import Alert from './alert-event'
-import event from 'src/utils/mitt'
+import { registerNotifyServices } from 'src/services/notify'
 
 @Component({
   selector: 'app-xiejiahe',
@@ -34,7 +33,7 @@ export class AppComponent {
     private message: NzMessageService,
     private notification: NzNotificationService
   ) {
-    new Alert(message, notification)
+    registerNotifyServices(notification, message)
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -71,7 +70,7 @@ export class AppComponent {
           if (!navStore.settings().email && data.email) {
             navStore.patchSettings({ email: data.email })
           }
-          event.emit('GITHUB_USER_INFO', data)
+          navStore.setGithubUserInfo(data)
         })
         .catch(() => {
           userLogout()

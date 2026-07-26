@@ -13,7 +13,7 @@ import {
 import { INavThreeProp, INavProps, ISettings } from 'src/types'
 import { isLogin } from 'src/utils/user'
 import { navStore } from 'src/store/nav.store'
-import event from 'src/utils/mitt'
+import { dialogService } from 'src/services/dialog'
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,7 +41,7 @@ export class ToolbarTitleWebComponent implements OnInit {
   ngOnInit() {}
 
   openCreateWebModal() {
-    event.emit('CREATE_WEB', {
+    dialogService.openCreateWeb({
       threeIndex: this.index,
     })
   }

@@ -3,7 +3,6 @@
 // See https://github.com/xjh22222228/nav
 
 import http from 'src/utils/http'
-import event from 'src/utils/mitt'
 import { navStore } from 'src/store/nav.store'
 import { isLogin } from 'src/utils/user'
 import { DB_PATH } from 'src/constants'
@@ -36,8 +35,7 @@ export class SelfHostProvider implements IDataProvider {
 
   async fetchInitialData(): Promise<void> {
     await this.getContentes()
-    event.emit('WEB_FINISH')
-    window.__FINISHED__ = true
+    navStore.markReady()
   }
 
   saveWebsiteList(list: INavProps[]): Promise<any> {

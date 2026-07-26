@@ -2,7 +2,7 @@
 // Copyright @ 2018-present xiejiahe. All rights reserved.
 // See https://github.com/xjh22222228/nav
 
-import { Component, Input } from '@angular/core'
+import { Component, Input, effect } from '@angular/core'
 import { navStore } from 'src/store/nav.store'
 import { IWebProps, INavProps, TopType } from 'src/types'
 import { queryString, fuzzySearch, isMobile, getDefaultTheme } from 'src/utils'
@@ -10,7 +10,6 @@ import { isLogin } from 'src/utils/user'
 import { ActivatedRoute, Router } from '@angular/router'
 import { CommonService } from 'src/services/common'
 import { JumpService } from 'src/services/jump'
-import event from 'src/utils/mitt'
 
 let DEFAULT_WEBSITE: Array<IWebProps> = []
 
@@ -38,10 +37,13 @@ export class WebListComponent {
     public jumpService: JumpService,
     private activatedRoute: ActivatedRoute,
     public commonService: CommonService
-  ) {}
-
-  ngOnInit() {
-    const init = () => {
+  ) {
+    let inited = false
+    effect(() => {
+      if (!navStore.ready() || inited) {
+        return
+      }
+      inited = true
       this.getTopWeb()
       this.activatedRoute.queryParams.subscribe(() => {
         const { q } = queryString()
@@ -57,15 +59,10 @@ export class WebListComponent {
           this.dataList = DEFAULT_WEBSITE
         }
       })
-    }
-    if (window.__FINISHED__) {
-      init()
-    } else {
-      event.on('WEB_FINISH', () => {
-        init()
-      })
-    }
+    })
   }
+
+  ngOnInit() {}
 
   // 获取置顶WEB
   getTopWeb() {
@@ -112,7 +109,7 @@ export class WebListComponent {
     if (this.type === 'dock') {
       const dockCount = isMobile() ? 5 : this.dockCount
       dockList = this.dataList.slice(0, dockCount)
-      event.emit('DOCK_LIST', dockList)
+      navStore.setDockList(dockList)
       this.dataList = this.dataList.slice(dockCount)
     }
     DEFAULT_WEBSITE = this.dataList

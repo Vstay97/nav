@@ -6,7 +6,7 @@ import { Component } from '@angular/core'
 import { $t } from 'src/locale'
 import { CommonService } from 'src/services/common'
 import { JumpService } from 'src/services/jump'
-import event from 'src/utils/mitt'
+import { dialogService } from 'src/services/dialog'
 
 @Component({
   selector: 'app-side',
@@ -32,7 +32,7 @@ export default class SideComponent {
   }
 
   openCreateWebModal() {
-    event.emit('CREATE_WEB', {
+    dialogService.openCreateWeb({
       threeIndex: this.commonService.selectedIndex,
     })
   }

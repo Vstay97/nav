@@ -2,7 +2,7 @@
 // Copyright @ 2018-present xiejiahe. All rights reserved.
 // See https://github.com/xjh22222228/nav
 
-import { Component, Output, EventEmitter } from '@angular/core'
+import { Component, Output, EventEmitter, effect } from '@angular/core'
 import { queryString, getTextContent } from 'src/utils'
 import { setWebsiteList, updateByWeb } from 'src/utils/web'
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms'
@@ -11,8 +11,8 @@ import { NzMessageService } from 'ng-zorro-antd/message'
 import { saveUserCollect, getWebInfo } from 'src/api'
 import { $t } from 'src/locale'
 import { navStore } from 'src/store/nav.store'
+import { dialogService } from 'src/services/dialog'
 import { isLogin } from 'src/utils/user'
-import event from 'src/utils/mitt'
 import { ISettings, ITagPropValues } from 'src/types'
 
 @Component({
@@ -49,13 +49,19 @@ export class CreateWebComponent {
   }
 
   constructor(private fb: FormBuilder, private message: NzMessageService) {
-    event.on('CREATE_WEB', (props: any) => {
-      this.open(this, props)
+    effect(() => {
+      const payload = dialogService.createWebPayload()
+      if (payload !== null) {
+        this.open(this, payload)
+      }
     })
-    event.on('SET_CREATE_WEB', (props: any) => {
-      for (const k in props) {
-        // @ts-ignore
-        this[k] = props[k]
+    effect(() => {
+      const props = dialogService.setCreateWebPayload()
+      if (props !== null) {
+        for (const k in props) {
+          // @ts-ignore
+          this[k] = props[k]
+        }
       }
     })
 
@@ -274,9 +280,9 @@ export class CreateWebComponent {
           setWebsiteList(websiteList)
           this.message.success($t('_addSuccess'))
           if (this.isMove) {
-            event.emit('MOVE_WEB', {
+            dialogService.openMoveWeb({
               indexs: [oneIndex, twoIndex, threeIndex, 0],
-              data: [payload],
+              data: [payload as IWebProps],
             })
           }
         } else if (this.settings.allowCollect) {

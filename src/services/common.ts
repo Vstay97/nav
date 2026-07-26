@@ -2,7 +2,7 @@
 // Copyright @ 2018-present xiejiahe. All rights reserved.
 // See https://github.com/xjh22222228/nav
 
-import { Injectable } from '@angular/core'
+import { Injectable, effect } from '@angular/core'
 import { Router, ActivatedRoute } from '@angular/router'
 import { navStore } from 'src/store/nav.store'
 import {
@@ -15,7 +15,6 @@ import { setWebsiteList, toggleCollapseAll } from 'src/utils/web'
 import { dataProvider } from 'src/providers'
 import { INavProps, INavThreeProp, ISettings } from 'src/types'
 import { isLogin } from 'src/utils/user'
-import event from 'src/utils/mitt'
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +30,12 @@ export class CommonService {
   overIndex = Number.MAX_SAFE_INTEGER
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {
-    const init = () => {
+    let inited = false
+    effect(() => {
+      if (!navStore.ready() || inited) {
+        return
+      }
+      inited = true
       this.activatedRoute.queryParams.subscribe(() => {
         const { id, page, q } = queryString()
         this.page = page
@@ -49,14 +53,7 @@ export class CommonService {
           this.sliceMax = Number.MAX_SAFE_INTEGER
         }, 100)
       })
-    }
-    if (window.__FINISHED__) {
-      init()
-    } else {
-      event.on('WEB_FINISH', () => {
-        init()
-      })
-    }
+    })
   }
 
   get settings(): ISettings {

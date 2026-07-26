@@ -2,13 +2,13 @@
 // Copyright @ 2018-present xiejiahe. All rights reserved.
 // See https://github.com/xjh22222228/nav
 
-import { Component } from '@angular/core'
+import { Component, effect } from '@angular/core'
 import { $t } from 'src/locale'
 import { setWebsiteList } from 'src/utils/web'
 import { navStore } from 'src/store/nav.store'
+import { dialogService } from 'src/services/dialog'
 import { INavProps, INavTwoProp, INavThreeProp, IWebProps } from '../../types'
 import { NzMessageService } from 'ng-zorro-antd/message'
-import event from 'src/utils/mitt'
 
 @Component({
   selector: 'app-move-web',
@@ -33,8 +33,11 @@ export class MoveWebComponent {
   }
 
   constructor(private message: NzMessageService) {
-    event.on('MOVE_WEB', (props: any) => {
-      this.open(this, props)
+    effect(() => {
+      const props = dialogService.moveWebPayload()
+      if (props !== null) {
+        this.open(this, props)
+      }
     })
   }
 
@@ -45,7 +48,7 @@ export class MoveWebComponent {
     props: {
       indexs: number[]
       data: IWebProps[]
-      level: number
+      level?: number
     }
   ) {
     ctx.oneSelect = undefined

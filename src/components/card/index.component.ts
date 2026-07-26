@@ -14,8 +14,8 @@ import { setWebsiteList, deleteByWeb } from 'src/utils/web'
 import { INavProps, IWebProps, ICardType, ISettings } from 'src/types'
 import { $t } from 'src/locale'
 import { navStore } from 'src/store/nav.store'
+import { dialogService } from 'src/services/dialog'
 import { JumpService } from 'src/services/jump'
-import event from 'src/utils/mitt'
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -67,8 +67,8 @@ export class CardComponent implements OnInit {
   }
 
   openEditWebMoal() {
-    event.emit('CREATE_WEB', {
-      detail: this.dataSource,
+    dialogService.openCreateWeb({
+      detail: this.dataSource as IWebProps,
     })
   }
 
@@ -86,9 +86,9 @@ export class CardComponent implements OnInit {
   }
 
   openMoveWebModal() {
-    event.emit('MOVE_WEB', {
+    dialogService.openMoveWeb({
       indexs: this.indexs,
-      data: [this.dataSource],
+      data: [this.dataSource as IWebProps],
     })
   }
 

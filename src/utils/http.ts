@@ -4,7 +4,7 @@
 import axios from 'axios'
 import NProgress from 'nprogress'
 import config from '../../nav.config.json'
-import event from './mitt'
+import { notify } from 'src/services/notify'
 import { navStore } from 'src/store/nav.store'
 import { getToken, getAuthCode } from '../utils/user'
 import { isLogin } from 'src/utils/user'
@@ -50,7 +50,7 @@ httpInstance.interceptors.response.use(
     const status =
       error.status || error.response?.data?.status || error.code || ''
     const errorMsg = error.response?.data?.message || error.message || ''
-    event.emit('NOTIFICATION', {
+    notify({
       type: 'error',
       title: 'Error：' + status,
       content: errorMsg,
@@ -101,7 +101,7 @@ httpNavInstance.interceptors.response.use(
     const status =
       error.status || error.response?.data?.status || error.code || ''
     const errorMsg = error.response?.data?.message || error.message || ''
-    event.emit('NOTIFICATION', {
+    notify({
       type: 'error',
       title: 'Error：' + status,
       content: errorMsg,
