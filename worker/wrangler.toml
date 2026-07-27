@@ -3,4 +3,4 @@ main = "src/index.ts"
 compatibility_date = "2026-07-20"
 
 [vars]
-ALLOWED_ORIGIN = "http://localhost:7001"
+ALLOWED_ORIGIN = "https://nav.vstay.dev"
