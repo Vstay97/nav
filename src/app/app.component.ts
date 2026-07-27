@@ -3,9 +3,15 @@
 // See https://github.com/xjh22222228/nav
 // Modified by Vstay97, 2026
 
-import { Component } from '@angular/core'
+import { Component, Renderer2 } from '@angular/core'
 import { Router, ActivatedRoute, NavigationEnd, RouterOutlet } from '@angular/router'
-import { queryString, setLocation, isMobile } from '../utils'
+import {
+  queryString,
+  setLocation,
+  isMobile,
+  computeFxClasses,
+  ensureEffectDefaults,
+} from '../utils'
 import { en_US, NzI18nService, zh_CN } from 'ng-zorro-antd/i18n'
 import { getLocale } from 'src/locale'
 import { navStore } from 'src/store/nav.store'
@@ -20,6 +26,7 @@ import { NzSpinComponent } from 'ng-zorro-antd/spin';
 import { IconGitComponent } from '../components/icon-git/icon-git.component';
 import { CreateWebComponent } from '../components/create-web/index.component';
 import { MoveWebComponent } from '../components/move-web/index.component';
+import { EffectsLayerComponent } from '../components/effects/effects-layer/index.component';
 
 @Component({
     selector: 'app-root',
@@ -33,26 +40,44 @@ import { MoveWebComponent } from '../components/move-web/index.component';
         RouterOutlet,
         CreateWebComponent,
         MoveWebComponent,
+        EffectsLayerComponent,
     ],
 })
 export class AppComponent {
   isLogin: boolean = isLogin
   fetchIng = true
+  fxAuroraVisible = false
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private i18n: NzI18nService,
     private message: NzMessageService,
-    private notification: NzNotificationService
+    private notification: NzNotificationService,
+    private renderer: Renderer2
   ) {
     registerNotifyServices(notification, message)
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.updateDocumentTitle()
+        this.applyFx()
       }
     })
+  }
+
+  /** 按当前设置与路由刷新 body 特效类与极光层显隐 */
+  private applyFx() {
+    const fx = computeFxClasses(navStore.settings(), this.router.url)
+    this.fxAuroraVisible = fx.aurora
+    const body = document.body
+    this.renderer[fx.aurora ? 'addClass' : 'removeClass'](body, 'fx-aurora')
+    this.renderer[fx.glass ? 'addClass' : 'removeClass'](body, 'fx-glass')
+    this.renderer[fx.tilt ? 'addClass' : 'removeClass'](body, 'fx-tilt')
+    if (fx.aurora) {
+      // 极光开启时清理 Light 主题遗留的随机渐变背景节点
+      document.getElementById('random-light-bg')?.remove()
+    }
   }
 
   updateDocumentTitle() {
@@ -96,6 +121,11 @@ export class AppComponent {
     const fetchPromise = dataProvider.fetchInitialData()
     fetchPromise.finally(() => {
       this.fetchIng = false
+      const patch = ensureEffectDefaults(navStore.settings())
+      if (patch) {
+        navStore.patchSettings(patch)
+      }
+      this.applyFx()
     })
   }
 

@@ -1,0 +1,10 @@
+// Copyright @ 2026-present Vstay97. All rights reserved.
+// 全局视觉效果覆盖样式（body.fx-glass / body.fx-tilt 作用域），由 Task 4/5 填充。
+
+// 极光开启时的页面底色（光斑的画布，避免默认白底穿帮）
+body.fx-aurora {
+  background-color: #eef0f8;
+}
+.dark-container body.fx-aurora {
+  background-color: #0b0b14;
+}

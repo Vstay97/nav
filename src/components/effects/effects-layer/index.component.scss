@@ -1,0 +1,89 @@
+// Copyright @ 2026-present Vstay97. All rights reserved.
+
+:host {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.fx-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  will-change: transform;
+}
+
+.fx-blob-1 {
+  width: 55vw;
+  height: 55vw;
+  top: -20vw;
+  left: -12vw;
+  background: #c4b5fd;
+  opacity: 0.7;
+  animation: fxFloat1 22s ease-in-out infinite alternate;
+}
+.fx-blob-2 {
+  width: 45vw;
+  height: 45vw;
+  bottom: -18vw;
+  right: -10vw;
+  background: #a5d8ff;
+  opacity: 0.7;
+  animation: fxFloat2 26s ease-in-out infinite alternate;
+}
+.fx-blob-3 {
+  width: 35vw;
+  height: 35vw;
+  top: 35%;
+  left: 45%;
+  background: #99f6e4;
+  opacity: 0.6;
+  animation: fxFloat3 30s ease-in-out infinite alternate;
+}
+.fx-blob-4 {
+  width: 25vw;
+  height: 25vw;
+  top: 55%;
+  left: 8%;
+  background: #fbcfe8;
+  opacity: 0.6;
+  animation: fxFloat2 24s ease-in-out infinite alternate-reverse;
+}
+
+// 暗色：浓郁色板（.dark-container 挂在 <html> 上）
+:host-context(.dark-container) {
+  .fx-blob-1 {
+    background: #6d28d9;
+    opacity: 0.55;
+  }
+  .fx-blob-2 {
+    background: #0369a1;
+    opacity: 0.5;
+  }
+  .fx-blob-3 {
+    background: #0f766e;
+    opacity: 0.4;
+  }
+  .fx-blob-4 {
+    background: #be185d;
+    opacity: 0.35;
+  }
+}
+
+@keyframes fxFloat1 {
+  to {
+    transform: translate(9vw, 6vh) scale(1.15);
+  }
+}
+@keyframes fxFloat2 {
+  to {
+    transform: translate(-7vw, -8vh) scale(1.1);
+  }
+}
+@keyframes fxFloat3 {
+  to {
+    transform: translate(-10vw, 5vh) scale(1.2);
+  }
+}
