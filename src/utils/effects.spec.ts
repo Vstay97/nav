@@ -7,14 +7,18 @@ const baseSettings = {
   effectAurora: true,
   effectGlass: true,
   effectCardMotion: true,
+  effectParallax: true,
+  effectCursorGlow: true,
 } as unknown as ISettings
 
 describe('computeFxClasses', () => {
-  it('主题路由：三类全开', () => {
+  it('主题路由：五类全开', () => {
     expect(computeFxClasses(baseSettings, '/side')).toEqual({
       aurora: true,
       glass: true,
       tilt: true,
+      parallax: true,
+      cursorGlow: true,
     })
   })
 
@@ -23,13 +27,17 @@ describe('computeFxClasses', () => {
     expect(r.aurora).toBeTrue()
     expect(r.glass).toBeTrue()
     expect(r.tilt).toBeTrue()
+    expect(r.parallax).toBeTrue()
+    expect(r.cursorGlow).toBeTrue()
   })
 
-  it('Shortcut 主题：豁免极光，保留玻璃与动效', () => {
+  it('Shortcut 主题：豁免极光，保留其余', () => {
     expect(computeFxClasses(baseSettings, '/shortcut')).toEqual({
       aurora: false,
       glass: true,
       tilt: true,
+      parallax: true,
+      cursorGlow: true,
     })
   })
 
@@ -38,6 +46,8 @@ describe('computeFxClasses', () => {
       aurora: false,
       glass: false,
       tilt: false,
+      parallax: false,
+      cursorGlow: false,
     })
   })
 
@@ -46,11 +56,15 @@ describe('computeFxClasses', () => {
       ...baseSettings,
       effectAurora: false,
       effectCardMotion: false,
+      effectParallax: false,
+      effectCursorGlow: false,
     } as unknown as ISettings
     expect(computeFxClasses(s, '/side')).toEqual({
       aurora: false,
       glass: true,
       tilt: false,
+      parallax: false,
+      cursorGlow: false,
     })
   })
 
@@ -65,14 +79,17 @@ describe('ensureEffectDefaults', () => {
       effectAurora: true,
       effectGlass: true,
       effectCardMotion: true,
+      effectParallax: true,
+      effectCursorGlow: true,
     })
   })
 
   it('部分缺失只补缺失项', () => {
-    const s = { effectGlass: false } as unknown as ISettings
+    const s = { effectGlass: false, effectParallax: false } as unknown as ISettings
     expect(ensureEffectDefaults(s)).toEqual({
       effectAurora: true,
       effectCardMotion: true,
+      effectCursorGlow: true,
     })
   })
 

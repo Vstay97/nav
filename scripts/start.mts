@@ -336,6 +336,8 @@ try {
   settings.effectAurora ??= true
   settings.effectGlass ??= true
   settings.effectCardMotion ??= true
+  settings.effectParallax ??= true
+  settings.effectCursorGlow ??= true
 
   settings.lightDocTitle ||= ''
   settings.lightCardStyle ||= 'standard'

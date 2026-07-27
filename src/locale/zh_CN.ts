@@ -144,8 +144,10 @@ const zhCN: Record<string, any> = {
   _effectAurora: '极光背景',
   _effectGlass: '玻璃拟态',
   _effectCardMotion: '卡片动效',
+  _effectParallax: '极光视差',
+  _effectCursorGlow: '光标光晕',
   _visualEffectsTip:
-    '卡片动效含 3D 倾斜、鼠标追光与入场浮现；Shortcut 主题保留壁纸，仅生效玻璃与动效；后台页面不生效',
+    '卡片动效含 3D 倾斜、鼠标追光与入场浮现；极光视差与光标光晕让大背景响应鼠标；Shortcut 主题保留壁纸，仅生效玻璃与动效；后台页面不生效',
   _backgroundImage: '图片',
   _engineUrl: '引擎地址',
   _actionSuccess: '操作成功',

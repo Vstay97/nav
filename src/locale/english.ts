@@ -147,8 +147,10 @@ const english: Record<string, any> = {
   _effectAurora: 'Aurora Background',
   _effectGlass: 'Glassmorphism',
   _effectCardMotion: 'Card Motion',
+  _effectParallax: 'Aurora Parallax',
+  _effectCursorGlow: 'Cursor Glow',
   _visualEffectsTip:
-    'Card motion includes 3D tilt, mouse spotlight and staggered entrance. Shortcut theme keeps its wallpaper (glass & motion only). Admin pages are unaffected.',
+    'Card motion includes 3D tilt, mouse spotlight and staggered entrance. Aurora parallax and cursor glow make the background respond to your mouse. Shortcut theme keeps its wallpaper (glass & motion only). Admin pages are unaffected.',
   _backgroundImage: 'Picture',
   _engineUrl: 'Engine URL',
   _actionSuccess: 'Succeeded',

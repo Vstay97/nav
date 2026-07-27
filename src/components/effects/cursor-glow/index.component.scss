@@ -1,0 +1,42 @@
+// Copyright @ 2026-present Vstay97. All rights reserved.
+
+:host {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 600px;
+  height: 600px;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  will-change: transform;
+}
+
+:host(.visible) {
+  opacity: 1;
+}
+
+.glow {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(124, 108, 255, 0.28) 0%,
+    rgba(77, 208, 255, 0.12) 40%,
+    transparent 70%
+  );
+}
+
+// 暗色：光晕更亮一些
+:host-context(.dark-container) {
+  .glow {
+    background: radial-gradient(
+      circle,
+      rgba(139, 123, 255, 0.35) 0%,
+      rgba(94, 214, 255, 0.16) 40%,
+      transparent 70%
+    );
+  }
+}

@@ -8,9 +8,17 @@ export interface FxClasses {
   aurora: boolean
   glass: boolean
   tilt: boolean
+  parallax: boolean
+  cursorGlow: boolean
 }
 
-const OFF: FxClasses = { aurora: false, glass: false, tilt: false }
+const OFF: FxClasses = {
+  aurora: false,
+  glass: false,
+  tilt: false,
+  parallax: false,
+  cursorGlow: false,
+}
 
 /**
  * 计算当前页面应启用的特效 body 类。
@@ -27,6 +35,8 @@ export function computeFxClasses(settings: ISettings, url: string): FxClasses {
     aurora: settings.effectAurora !== false && themePath !== 'shortcut',
     glass: settings.effectGlass !== false,
     tilt: settings.effectCardMotion !== false,
+    parallax: settings.effectParallax !== false,
+    cursorGlow: settings.effectCursorGlow !== false,
   }
 }
 
@@ -38,5 +48,7 @@ export function ensureEffectDefaults(
   if (settings.effectAurora == null) patch.effectAurora = true
   if (settings.effectGlass == null) patch.effectGlass = true
   if (settings.effectCardMotion == null) patch.effectCardMotion = true
+  if (settings.effectParallax == null) patch.effectParallax = true
+  if (settings.effectCursorGlow == null) patch.effectCursorGlow = true
   return Object.keys(patch).length ? patch : null
 }

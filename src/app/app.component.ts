@@ -27,6 +27,7 @@ import { IconGitComponent } from '../components/icon-git/icon-git.component';
 import { CreateWebComponent } from '../components/create-web/index.component';
 import { MoveWebComponent } from '../components/move-web/index.component';
 import { EffectsLayerComponent } from '../components/effects/effects-layer/index.component';
+import { CursorGlowComponent } from '../components/effects/cursor-glow/index.component';
 
 @Component({
     selector: 'app-root',
@@ -41,12 +42,14 @@ import { EffectsLayerComponent } from '../components/effects/effects-layer/index
         CreateWebComponent,
         MoveWebComponent,
         EffectsLayerComponent,
+        CursorGlowComponent,
     ],
 })
 export class AppComponent {
   isLogin: boolean = isLogin
   fetchIng = true
   fxAuroraVisible = false
+  fxCursorGlowVisible = false
 
   constructor(
     private router: Router,
@@ -66,14 +69,20 @@ export class AppComponent {
     })
   }
 
-  /** 按当前设置与路由刷新 body 特效类与极光层显隐 */
+  /** 按当前设置与路由刷新 body 特效类与极光层/光晕显隐 */
   private applyFx() {
     const fx = computeFxClasses(navStore.settings(), this.router.url)
     this.fxAuroraVisible = fx.aurora
+    this.fxCursorGlowVisible = fx.cursorGlow
     const body = document.body
     this.renderer[fx.aurora ? 'addClass' : 'removeClass'](body, 'fx-aurora')
     this.renderer[fx.glass ? 'addClass' : 'removeClass'](body, 'fx-glass')
     this.renderer[fx.tilt ? 'addClass' : 'removeClass'](body, 'fx-tilt')
+    this.renderer[fx.parallax ? 'addClass' : 'removeClass'](body, 'fx-parallax')
+    this.renderer[fx.cursorGlow ? 'addClass' : 'removeClass'](
+      body,
+      'fx-cursor-glow'
+    )
     if (fx.aurora) {
       // 极光开启时清理 Light 主题遗留的随机渐变背景节点
       document.getElementById('random-light-bg')?.remove()

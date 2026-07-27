@@ -284,6 +284,10 @@ export interface IBaseSettings {
   effectGlass: boolean
   /** 视觉效果：卡片动效（3D 倾斜 + 鼠标追光 + 入场浮现） */
   effectCardMotion: boolean
+  /** 视觉效果：极光视差（极光层随鼠标轻微偏移） */
+  effectParallax: boolean
+  /** 视觉效果：全局光标光晕（柔光斑跟随鼠标扫过背景） */
+  effectCursorGlow: boolean
 
   components: IComponentProps[]
 
