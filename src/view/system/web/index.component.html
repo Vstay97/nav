@@ -64,17 +64,15 @@
       </button>
 
       <app-category-table
-    [data]="threeTableData"
+    [data]="websiteList"
     [checkedIds]="setOfCheckedId"
     [checkedAll]="checkedAll"
-    (allChecked)="onAllChecked($event, 3)"
+    (allChecked)="onAllChecked($event, 1)"
     (itemChecked)="onItemChecked($event.id, $event.checked)"
-    (moveUp)="webService.moveItem([oneIndex, twoIndex], $event, -1)"
-    (moveDown)="webService.moveItem([oneIndex, twoIndex], $event, 1)"
+    (moveUp)="webService.moveItem([], $event, -1)"
+    (moveDown)="webService.moveItem([], $event, 1)"
     (edit)="formModal.openEdit($event.data, $event.idx)"
-    [showMove]="true"
-    (move)="openMoveWebModal($event.data, $event.idx, 3)"
-    (delete)="webService.deleteCategoryAt([oneIndex, twoIndex], $event)"
+    (delete)="webService.deleteCategoryAt([], $event)"
   />
     </nz-tab>
 
@@ -183,15 +181,17 @@
       </button>
 
       <app-category-table
-    [data]="websiteList"
+    [data]="threeTableData"
     [checkedIds]="setOfCheckedId"
     [checkedAll]="checkedAll"
-    (allChecked)="onAllChecked($event, 1)"
+    (allChecked)="onAllChecked($event, 3)"
     (itemChecked)="onItemChecked($event.id, $event.checked)"
-    (moveUp)="webService.moveItem([], $event, -1)"
-    (moveDown)="webService.moveItem([], $event, 1)"
+    (moveUp)="webService.moveItem([oneIndex, twoIndex], $event, -1)"
+    (moveDown)="webService.moveItem([oneIndex, twoIndex], $event, 1)"
     (edit)="formModal.openEdit($event.data, $event.idx)"
-    (delete)="webService.deleteCategoryAt([], $event)"
+    [showMove]="true"
+    (move)="openMoveWebModal($event.data, $event.idx, 3)"
+    (delete)="webService.deleteCategoryAt([oneIndex, twoIndex], $event)"
   />
     </nz-tab>
 

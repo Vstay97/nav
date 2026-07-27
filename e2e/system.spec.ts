@@ -32,9 +32,9 @@ test.describe('系统管理后台', () => {
       await page.goto(`/system/${path}`)
       await waitAppReady(page)
 
-      // 等待页内容实际渲染（登录态有清缓存等异步流程，表格/表单出现才算就绪）
+      // 等待页内容实际渲染（登录态有清缓存等异步流程；排除 nz-table 的“暂无数据”占位行，避免捕获空态）
       await expect(
-        page.locator('.ant-table-tbody tr, form').first()
+        page.locator('.ant-table-tbody tr:not(.ant-table-placeholder), form').first()
       ).toBeVisible()
       await stabilize(page)
       await dismissNotifications(page)
