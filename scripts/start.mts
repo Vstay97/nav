@@ -37,6 +37,7 @@ const configJson = {
   imageRepoUrl: config.imageRepoUrl,
   branch: config.branch,
   hashMode: config.hashMode,
+  workerUrl: config.workerUrl || '',
   email: config.email,
   datetime: dayjs.tz().format('YYYY-MM-DD HH:mm'),
 }

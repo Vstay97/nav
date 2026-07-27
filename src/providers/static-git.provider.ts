@@ -222,8 +222,21 @@ export class StaticGitProvider implements IDataProvider {
     return http.post(url, params)
   }
 
-  /** 站点信息抓取（后续接入 Cloudflare Worker；当前静默返回空，前端手动填写兜底） */
-  async getWebInfo(_url: string): Promise<Record<string, any>> {
-    return {}
+  /** 抓取目标网站的图标/标题/描述（经 Cloudflare Worker 代理；未配置 workerUrl 时静默返回空） */
+  async getWebInfo(url: string): Promise<Record<string, any>> {
+    if (!navConfig.workerUrl) {
+      return {}
+    }
+    try {
+      const res = await fetch(
+        `${navConfig.workerUrl}/webinfo?url=${encodeURIComponent(url)}`
+      )
+      if (!res.ok) {
+        return {}
+      }
+      return await res.json()
+    } catch {
+      return {}
+    }
   }
 }
