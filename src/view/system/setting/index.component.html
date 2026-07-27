@@ -326,6 +326,24 @@
     </nz-form-control>
   </nz-form-item>
 
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" [nzNoColon]="true">{{
+      $t('_visualEffects')
+    }}</nz-form-label>
+    <nz-form-control [nzSpan]="20">
+      <label nz-checkbox formControlName="effectAurora">{{
+        $t('_effectAurora')
+      }}</label>
+      <label nz-checkbox formControlName="effectGlass">{{
+        $t('_effectGlass')
+      }}</label>
+      <label nz-checkbox formControlName="effectCardMotion">{{
+        $t('_effectCardMotion')
+      }}</label>
+      <div class="mt-2.5 dark-text">{{ $t('_visualEffectsTip') }}</div>
+    </nz-form-control>
+  </nz-form-item>
+
   <div class="divider"></div>
 
   <nz-tabset [nzSelectedIndex]="tabActive">
