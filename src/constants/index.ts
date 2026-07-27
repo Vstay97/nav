@@ -1,6 +1,7 @@
 // 开源项目，未经作者同意，不得以抄袭/复制代码/修改源代码版权信息。
 // Copyright @ 2018-present xiejiahe. All rights reserved.
 // See https://github.com/xjh22222228/nav
+// Modified by Vstay97, 2026
 import navConfig from '../../nav.config.json'
 
 export const DB_PATH = 'data/db.json'
@@ -24,7 +25,6 @@ export const STORAGE_KEY_MAP = {
   engine: 'engine',
   language: 'language',
   total: 'total',
-  authCode: 'AUTH_CODE',
   sideCollapsed: 'SIDE_COLLAPSED',
   fixbarOpen: 'FIXBAR_OPEN',
 }

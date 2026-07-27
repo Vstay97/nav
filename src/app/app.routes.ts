@@ -44,13 +44,6 @@ export const routes: Routes = [
           ),
       },
       {
-        path: 'vip',
-        loadComponent: () =>
-          import('../view/system/vip-auth/index.component').then(
-            (m) => m.VipAuthComponent
-          ),
-      },
-      {
         path: 'tag',
         loadComponent: () =>
           import('../view/system/tag/index.component').then(

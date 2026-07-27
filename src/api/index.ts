@@ -3,7 +3,6 @@
 // Modified by Vstay97, 2026
 
 import config from '../../nav.config.json'
-import { httpNav } from '../utils/http'
 import { navStore } from 'src/store/nav.store'
 import { dataProvider } from 'src/providers'
 import type { IUpdateFileParams } from 'src/providers'
@@ -47,24 +46,6 @@ export function createFile(params: Iupdate) {
 
 export async function getWebInfo(url: string) {
   return dataProvider.getWebInfo(url)
-}
-
-export async function bookmarksExport(data: any) {
-  return httpNav.post('/api/export', data, {
-    timeout: 0,
-  })
-}
-
-export async function getIconBase64(data: any) {
-  return httpNav.post('/api/base64', data, { timeout: 20000 })
-}
-
-export async function getUserInfo(data?: Record<string, any>) {
-  return httpNav.post('/api/info/get', data)
-}
-
-export async function updateUserInfo(data?: Record<string, any>) {
-  return httpNav.post('/api/info/update', data)
 }
 
 export function getCDN(path: string) {

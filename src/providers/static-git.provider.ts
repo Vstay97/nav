@@ -8,7 +8,7 @@ import qs from 'qs'
 import LZString from 'lz-string'
 import { encode } from 'js-base64'
 import navConfig from '../../nav.config.json'
-import http, { httpNav } from 'src/utils/http'
+import http from 'src/utils/http'
 import { navStore } from 'src/store/nav.store'
 import { notify } from 'src/services/notify'
 import { isLogin } from 'src/utils/user'
@@ -102,7 +102,6 @@ export class StaticGitProvider implements IDataProvider {
       const whiteList = [
         STORAGE_KEY_MAP.token,
         STORAGE_KEY_MAP.isDark,
-        STORAGE_KEY_MAP.authCode,
       ]
       const len = window.localStorage.length
       for (let i = 0; i < len; i++) {
@@ -232,14 +231,8 @@ export class StaticGitProvider implements IDataProvider {
       .then((res) => res)
   }
 
-  async getWebInfo(url: string): Promise<Record<string, any>> {
-    try {
-      const res = await httpNav.post('/api/icon', { url })
-      return {
-        ...res.data,
-      }
-    } catch {
-      return {}
-    }
+  /** 站点信息抓取（后续接入 Cloudflare Worker；当前静默返回空，前端手动填写兜底） */
+  async getWebInfo(_url: string): Promise<Record<string, any>> {
+    return {}
   }
 }

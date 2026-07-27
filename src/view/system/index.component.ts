@@ -2,10 +2,11 @@
 // 开源项目，未经作者同意，不得以抄袭/复制代码/修改源代码版权信息。
 // Copyright @ 2018-present xiejiahe. All rights reserved.
 // See https://github.com/xjh22222228/nav
+// Modified by Vstay97, 2026
 
 import { Component } from '@angular/core'
 import { $t } from 'src/locale'
-import { isLogin, userLogout, getAuthCode } from 'src/utils/user'
+import { isLogin, userLogout } from 'src/utils/user'
 import { Router, RouterOutlet } from '@angular/router'
 import { VERSION } from 'src/constants'
 import { isSelfDevelop, removeDark } from 'src/utils/util'
@@ -45,8 +46,6 @@ export class SystemComponent {
   currentMenu: string = ''
   date = document.getElementById('META-NAV')?.dataset?.['date'] || ''
   currentVersionSrc = `https://img.shields.io/badge/current-v${VERSION}-red.svg?longCache=true&style=flat-square`
-  isAuthz = !!getAuthCode()
-
   constructor(private router: Router) {
     // 解决暗黑模式部分样式不正确问题，后台没有暗黑
     removeDark()

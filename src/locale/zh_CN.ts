@@ -124,7 +124,6 @@ const zhCN: Record<string, any> = {
   _searchEngines: '搜索引擎',
   _bookmarkImport: '书签导入',
   _bookmarkExport: '书签导出',
-  _vipAuth: '绑定域名',
   _tagSettings: '标签设置',
   _websiteMang: '网站管理',
   _addRow: '新增一条',
@@ -184,9 +183,7 @@ const zhCN: Record<string, any> = {
   _sidebarImg: '侧栏图片板块',
   _sidebarTitle: '侧栏标题',
   _defTitle4: '默认网站标题, 建议4字以内',
-  _inputAuthCode: '请输入授权码',
   _pendingGet: '正在获取...',
-  _logoutAuthCode: '退出',
   _spiderRule: '爬取规则',
   _spiderTitle: '更新标题',
   _spiderIcon: '更新图标',
@@ -211,8 +208,6 @@ const zhCN: Record<string, any> = {
   _docTitle: '文档标题',
   _importEnter: `在浏览器输入 <a href="chrome://bookmarks/" target="_blank">chrome://bookmarks/</a> 找到导出书签，导出 HTML 文件点击下面导入`,
   _buildSuccess: '构建成功',
-  _bindDomain:
-    '绑定域名，多个以逗号分隔，不要带协议如：example.com,xjh22222228.github.io',
   _clickExport: '点我导出',
   _weeks: [
     '星期日',

@@ -1,11 +1,12 @@
 // 开源项目，未经作者同意，不得以抄袭/复制代码/修改源代码版权信息。
 // Copyright @ 2018-present xiejiahe. All rights reserved.
 // See https://github.com/xjh22222228/nav
+// Modified by Vstay97, 2026
 
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { NzMessageService } from 'ng-zorro-antd/message'
-import { verifyToken, updateFileContent, createBranch } from 'src/api'
-import { setToken, removeToken, removeWebsite } from 'src/utils/user'
+import { verifyToken, createBranch } from 'src/api'
+import { setToken, removeWebsite } from 'src/utils/user'
 import { $t } from 'src/locale'
 import { isSelfDevelop } from 'src/utils/util'
 import { NzModalComponent, NzModalContentDirective } from 'ng-zorro-antd/modal';
@@ -70,23 +71,12 @@ export class LoginComponent implements OnInit {
     verifyToken(token)
       .then(() => {
         setToken(token)
-        updateFileContent({
-          message: 'auth',
-          path: '.navauth',
-          content: 'OK',
+        createBranch('image').finally(() => {
+          this.message.success($t('_tokenVerSuc'))
+          removeWebsite().finally(() => {
+            window.location.reload()
+          })
         })
-          .then(() => {
-            createBranch('image').finally(() => {
-              this.message.success($t('_tokenVerSuc'))
-              removeWebsite().finally(() => {
-                window.location.reload()
-              })
-            })
-          })
-          .catch(() => {
-            removeToken()
-            this.submiting = false
-          })
       })
       .catch(() => {
         this.submiting = false
