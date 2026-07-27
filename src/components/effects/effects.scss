@@ -9,6 +9,25 @@ body.fx-aurora {
   background-color: #0b0b14;
 }
 
+// 极光开启时，将各主题的页面级不透明容器背景透明化，
+// 让极光作为整站「大背景」透出（这些容器无 .dark-bg 类，玻璃覆盖不到）。
+// 可读性由内部已玻璃化的卡片/菜单/侧栏保证。
+body.fx-aurora {
+  // Side（ng-zorro 布局）
+  .ant-layout,
+  .ant-layout-sider,
+  .sider-compnent,
+  .inner-layout,
+  // Sim 全屏背景层
+  .sim-bg,
+  // Super 根容器
+  .super-xjh,
+  // App（移动端）根容器
+  .app-page {
+    background: transparent !important;
+  }
+}
+
 // ============ 玻璃拟态（结构性容器） ============
 // 覆盖目标：使用 .dark-bg 的页面骨架容器（卡片、侧栏、顶栏、搜索框等）
 // 特异性说明：.dark-container body.fx-glass .dark-bg (0,3,1) >
