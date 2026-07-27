@@ -1,8 +1,8 @@
 {
   "name": "nav",
   "version": "8.12.0",
-  "author": "xiejiahe",
-  "homepage": "https://github.com/xjh22222228/nav",
+  "author": "Vstay97",
+  "homepage": "https://github.com/Vstay97/nav",
   "scripts": {
     "start": "npm run build-start && ng serve --port=7001",
     "build-start": "tsx ./scripts/start.mts",
@@ -13,7 +13,6 @@
     "test:watch": "ng test",
     "test:e2e": "playwright test",
     "test:e2e:update": "playwright test --update-snapshots",
-    "update": "git pull && (git remote add upstream https://gitee.com/xiejiahe/nav.git || true) && git fetch upstream main && git merge upstream/main --allow-unrelated-histories --no-edit && git push",
     "pull": "git pull"
   },
   "private": true,

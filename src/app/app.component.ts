@@ -22,7 +22,7 @@ import { CreateWebComponent } from '../components/create-web/index.component';
 import { MoveWebComponent } from '../components/move-web/index.component';
 
 @Component({
-    selector: 'app-xiejiahe',
+    selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
     standalone: true,

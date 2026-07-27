@@ -118,9 +118,9 @@ try {
   const image = {
     type: 4,
     id: -4,
-    url: 'https://gcore.jsdelivr.net/gh/xjh22222228/public@gh-pages/nav/component1.jpg',
+    url: '',
     go: '',
-    text: '只有认可，才能强大',
+    text: '',
   }
   if (idx >= 0) {
     components[idx] = {
@@ -138,7 +138,7 @@ try {
     id: -5,
     topColor: 'linear-gradient(90deg, #FAD961 0%, #F76B1C 100%)',
     bgColor: 'rgb(235,129,124)',
-    url: 'https://gcore.jsdelivr.net/gh/xjh22222228/public@gh-pages/nav/component2.jpg',
+    url: '',
     title: '距离春节还有',
     dateColor: '#fff',
     dayColor: '#fff',
@@ -205,7 +205,7 @@ try {
     search = [
       {
         name: '站内',
-        icon: 'https://gcore.jsdelivr.net/gh/xjh22222228/public@gh-pages/nav/logo.svg',
+        icon: 'assets/img/bookmark.svg',
         placeholder: '站内搜索',
         blocked: false,
         isInner: true,
@@ -213,7 +213,7 @@ try {
       {
         name: '百度',
         url: 'https://www.baidu.com/s?wd=',
-        icon: 'https://gcore.jsdelivr.net/gh/xjh22222228/nav-image@image/baidu.svg',
+        icon: 'https://www.baidu.com/favicon.ico',
         placeholder: '百度一下',
         blocked: false,
         isInner: false,
@@ -221,21 +221,21 @@ try {
       {
         name: 'Google',
         url: 'https://www.google.com/search?q=',
-        icon: 'https://gcore.jsdelivr.net/gh/xjh22222228/nav-image@image/google.svg',
+        icon: 'https://www.google.com/favicon.ico',
         blocked: false,
         isInner: false,
       },
       {
         name: '必应',
         url: 'https://cn.bing.com/search?q=',
-        icon: 'https://gcore.jsdelivr.net/gh/xjh22222228/nav-image@image/bing.svg',
+        icon: 'https://cn.bing.com/favicon.ico',
         blocked: false,
         isInner: false,
       },
       {
         name: 'GitHub',
         url: 'https://github.com/search?q=',
-        icon: 'https://gcore.jsdelivr.net/gh/xjh22222228/nav-image@image/github.svg',
+        icon: 'https://github.com/favicon.ico',
         placeholder: 'Search GitHub',
         blocked: false,
         isInner: false,
@@ -243,14 +243,14 @@ try {
       {
         name: '知乎',
         url: 'https://www.zhihu.com/search?type=content&q=',
-        icon: 'https://gcore.jsdelivr.net/gh/xjh22222228/nav-image@image/zhihu.svg',
+        icon: 'https://www.zhihu.com/favicon.ico',
         blocked: false,
         isInner: false,
       },
       {
         name: '豆瓣',
         url: 'https://search.douban.com/book/subject_search?search_text=',
-        icon: 'https://gcore.jsdelivr.net/gh/xjh22222228/nav-image@image/douban.svg',
+        icon: 'https://www.douban.com/favicon.ico',
         placeholder: '书名、作者、ISBN',
         blocked: false,
         isInner: false,
@@ -308,15 +308,7 @@ try {
 }
 
 {
-  const banner1 =
-    'https://gcore.jsdelivr.net/gh/xjh22222228/public@gh-pages/nav/banner1.jpg'
-  const banner2 =
-    'https://gcore.jsdelivr.net/gh/xjh22222228/public@gh-pages/nav/banner2.jpg'
-  const backgroundImg =
-    'https://gcore.jsdelivr.net/gh/xjh22222228/public@gh-pages/nav/background.jpg'
-
-  settings.favicon ??=
-    'https://gcore.jsdelivr.net/gh/xjh22222228/public@gh-pages/nav/logo.svg'
+  settings.favicon ??= 'assets/img/bookmark.svg'
   settings.language ||= 'zh-CN'
   settings.loading ??= 'random'
   settings.runtime ??= dayjs.tz().valueOf()
@@ -325,9 +317,9 @@ try {
   settings.showLanguage ??= true
   settings.showRate ??= true
   settings.openSearch ??= true
-  settings.title ??= '发现导航 - 精选实用导航网站'
-  settings.description ??= '发现导航是一个轻量级免费且强大的导航网站'
-  settings.keywords ??= '免费导航,开源导航'
+  settings.title ??= '我的导航'
+  settings.description ??= '我的个人导航网站'
+  settings.keywords ??= '个人导航'
   settings.theme ??= 'Light'
   settings.actionUrl ??= ''
   settings.appTheme ??= 'App'
@@ -345,16 +337,7 @@ try {
   settings.lightCardStyle ||= 'standard'
   settings.lightOverType ||= 'overflow'
   settings.lightFooterHTML ||= ''
-  settings.simThemeImages ||= [
-    {
-      src: banner1,
-      url: '',
-    },
-    {
-      src: banner2,
-      url: '',
-    },
-  ]
+  settings.simThemeImages ||= []
   settings.simThemeDesc ??=
     '这里收录多达 <b>${total}</b> 个优质网站， 助您工作、学习和生活'
   settings.simCardStyle ||= 'original'
@@ -370,23 +353,13 @@ try {
 
   settings.superDocTitle ||= ''
   settings.superTitle ||= ''
-  const defImgs = [
-    {
-      src: 'https://gcore.jsdelivr.net/gh/xjh22222228/nav-image@image/nav-1717494364392-ad.jpg',
-      url: 'https://haokawx.lot-ml.com/Product/index/454266',
-    },
-    {
-      src: 'https://gcore.jsdelivr.net/gh/xjh22222228/public@gh-pages/img/10.png',
-      url: '',
-    },
-  ]
-  settings.superImages ??= defImgs
-  settings.lightImages ??= defImgs
+  settings.superImages ??= []
+  settings.lightImages ??= []
   if (!Array.isArray(settings.superImages)) {
-    settings.superImages = defImgs
+    settings.superImages = []
   }
   if (!Array.isArray(settings.lightImages)) {
-    settings.lightImages = defImgs
+    settings.lightImages = []
   }
   settings.sideTitle ||= ''
   settings.sideDocTitle ||= ''
@@ -395,26 +368,12 @@ try {
   settings.sideThemeHeight ??= 0
   settings.sideThemeAutoplay ??= true
   settings.sideCollapsed ??= false
-  settings.sideThemeImages ||= [
-    {
-      src: banner2,
-      url: '',
-    },
-    {
-      src: banner1,
-      url: '',
-    },
-  ]
+  settings.sideThemeImages ||= []
   settings.shortcutTitle ??= ''
   settings.shortcutDocTitle ||= ''
   settings.shortcutDockCount ??= 6
   settings.shortcutThemeShowWeather ??= true
-  settings.shortcutThemeImages ??= [
-    {
-      src: backgroundImg,
-      url: '',
-    },
-  ]
+  settings.shortcutThemeImages ??= []
   settings.checkUrl ??= false
   settings.spiderIcon ??= 'NO'
   settings.spiderDescription ??= 'NO'
