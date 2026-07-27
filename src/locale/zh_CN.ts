@@ -140,6 +140,12 @@ const zhCN: Record<string, any> = {
   _showWeather: '显示天气',
   _weatherTip: '目前只支持 "Shortcut" 主题',
   _theme: '主题',
+  _visualEffects: '视觉效果',
+  _effectAurora: '极光背景',
+  _effectGlass: '玻璃拟态',
+  _effectCardMotion: '卡片动效',
+  _visualEffectsTip:
+    '卡片动效含 3D 倾斜、鼠标追光与入场浮现；Shortcut 主题保留壁纸，仅生效玻璃与动效；后台页面不生效',
   _backgroundImage: '图片',
   _engineUrl: '引擎地址',
   _actionSuccess: '操作成功',

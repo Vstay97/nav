@@ -277,6 +277,14 @@ export interface IBaseSettings {
   loadingCode: string
   openSearch: boolean
   gitHubCDN: string
+
+  /** 视觉效果：极光背景（Shortcut 主题豁免） */
+  effectAurora: boolean
+  /** 视觉效果：玻璃拟态（结构性容器） */
+  effectGlass: boolean
+  /** 视觉效果：卡片动效（3D 倾斜 + 鼠标追光 + 入场浮现） */
+  effectCardMotion: boolean
+
   components: IComponentProps[]
 
   runtime: number

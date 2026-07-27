@@ -143,6 +143,12 @@ const english: Record<string, any> = {
   _showWeather: 'Show weather',
   _weatherTip: 'Currently only the "Shortcut" theme is supported',
   _theme: 'Theme',
+  _visualEffects: 'Visual Effects',
+  _effectAurora: 'Aurora Background',
+  _effectGlass: 'Glassmorphism',
+  _effectCardMotion: 'Card Motion',
+  _visualEffectsTip:
+    'Card motion includes 3D tilt, mouse spotlight and staggered entrance. Shortcut theme keeps its wallpaper (glass & motion only). Admin pages are unaffected.',
   _backgroundImage: 'Picture',
   _engineUrl: 'Engine URL',
   _actionSuccess: 'Succeeded',

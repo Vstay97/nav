@@ -333,6 +333,9 @@ try {
 </div>
 `.trim()
   settings.showThemeToggle ??= true
+  settings.effectAurora ??= true
+  settings.effectGlass ??= true
+  settings.effectCardMotion ??= true
 
   settings.lightDocTitle ||= ''
   settings.lightCardStyle ||= 'standard'
