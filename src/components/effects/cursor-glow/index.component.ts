@@ -20,8 +20,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CursorGlowComponent implements AfterViewInit, OnDestroy {
-  /** 缓动系数（越小拖尾感越柔和） */
-  private static readonly EASE = 0.12
+  /** 缓动系数（越大越跟手，越小拖尾感越重） */
+  private static readonly EASE = 0.45
 
   private rafId = 0
   private targetX = 0
@@ -48,8 +48,8 @@ export class CursorGlowComponent implements AfterViewInit, OnDestroy {
     const loop = () => {
       this.curX += (this.targetX - this.curX) * CursorGlowComponent.EASE
       this.curY += (this.targetY - this.curY) * CursorGlowComponent.EASE
-      // 光斑尺寸 600px，居中于光标
-      this.el.nativeElement.style.transform = `translate(${(this.curX - 300).toFixed(2)}px, ${(this.curY - 300).toFixed(2)}px)`
+      // 光斑尺寸 400px，居中于光标
+      this.el.nativeElement.style.transform = `translate(${(this.curX - 200).toFixed(2)}px, ${(this.curY - 200).toFixed(2)}px)`
       this.rafId = requestAnimationFrame(loop)
     }
     this.rafId = requestAnimationFrame(loop)
