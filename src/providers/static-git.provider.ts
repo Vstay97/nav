@@ -5,7 +5,6 @@
 
 import localforage from 'localforage'
 import qs from 'qs'
-import LZString from 'lz-string'
 import { encode } from 'js-base64'
 import navConfig from '../../nav.config.json'
 import http from 'src/utils/http'
@@ -13,7 +12,7 @@ import { navStore } from 'src/store/nav.store'
 import { notify } from 'src/services/notify'
 import { isLogin } from 'src/utils/user'
 import { $t } from 'src/locale'
-import { DB_PATH, STORAGE_KEY_MAP } from 'src/constants'
+import { STORAGE_KEY_MAP } from 'src/constants'
 import { INavProps, IWebProps } from 'src/types'
 import { requestActionUrl } from './utils'
 import type { IDataProvider, IUpdateFileParams } from './data-provider'
@@ -148,9 +147,6 @@ export class StaticGitProvider implements IDataProvider {
     isEncode = true,
   }: IUpdateFileParams): Promise<any> {
     const fileInfo = await getFileContent(path, branch)
-    if (path === DB_PATH) {
-      content = LZString.compressToBase64(content)
-    }
 
     return http
       .put(`/repos/${authorName}/${repoName}/contents/${path}`, {
