@@ -232,9 +232,6 @@ const english: Record<string, any> = {
   _buildSuccess: 'Build succeed',
   _bindDomain: `Bind domain names, multiple separated by commas, without including protocols such as "example.com,xjh22222228.github.io"`,
   _clickExport: 'Click on me to export',
-  _exportIcons: 'Simultaneously exporting website icons takes a long time',
-  _errorIcons: 'The following icons cannot be processed properly:',
-  _processing: 'Processing',
   _weeks: [
     'Sunday',
     'Monday',

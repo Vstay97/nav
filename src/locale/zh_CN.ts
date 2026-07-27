@@ -221,9 +221,6 @@ const zhCN: Record<string, any> = {
   _bindDomain:
     '绑定域名，多个以逗号分隔，不要带协议如：example.com,xjh22222228.github.io',
   _clickExport: '点我导出',
-  _exportIcons: '同时导出网站图标，耗时较久',
-  _errorIcons: '以下图标无法被正常处理：',
-  _processing: '正在处理',
   _weeks: [
     '星期日',
     '星期一',

@@ -1,6 +1,7 @@
 // 开源项目，未经作者同意，不得以抄袭/复制代码/修改源代码版权信息。
 // Copyright @ 2018-present xie.jiahe. All rights reserved.
 // See https://github.com/xjh22222228/nav
+// Modified by Vstay97, 2026
 
 import { INavProps } from '../types'
 import { navStore } from 'src/store/nav.store'
@@ -237,4 +238,54 @@ export function parseBookmark(htmlStr: string) {
   r(data, copyWebList)
 
   return copyWebList
+}
+
+function escapeHtml(str: unknown): string {
+  return String(str ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+}
+
+function toAddDate(createdAt: unknown): number {
+  const ms = Number(createdAt)
+  return Number.isFinite(ms) && ms > 0
+    ? Math.floor(ms / 1000)
+    : Math.floor(Date.now() / 1000)
+}
+
+/** 生成 Netscape Bookmark File 格式 HTML（结构与 parseBookmark 导入互逆） */
+export function generateBookmarkHtml(websiteList: INavProps[]): string {
+  const lines: string[] = [
+    '<!DOCTYPE NETSCAPE-Bookmark-file-1>',
+    '<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">',
+    '<TITLE>Bookmarks</TITLE>',
+    '<H1>Bookmarks</H1>',
+    '<DL><p>',
+  ]
+  for (const one of websiteList || []) {
+    lines.push(`    <DT><H3>${escapeHtml(one.title)}</H3>`)
+    lines.push('    <DL><p>')
+    for (const two of one.nav || []) {
+      lines.push(`        <DT><H3>${escapeHtml(two.title)}</H3>`)
+      lines.push('        <DL><p>')
+      for (const three of two.nav || []) {
+        lines.push(`            <DT><H3>${escapeHtml(three.title)}</H3>`)
+        lines.push('            <DL><p>')
+        for (const web of (three as any).nav || []) {
+          if (!web?.url) continue
+          const icon = web.icon ? ` ICON="${escapeHtml(web.icon)}"` : ''
+          lines.push(
+            `                <DT><A HREF="${escapeHtml(web.url)}" ADD_DATE="${toAddDate(web.createdAt)}"${icon}>${escapeHtml(web.name)}</A>`
+          )
+        }
+        lines.push('            </DL><p>')
+      }
+      lines.push('        </DL><p>')
+    }
+    lines.push('    </DL><p>')
+  }
+  lines.push('</DL><p>')
+  return lines.join('\n')
 }
