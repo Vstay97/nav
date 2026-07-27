@@ -41,3 +41,49 @@ body.fx-glass .shortcut .dock-box {
     background-color: rgba(13, 17, 23, 0.94) !important;
   }
 }
+
+// ============ 卡片动效：3D 悬浮 / 鼠标追光 / 入场浮现 ============
+body.fx-tilt {
+  app-card .card-container {
+    position: relative;
+    transform-style: preserve-3d;
+    transition:
+      transform 0.16s ease-out,
+      box-shadow 0.16s ease-out;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      background: radial-gradient(
+        220px circle at var(--mx, 50%) var(--my, 50%),
+        rgba(124, 108, 255, 0.22),
+        transparent 65%
+      );
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+
+  // 入场错落浮现（按列序阶梯延迟，前 8 张）
+  app-card {
+    animation: fx-rise 0.5s cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
+  }
+  @for $i from 2 through 8 {
+    .gutter-row:nth-child(#{$i}) app-card {
+      animation-delay: #{($i - 1) * 0.045}s;
+    }
+  }
+}
+
+@keyframes fx-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}

@@ -9,6 +9,7 @@
     <div
       class="card-container standard dark-border-color dark-bg"
       *ngSwitchCase="'standard'"
+      appTilt
     >
       <span
         nz-icon
@@ -124,6 +125,7 @@
       class="card-container example2 dark-bg dark-white dark-shadow"
       [class.noDesc]="!dataSource.desc"
       *ngSwitchCase="'example'"
+      appTilt
       (click)="jumpService.goUrl($event, dataSource.url)"
     >
       <span
@@ -168,6 +170,7 @@
     <div
       class="card-container original2 dark-bg dark-white dark-shadow"
       *ngSwitchCase="'original'"
+      appTilt
       (click)="jumpService.goUrl($event, dataSource.url)"
     >
       <span
@@ -212,6 +215,7 @@
     <div
       class="card-container retro2 ellipsis dark-bg dark-white dark-border-color dark-shadow dark-hover"
       *ngSwitchCase="'retro'"
+      appTilt
     >
       <div class="item-list">
         <div
@@ -250,6 +254,7 @@
     <div
       class="card-container column2 ellipsis dark-bg dark-white dark-border-color dark-shadow dark-hover"
       *ngSwitchDefault
+      appTilt
     >
       <span
         nz-icon

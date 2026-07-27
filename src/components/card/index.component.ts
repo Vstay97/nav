@@ -25,6 +25,7 @@ import { TagListComponent } from '../tag-list/index.component';
 import { NzTooltipDirective } from 'ng-zorro-antd/tooltip';
 import { NzPopconfirmDirective } from 'ng-zorro-antd/popconfirm';
 import { SafeHtmlPipe } from 'src/pipe/safeHtml.pipe';
+import { TiltDirective } from '../effects/tilt.directive';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -48,6 +49,7 @@ import { SafeHtmlPipe } from 'src/pipe/safeHtml.pipe';
         NzPopconfirmDirective,
         NgSwitchDefault,
         SafeHtmlPipe,
+        TiltDirective,
     ],
 })
 export class CardComponent implements OnInit {
