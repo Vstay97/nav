@@ -49,7 +49,6 @@ src/index.html
 nav.config.json
 _upload
 test.md
-data/collect.json
 /test-results
 
 # IDE / Agent 工具产物

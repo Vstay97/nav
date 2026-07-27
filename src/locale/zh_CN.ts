@@ -1,5 +1,5 @@
 // 开源项目，未经作者同意，不得以抄袭/复制代码/修改源代码版权信息。
-import { isSelfDevelop } from 'src/utils/util'
+// Modified by Vstay97, 2026
 
 const zhCN: Record<string, any> = {
   _loading: '加载中...',
@@ -40,20 +40,15 @@ const zhCN: Record<string, any> = {
   _prevDevTime: '上次构建时间',
   _unknow: '未知',
   _repeatOper: '请不要频繁操作',
-  _syncDataOut: isSelfDevelop ? '确定保存吗？' : '同步数据到远端',
+  _syncDataOut: '同步数据到远端',
   _confirmSync: '确定',
-  _confirmSyncTip: isSelfDevelop
-    ? ''
-    : '确定将所有数据同步到远端吗？（每次保存需要等待构建完成再进行下一次操作）',
-  _syncSuccessTip: isSelfDevelop
-    ? '同步成功'
-    : '同步成功, 大约需要5分钟构建时间',
+  _confirmSyncTip:
+    '确定将所有数据同步到远端吗？（每次保存需要等待构建完成再进行下一次操作）',
+  _syncSuccessTip: '同步成功, 大约需要5分钟构建时间',
   _error: '错误',
   _syncFailTip: '同步失败, 请重试',
   _inputToken: '请输入TOKEN',
-  _inputTokenMsg: isSelfDevelop
-    ? '请输入密码'
-    : '请在下方输入您的TOKEN进行登录校验',
+  _inputTokenMsg: '请在下方输入您的TOKEN进行登录校验',
   _getToken: '不知道Token如何获取？',
   _readDoc: '请先阅读我们的指南',
   _authLogin: '请授权登录',

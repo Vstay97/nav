@@ -1,6 +1,7 @@
 // 开源项目，未经作者同意，不得以抄袭/复制代码/修改源代码版权信息。
 // Copyright @ 2018-present x.iejiahe. All rights reserved.
 // See https://github.com/xjh22222228/nav
+// Modified by Vstay97, 2026
 
 import fs from 'fs'
 import path from 'path'
@@ -36,9 +37,7 @@ const configJson = {
   imageRepoUrl: config.imageRepoUrl,
   branch: config.branch,
   hashMode: config.hashMode,
-  address: config.address,
   email: config.email,
-  port: config.port,
   datetime: dayjs.tz().format('YYYY-MM-DD HH:mm'),
 }
 fs.writeFileSync(path.join('.', 'nav.config.json'), JSON.stringify(configJson))
@@ -332,7 +331,7 @@ try {
   settings.theme ??= 'Light'
   settings.actionUrl ??= ''
   settings.appTheme ??= 'App'
-  settings.openSEO ??= !configJson.address
+  settings.openSEO ??= true
   settings.headerContent ??= ''
   settings.footerContent ??= `
 <div class="dark-white">

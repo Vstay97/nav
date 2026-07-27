@@ -1,5 +1,5 @@
 // 开源项目，未经作者同意，不得以抄袭/复制代码/修改源代码版权信息。
-import { isSelfDevelop } from 'src/utils/util'
+// Modified by Vstay97, 2026
 
 const english: Record<string, any> = {
   _loading: 'Loading...',
@@ -40,22 +40,15 @@ const english: Record<string, any> = {
   _prevDevTime: 'Last build time',
   _unknow: 'Unknow',
   _repeatOper: 'Please do not operate frequently',
-  _syncDataOut: isSelfDevelop
-    ? 'Are you sure to save'
-    : 'Synchronize data to remote',
+  _syncDataOut: 'Synchronize data to remote',
   _confirmSync: 'OK',
-  _confirmSyncTip: isSelfDevelop
-    ? ''
-    : 'Are you sure to synchronize all data to the remote end?',
-  _syncSuccessTip: isSelfDevelop
-    ? 'OK'
-    : 'The synchronization is successful. It takes about 5 minutes to build',
+  _confirmSyncTip: 'Are you sure to synchronize all data to the remote end?',
+  _syncSuccessTip:
+    'The synchronization is successful. It takes about 5 minutes to build',
   _error: 'Error',
   _syncFailTip: 'Synchronization failed, please try again',
   _inputToken: 'Please enter token',
-  _inputTokenMsg: isSelfDevelop
-    ? 'Please input a password'
-    : 'Please enter your token below for login verification',
+  _inputTokenMsg: 'Please enter your token below for login verification',
   _getToken: `I don't know how to get the token?`,
   _readDoc: 'Please read our guide first',
   _authLogin: 'Please authorize login',

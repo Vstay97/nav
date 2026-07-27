@@ -1,10 +1,11 @@
 // 开源项目，未经作者同意，不得以抄袭/复制代码/修改源代码版权信息。
 // Copyright @ 2018-present xiejiahe. All rights reserved.
 // See https://github.com/xjh22222228/nav
+// Modified by Vstay97, 2026
 
 import { Component } from '@angular/core'
 import { Router, ActivatedRoute, NavigationEnd, RouterOutlet } from '@angular/router'
-import { queryString, setLocation, isMobile, getDefaultTheme } from '../utils'
+import { queryString, setLocation, isMobile } from '../utils'
 import { en_US, NzI18nService, zh_CN } from 'ng-zorro-antd/i18n'
 import { getLocale } from 'src/locale'
 import { navStore } from 'src/store/nav.store'
@@ -13,8 +14,6 @@ import { verifyToken } from 'src/api'
 import { getToken, userLogout, isLogin } from 'src/utils/user'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NzNotificationService } from 'ng-zorro-antd/notification'
-import { isSelfDevelop } from 'src/utils/util'
-import { routes } from './app.routes'
 import { registerNotifyServices } from 'src/services/notify'
 import { NgIf } from '@angular/common';
 import { NzSpinComponent } from 'ng-zorro-antd/spin';
@@ -95,28 +94,6 @@ export class AppComponent {
     }
 
     const fetchPromise = dataProvider.fetchInitialData()
-    if (isSelfDevelop) {
-      fetchPromise.then(() => {
-        // 处理默认主题
-        const currentRoutes = this.router.config
-        const defaultTheme = getDefaultTheme().toLowerCase()
-        const hasDefault = routes.find((item) => item.path === defaultTheme)
-        const isHome = this.router.url.split('?')[0] === '/'
-        if (hasDefault) {
-          this.router.resetConfig([
-            ...currentRoutes,
-            {
-              ...hasDefault,
-              path: '**',
-            },
-          ])
-        }
-        if (isHome) {
-          this.router.navigate([defaultTheme])
-        }
-        this.updateDocumentTitle()
-      })
-    }
     fetchPromise.finally(() => {
       this.fetchIng = false
     })

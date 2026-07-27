@@ -2,12 +2,12 @@
 // 开源项目，未经作者同意，不得以抄袭/复制代码/修改源代码版权信息。
 // Copyright @ 2018-present xiejiahe. All rights reserved.
 // See https://github.com/xjh22222228/nav
+// Modified by Vstay97, 2026
 
 import { Component } from '@angular/core'
 import { $t } from 'src/locale'
 import { getToken } from 'src/utils/user'
 import { VERSION } from 'src/constants'
-import { isSelfDevelop } from 'src/utils/util'
 import config from '../../../../nav.config.json'
 import { NgIf } from '@angular/common';
 
@@ -20,7 +20,6 @@ import { NgIf } from '@angular/common';
 })
 export class SystemInfoComponent {
   $t = $t
-  isSelfDevelop = isSelfDevelop
   token = getToken()
   config = config
   date = document.getElementById('META-NAV')?.dataset?.['date'] || $t('_unknow')

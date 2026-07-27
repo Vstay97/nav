@@ -4,7 +4,6 @@
 // Modified by Vstay97, 2026
 
 import { Routes } from '@angular/router'
-import { isSelfDevelop } from 'src/utils/util'
 import { getDefaultTheme } from 'src/utils'
 import { THEME_REGISTRY } from 'src/view/themes.registry'
 
@@ -86,19 +85,17 @@ export const routes: Routes = [
   },
 ]
 
-// 自有部署异步
-if (!isSelfDevelop) {
-  const defaultTheme = getDefaultTheme().toLowerCase()
-  const hasDefault = routes.find((item) => item.path === defaultTheme)
-  if (hasDefault) {
-    routes.push({
-      ...hasDefault,
-      path: '**',
-    })
-  } else {
-    routes.push({
-      path: '**',
-      redirectTo: '/' + defaultTheme,
-    })
-  }
+// 默认主题兜底
+const defaultTheme = getDefaultTheme().toLowerCase()
+const hasDefault = routes.find((item) => item.path === defaultTheme)
+if (hasDefault) {
+  routes.push({
+    ...hasDefault,
+    path: '**',
+  })
+} else {
+  routes.push({
+    path: '**',
+    redirectTo: '/' + defaultTheme,
+  })
 }

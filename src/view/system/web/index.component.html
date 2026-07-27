@@ -1,6 +1,5 @@
 <div class="admin">
   <button
-    *ngIf="!isSelfDevelop"
     nz-button
     nzType="primary"
     (click)="handleSync()"
@@ -9,7 +8,6 @@
     {{ $t('_save') }}
   </button>
   <button
-    *ngIf="!isSelfDevelop"
     nz-button
     style="margin: 0 15px 20px 15px"
     (click)="handleReset()"

@@ -8,7 +8,6 @@ import { NzMessageService } from 'ng-zorro-antd/message'
 import { verifyToken, createBranch } from 'src/api'
 import { setToken, removeWebsite } from 'src/utils/user'
 import { $t } from 'src/locale'
-import { isSelfDevelop } from 'src/utils/util'
 import { NzModalComponent, NzModalContentDirective } from 'ng-zorro-antd/modal';
 import { NzInputDirective } from 'ng-zorro-antd/input';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -33,7 +32,6 @@ export class LoginComponent implements OnInit {
   @Output() onCancel = new EventEmitter()
 
   $t = $t
-  isSelfDevelop = isSelfDevelop
   token = ''
   submiting = false
 

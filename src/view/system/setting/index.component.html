@@ -51,7 +51,7 @@
     </nz-form-control>
   </nz-form-item>
 
-  <nz-form-item *ngIf="!isSelfDevelop">
+  <nz-form-item>
     <nz-form-label [nzSpan]="4">{{ $t('_imageCDN') }}</nz-form-label>
     <nz-form-control [nzSpan]="10">
       <nz-select formControlName="gitHubCDN">
@@ -934,13 +934,13 @@
 
   <div class="divider"></div>
   <h2 class="title">{{ $t('_spiderRule') }}</h2>
-  <div class="mb-2.5" *ngIf="!isSelfDevelop">
+  <div class="mb-2.5">
     <b>{{ $t('_spiderTip') }}</b>
   </div>
   <div class="mb-2.5">
     <b>{{ $t('_spiderNetTip') }}</b>
   </div>
-  <div class="mb-2.5" *ngIf="!isSelfDevelop">
+  <div class="mb-2.5">
     <b>{{ $t('_spiderBuildTip') }}</b>
   </div>
 
@@ -1013,16 +1013,6 @@
       <p class="mt-2.5">{{ $t('_accessTimeoutTip') }}</p>
     </nz-form-control>
   </nz-form-item>
-
-  <button
-    *ngIf="isSelfDevelop"
-    nz-button
-    nzType="primary"
-    [nzLoading]="submitting"
-    (click)="handleSpider()"
-  >
-    点我爬取更新信息，先保存系统设置在点
-  </button>
 
   <div class="bottom-bar">
     <button

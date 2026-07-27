@@ -78,9 +78,9 @@ function getCommits() {
 }
 
 /**
- * 静态 Git 部署（Fork / GitHub Pages）数据提供者：
+ * 静态 Git 部署（Fork / Pages）数据提供者：
  * 数据存于 Git 仓库（db.json 等），本地经 localforage 缓存，
- * 收录/图标等走 api.nav3.cn。
+ * 图标抓取经 Cloudflare Worker（见 worker/ 目录）。
  */
 export class StaticGitProvider implements IDataProvider {
   readonly persistUiState = true
@@ -220,15 +220,6 @@ export class StaticGitProvider implements IDataProvider {
       params['ref'] = `refs/heads/${branch}`
     }
     return http.post(url, params)
-  }
-
-  /** 静态模式无爬虫服务（保留原行为：直接走 /api/spider 会 404，此处显式 no-op） */
-  spiderWeb(data?: any): Promise<any> {
-    return http
-      .post('/api/spider', data, {
-        timeout: 0,
-      })
-      .then((res) => res)
   }
 
   /** 站点信息抓取（后续接入 Cloudflare Worker；当前静默返回空，前端手动填写兜底） */

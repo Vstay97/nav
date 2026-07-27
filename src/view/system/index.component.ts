@@ -9,7 +9,7 @@ import { $t } from 'src/locale'
 import { isLogin, userLogout } from 'src/utils/user'
 import { Router, RouterOutlet } from '@angular/router'
 import { VERSION } from 'src/constants'
-import { isSelfDevelop, removeDark } from 'src/utils/util'
+import { removeDark } from 'src/utils/util'
 import { NgIf } from '@angular/common';
 import { NzLayoutComponent, NzSiderComponent, NzContentComponent } from 'ng-zorro-antd/layout';
 import { NzMenuDirective, NzSubMenuComponent, NzMenuItemComponent } from 'ng-zorro-antd/menu';
@@ -39,7 +39,6 @@ import { LoginComponent } from '../../components/login/login.component';
     ],
 })
 export class SystemComponent {
-  isSelfDevelop = isSelfDevelop
   $t = $t
   isLogin: boolean = isLogin
   showLoginModal: boolean = !isLogin

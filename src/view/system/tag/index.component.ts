@@ -1,6 +1,7 @@
 // 开源项目，未经作者同意，不得以抄袭/复制代码/修改源代码版权信息。
 // Copyright @ 2018-present xiejiahe. All rights reserved.
 // See https://github.com/xjh22222228/nav
+// Modified by Vstay97, 2026
 
 import { Component } from '@angular/core'
 import { $t } from 'src/locale'
@@ -10,7 +11,6 @@ import { ITagPropValues } from 'src/types'
 import { updateFileContent } from 'src/api'
 import { TAG_PATH } from 'src/constants'
 import { navStore } from 'src/store/nav.store'
-import { isSelfDevelop } from 'src/utils/util'
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzWaveDirective } from 'ng-zorro-antd/core/wave';
 import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
@@ -45,7 +45,6 @@ import { NzPopconfirmDirective } from 'ng-zorro-antd/popconfirm';
 })
 export class SystemTagComponent {
   $t = $t
-  isSelfDevelop = isSelfDevelop
   submitting: boolean = false
   incrementId =
     Math.max(...navStore.tagList().map((item) => Number(item.id))) + 1

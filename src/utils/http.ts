@@ -10,11 +10,9 @@ import { getToken } from '../utils/user'
 
 const httpInstance = axios.create({
   timeout: 60000 * 3,
-  baseURL:
-    config.address ||
-    (config.gitRepoUrl.includes('gitee.com')
-      ? 'https://gitee.com/api/v5'
-      : 'https://api.github.com'),
+  baseURL: config.gitRepoUrl.includes('gitee.com')
+    ? 'https://gitee.com/api/v5'
+    : 'https://api.github.com',
 })
 
 function startLoad() {

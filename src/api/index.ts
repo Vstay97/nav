@@ -24,11 +24,6 @@ export function verifyToken(token: string) {
   return dataProvider.verifyToken(token)
 }
 
-// 自有部署爬取信息
-export function spiderWeb(data?: any) {
-  return dataProvider.spiderWeb(data)
-}
-
 // 创建分支
 export function createBranch(branch: string) {
   return dataProvider.createBranch(branch)

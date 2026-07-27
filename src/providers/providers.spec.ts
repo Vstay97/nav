@@ -1,12 +1,11 @@
+// Copyright @ 2026-present Vstay97. All rights reserved.
 import localforage from 'localforage'
 import { StaticGitProvider } from './static-git.provider'
-import { SelfHostProvider } from './self-host.provider'
 import { dataProvider } from './index'
 import { STORAGE_KEY_MAP } from 'src/constants'
 
 describe('DataProvider 工厂', () => {
-  it('address 为空（静态模式）时选择 StaticGitProvider', () => {
-    // 当前 nav.config.yaml address 为空 → 静态模式
+  it('唯一模式：StaticGitProvider（静态 Git 部署）', () => {
     expect(dataProvider instanceof StaticGitProvider).toBe(true)
   })
 })
@@ -31,25 +30,5 @@ describe('StaticGitProvider', () => {
     const p = new StaticGitProvider()
     const res = await p.createBranch('image')
     expect(res).toBeUndefined()
-  })
-})
-
-describe('SelfHostProvider', () => {
-  it('persistUiState = false（折叠状态不写服务端）', () => {
-    const p = new SelfHostProvider()
-    expect(p.persistUiState).toBe(false)
-  })
-
-  it('createBranch 为 no-op（自有部署无 Git 分支概念）', async () => {
-    const p = new SelfHostProvider()
-    await expectAsync(p.createBranch('image')).toBeResolved()
-  })
-
-  it('未登录时 updateFileContent 直接 resolve（不发请求）', async () => {
-    const p = new SelfHostProvider()
-    // Karma 环境 localStorage 无 token → isLogin=false → no-op
-    await expectAsync(
-      p.updateFileContent({ content: '{}', path: 'data/db.json' })
-    ).toBeResolved()
   })
 })

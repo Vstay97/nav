@@ -18,7 +18,6 @@ import { CountdownDrawerComponent } from 'src/components/countdown/drawer/index.
 import { HTMLDrawerComponent } from 'src/components/html/drawer/index.component'
 import { HolidayDrawerComponent } from 'src/components/holiday/drawer/index.component'
 import { componentTitleMap } from './types'
-import { isSelfDevelop } from 'src/utils/util'
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzWaveDirective } from 'ng-zorro-antd/core/wave';
 import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
@@ -79,7 +78,6 @@ export class SystemComponentComponent {
   @ViewChild('holiday') holidayChild!: HolidayDrawerComponent
 
   $t = $t
-  isSelfDevelop = isSelfDevelop
   componentTitleMap = componentTitleMap
   ComponentType = ComponentType
   submitting: boolean = false

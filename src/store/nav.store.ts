@@ -1,6 +1,7 @@
 // 开源项目，未经作者同意，不得以抄袭/复制代码/修改源代码版权信息。
 // Copyright @ 2018-present xiejiahe. All rights reserved.
 // See https://github.com/xjh22222228/nav
+// Modified by Vstay97, 2026
 
 import { signal, computed } from '@angular/core'
 import dbJson from '../../data/db.json'
@@ -18,11 +19,6 @@ import {
   IComponentProps,
   IWebProps,
 } from 'src/types'
-import navConfig from '../../nav.config.json'
-
-// 与 src/utils/util.ts 的 isSelfDevelop 一致（此处内联以避免 store <-> utils 循环依赖）
-const isSelfDevelop = !!navConfig.address
-
 // 与 src/utils/index.ts 的 isDark() 一致（内联避免循环依赖；STORAGE_KEY_MAP.isDark = 'isDark'）
 function readIsDark(): boolean {
   const storageVal = window.localStorage.getItem('isDark')
@@ -48,23 +44,15 @@ function readIsDark(): boolean {
 class NavStore {
   readonly settings = signal<ISettings>(settingsJson as ISettings)
 
-  readonly searchEngineList = signal<ISearchEngineProps[]>(
-    isSelfDevelop ? [] : searchJson
-  )
+  readonly searchEngineList = signal<ISearchEngineProps[]>(searchJson)
 
-  readonly tagList = signal<Array<ITagPropValues>>(
-    isSelfDevelop ? [] : tagJson
-  )
+  readonly tagList = signal<Array<ITagPropValues>>(tagJson)
 
   readonly internal = signal<internalProps>(internalJson)
 
-  readonly websiteList = signal<INavProps[]>(
-    isSelfDevelop ? [] : (dbJson as INavProps[])
-  )
+  readonly websiteList = signal<INavProps[]>(dbJson as INavProps[])
 
-  readonly components = signal<IComponentProps[]>(
-    isSelfDevelop ? [] : componentJson
-  )
+  readonly components = signal<IComponentProps[]>(componentJson)
 
   /** 标签 id -> 标签配置（派生状态，tagList 变化自动重算） */
   readonly tagMap = computed(() => {

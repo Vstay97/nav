@@ -1,6 +1,7 @@
 // 开源项目，未经作者同意，不得以抄袭/复制代码/修改源代码版权信息。
 // Copyright @ 2018-present xiejiahe. All rights reserved.
 // See https://github.com/xjh22222228/nav
+// Modified by Vstay97, 2026
 
 import { Component, ViewChild } from '@angular/core'
 import {
@@ -15,7 +16,6 @@ import { navStore } from 'src/store/nav.store'
 import { isLogin } from 'src/utils/user'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { $t } from 'src/locale'
-import { isSelfDevelop } from 'src/utils/util'
 import { dialogService } from 'src/services/dialog'
 import config from '../../../../nav.config.json'
 import { WebManagementService } from './web-management.service'
@@ -81,7 +81,6 @@ export class SystemWebComponent {
   @ViewChild('formModal') formModal!: CategoryFormModalComponent
 
   $t = $t
-  isSelfDevelop = isSelfDevelop
   gitRepoUrl = config.gitRepoUrl
   isLogin = isLogin
   syncLoading = false

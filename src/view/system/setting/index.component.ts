@@ -1,6 +1,7 @@
 // 开源项目，未经作者同意，不得以抄袭/复制代码/修改源代码版权信息。
 // Copyright @ 2018-present xiejiahe. All rights reserved.
 // See https://github.com/xjh22222228/nav
+// Modified by Vstay97, 2026
 
 import { Component, effect } from '@angular/core'
 import { $t } from 'src/locale'
@@ -9,10 +10,10 @@ import { NzMessageService } from 'ng-zorro-antd/message'
 import { NzNotificationService } from 'ng-zorro-antd/notification'
 import { NzModalService } from 'ng-zorro-antd/modal'
 import { SETTING_PATH } from 'src/constants'
-import { updateFileContent, spiderWeb } from 'src/api'
+import { updateFileContent } from 'src/api'
 import { navStore } from 'src/store/nav.store'
 import { ISettings } from 'src/types'
-import { isSelfDevelop, compilerTemplate } from 'src/utils/util'
+import { compilerTemplate } from 'src/utils/util'
 import { componentTitleMap } from '../component/types'
 import footTemplate from 'src/components/footer/template'
 import { NzFormDirective, NzFormItemComponent, NzFormLabelComponent, NzFormControlComponent } from 'ng-zorro-antd/form';
@@ -85,7 +86,6 @@ export class SystemSettingComponent {
   validateForm!: FormGroup
   submitting: boolean = false
   tabActive = 0
-  isSelfDevelop = isSelfDevelop
   textareaSize = { minRows: 3, maxRows: 20 }
 
   get settings(): ISettings {
@@ -260,26 +260,6 @@ export class SystemSettingComponent {
       url = ''
     }
     this.settings.shortcutThemeImages[0]['src'] = url
-  }
-
-  handleSpider() {
-    if (this.submitting) {
-      return
-    }
-    this.submitting = true
-    spiderWeb()
-      .then((res) => {
-        this.notification.success(
-          `爬取完成（${res.data.time}秒）`,
-          '爬取完成并保存成功',
-          {
-            nzDuration: 0,
-          }
-        )
-      })
-      .finally(() => {
-        this.submitting = false
-      })
   }
 
   handleSubmit() {
