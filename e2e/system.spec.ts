@@ -45,6 +45,21 @@ test.describe('系统管理后台', () => {
     })
   }
 
+  test('菜单：企业级入口已解锁，上游授权入口已移除', async ({ appPage: page }) => {
+    await page.goto('/system/web')
+    await waitAppReady(page)
+    const menu = page.locator('.sider-menu')
+    await expect(menu.getByText('小组件')).toBeVisible()
+    await expect(menu.getByText('书签导出')).toBeVisible()
+    await expect(menu.getByText('用户收录')).toHaveCount(0)
+    await expect(menu.getByText('绑定域名')).toHaveCount(0)
+  })
+
+  test('书签导出页渲染', async ({ appPage: page }) => {
+    await page.goto('/system/bookmarkExport')
+    await waitAppReady(page)
+    await expect(page.locator('.book-wrapper')).toBeVisible()
+  })
 })
 
 // 注意：此测试不可放在上方 describe 内（beforeEach 会注入登录态）

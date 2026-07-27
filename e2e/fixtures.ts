@@ -7,7 +7,7 @@ import { test as base, expect, Page, Route } from '@playwright/test'
  *    - GitHub API → mock JSON
  *    - 图片 → 1x1 透明 PNG（保证截图基线稳定）
  *    - 样式（unpkg dark css 等）→ 空 CSS
- *    - 其余（api.nav3.cn、天气 iframe 等）→ 空 JSON
+ *    - 其余（Worker 抓取、天气 iframe 等）→ 空 JSON
  * 2. stabilize: 屏蔽随时间/随机变化的视觉元素
  * 3. waitAppReady: 等待应用数据加载完成（window.__FINISHED__）
  */
