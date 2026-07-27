@@ -8,3 +8,36 @@ body.fx-aurora {
 .dark-container body.fx-aurora {
   background-color: #0b0b14;
 }
+
+// ============ 玻璃拟态（结构性容器） ============
+// 覆盖目标：使用 .dark-bg 的页面骨架容器（卡片、侧栏、顶栏、搜索框等）
+// 特异性说明：.dark-container body.fx-glass .dark-bg (0,3,1) >
+//             dark.scss 的 .dark-container .dark-bg (0,2,0)
+body.fx-glass .dark-bg {
+  background-color: rgba(255, 255, 255, 0.55) !important;
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+}
+.dark-container body.fx-glass .dark-bg {
+  background-color: rgba(13, 17, 23, 0.55) !important;
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+}
+
+// Shortcut dock 栏：本已半透明，补毛玻璃
+body.fx-glass .shortcut .dock-box {
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+}
+
+// 老浏览器兜底：不支持 backdrop-filter 时退回柔化实色，保证可读性
+@supports not (
+  (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
+) {
+  body.fx-glass .dark-bg {
+    background-color: rgba(255, 255, 255, 0.94) !important;
+  }
+  .dark-container body.fx-glass .dark-bg {
+    background-color: rgba(13, 17, 23, 0.94) !important;
+  }
+}
