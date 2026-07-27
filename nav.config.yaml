@@ -12,7 +12,7 @@ hashMode: false
 
 # Worker 抓取代理地址（见 worker/ 目录；留空则关闭自动抓取，手动填写图标/标题）
 # 本地联调: http://localhost:8787 ；部署后改为 Worker 正式域名
-workerUrl: ''
+workerUrl: 'https://nav-webinfo.583429957.workers.dev'
 
 # 收录通知邮箱
 email: ''
