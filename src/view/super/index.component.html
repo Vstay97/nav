@@ -134,11 +134,11 @@
         *ngIf="
           commonService.currentList.length &&
           commonService.currentList[0].title &&
-          (commonService.isLogin || commonService.settings.allowCollect)
+          commonService.isLogin
         "
       >
         <span class="appbtn" (click)="openCreateWebModal()">{{
-          commonService.isLogin ? $t('_add') : $t('_apply')
+          $t('_add')
         }}</span>
       </div>
     </div>

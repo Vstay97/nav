@@ -1,5 +1,6 @@
 // 开源项目，未经作者同意，不得以抄袭/复制代码/修改源代码版权信息。
 // Copyright @ 2018-present xiejiahe. All rights reserved.
+// Modified by Vstay97, 2026
 
 import config from '../../nav.config.json'
 import { httpNav } from '../utils/http'
@@ -42,18 +43,6 @@ export function updateFileContent(params: Iupdate) {
 // 创建文件（图片上传）
 export function createFile(params: Iupdate) {
   return dataProvider.createFile(params)
-}
-
-export async function getUserCollect(data?: Record<string, any>) {
-  return dataProvider.getUserCollect(data)
-}
-
-export async function saveUserCollect(data?: Record<string, any>) {
-  return dataProvider.saveUserCollect(data)
-}
-
-export async function delUserCollect(data?: Record<string, any>) {
-  return dataProvider.delUserCollect(data)
 }
 
 export async function getWebInfo(url: string) {

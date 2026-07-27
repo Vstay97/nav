@@ -1,6 +1,7 @@
 // 开源项目，未经作者同意，不得以抄袭/复制代码/修改源代码版权信息。
 // Copyright @ 2018-present xiejiahe. All rights reserved.
 // See https://github.com/xjh22222228/nav
+// Modified by Vstay97, 2026
 
 import { INavProps } from 'src/types'
 
@@ -47,11 +48,6 @@ export interface IDataProvider {
 
   /** 自有部署爬虫刷新（静态模式不可用，resolve 空值） */
   spiderWeb(data?: any): Promise<any>
-
-  /** 用户收录 */
-  getUserCollect(data?: Record<string, any>): Promise<any>
-  saveUserCollect(data?: Record<string, any>): Promise<any>
-  delUserCollect(data?: Record<string, any>): Promise<any>
 
   /** 抓取目标网站的图标/标题/描述 */
   getWebInfo(url: string): Promise<Record<string, any>>

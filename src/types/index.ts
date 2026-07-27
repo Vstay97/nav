@@ -266,7 +266,6 @@ export interface IBaseSettings {
 
   showRate: boolean
 
-  allowCollect: boolean
   email: string
 
   spiderIcon: Spider

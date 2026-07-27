@@ -57,15 +57,6 @@
             </li>
             <li
               nz-menu-item
-              [nzSelected]="currentMenu === 'collect'"
-              (click)="goRoute('/system/collect')"
-              *ngIf="isAuthz || isSelfDevelop"
-            >
-              {{ $t('_userCollect') }}
-            </li>
-
-            <li
-              nz-menu-item
               [nzSelected]="currentMenu === 'vip'"
               (click)="goRoute('/system/vip')"
             >

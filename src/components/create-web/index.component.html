@@ -108,24 +108,6 @@
         </nz-form-control>
       </nz-form-item>
 
-      <nz-form-item *ngIf="!isLogin">
-        <nz-form-label [nzSpan]="4">{{ $t('_iconAddr') }}</nz-form-label>
-        <nz-form-control [nzSpan]="20">
-          <nz-input-group [nzPrefix]="prefixIcon">
-            <input
-              formControlName="icon"
-              nz-input
-              [readonly]="getting"
-              [placeholder]="getting ? $t('_pendingGet') : ''"
-            />
-          </nz-input-group>
-
-          <ng-template #prefixIcon>
-            <app-logo [src]="iconUrl" [size]="25" *ngIf="iconUrl"></app-logo>
-          </ng-template>
-        </nz-form-control>
-      </nz-form-item>
-
       <nz-form-item>
         <nz-form-label [nzSpan]="4">{{ $t('_webDesc') }}</nz-form-label>
         <nz-form-control [nzSpan]="20">

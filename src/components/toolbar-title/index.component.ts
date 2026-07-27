@@ -1,6 +1,7 @@
 // 开源项目，未经作者同意，不得以抄袭/复制代码/修改源代码版权信息。
 // Copyright @ 2018-present xiejiahe. All rights reserved.
 // See https://github.com/xjh22222228/nav
+// Modified by Vstay97, 2026
 
 import {
   Component,
@@ -10,7 +11,7 @@ import {
   EventEmitter,
   ChangeDetectionStrategy,
 } from '@angular/core'
-import { INavThreeProp, INavProps, ISettings } from 'src/types'
+import { INavThreeProp, INavProps } from 'src/types'
 import { isLogin } from 'src/utils/user'
 import { navStore } from 'src/store/nav.store'
 import { dialogService } from 'src/services/dialog'
@@ -39,10 +40,6 @@ export class ToolbarTitleWebComponent implements OnInit {
 
   get websiteList(): INavProps[] {
     return navStore.websiteList()
-  }
-
-  get settings(): ISettings {
-    return navStore.settings()
   }
 
   constructor() {}

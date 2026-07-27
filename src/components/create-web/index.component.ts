@@ -1,6 +1,7 @@
 // 开源项目，未经作者同意，不得以抄袭/复制代码/修改源代码版权信息。
 // Copyright @ 2018-present xiejiahe. All rights reserved.
 // See https://github.com/xjh22222228/nav
+// Modified by Vstay97, 2026
 
 import { Component, Output, EventEmitter, effect } from '@angular/core'
 import { queryString, getTextContent } from 'src/utils'
@@ -8,7 +9,7 @@ import { setWebsiteList, updateByWeb } from 'src/utils/web'
 import { FormBuilder, FormGroup, Validators, FormArray, ReactiveFormsModule } from '@angular/forms'
 import { IWebProps, IWebTag, TopType } from 'src/types'
 import { NzMessageService } from 'ng-zorro-antd/message'
-import { saveUserCollect, getWebInfo } from 'src/api'
+import { getWebInfo } from 'src/api'
 import { $t } from 'src/locale'
 import { navStore } from 'src/store/nav.store'
 import { dialogService } from 'src/services/dialog'
@@ -95,7 +96,7 @@ export class CreateWebComponent {
   constructor(private fb: FormBuilder, private message: NzMessageService) {
     effect(() => {
       const payload = dialogService.createWebPayload()
-      if (payload !== null) {
+      if (payload !== null && isLogin) {
         this.open(this, payload)
       }
     })
@@ -329,23 +330,6 @@ export class CreateWebComponent {
               data: [payload as IWebProps],
             })
           }
-        } else if (this.settings.allowCollect) {
-          try {
-            const params = {
-              data: {
-                ...payload,
-                extra: {
-                  type: 'create',
-                  oneName: websiteList[oneIndex].title,
-                  twoName: websiteList[oneIndex].nav[twoIndex].title,
-                  threeName:
-                    websiteList[oneIndex].nav[twoIndex].nav[threeIndex].title,
-                },
-              },
-            }
-            await saveUserCollect(params)
-            this.message.success($t('_waitHandle'))
-          } catch {}
         }
       } catch (error: any) {
         this.message.error(error.message)

@@ -321,7 +321,6 @@ try {
   settings.language ||= 'zh-CN'
   settings.loading ??= 'random'
   settings.runtime ??= dayjs.tz().valueOf()
-  settings.allowCollect ??= true
   settings.email ||= configJson.email || ''
   settings.showGithub ??= true
   settings.showLanguage ??= true
