@@ -1,6 +1,7 @@
 // 开源项目，未经作者同意，不得以抄袭/复制代码/修改源代码版权信息。
 // Copyright @ 2018-present xiejiahe. All rights reserved.
 // See https://github.com/xjh22222228/nav
+// Modified by Vstay97, 2026
 
 import { navStore } from 'src/store/nav.store'
 import { isMobile } from './dom.util'
@@ -28,6 +29,8 @@ export function isDark(): boolean {
 let randomTimer: any
 export function randomBgImg() {
   if (isDark()) return
+  // 极光背景开启时不再生成随机渐变（两者互斥，极光为上位替代）
+  if (document.body.classList.contains('fx-aurora')) return
 
   clearInterval(randomTimer)
   const id = 'random-light-bg'
