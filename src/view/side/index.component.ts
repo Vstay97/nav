@@ -5,15 +5,16 @@
 import { Component } from '@angular/core'
 import { INavProps } from 'src/types'
 import { isMobile } from 'src/utils'
-import { setWebsiteList } from 'src/utils/web'
+import { setWebsiteList } from 'src/services/web-tree'
 import { dataProvider } from 'src/providers'
 import { navStore } from 'src/store/nav.store'
 import { $t } from 'src/locale'
 import { CommonService } from 'src/services/common'
 import { BaseThemeComponent } from '../base-theme.component'
 import { STORAGE_KEY_MAP } from 'src/constants'
+import { storageGet, storageSet } from 'src/utils/storage.util'
 import { NzLayoutComponent, NzSiderComponent, NzContentComponent } from 'ng-zorro-antd/layout';
-import { NgIf, NgFor } from '@angular/common';
+
 import { NzSpinComponent } from 'ng-zorro-antd/spin';
 import { NzMenuDirective, NzSubMenuComponent, NzMenuItemComponent } from 'ng-zorro-antd/menu';
 import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
@@ -34,28 +35,26 @@ import { FixbarComponent } from '../../components/fixbar/index.component';
     styleUrls: ['./index.component.scss'],
     standalone: true,
     imports: [
-        NzLayoutComponent,
-        NgIf,
-        NzSpinComponent,
-        NzSiderComponent,
-        NzMenuDirective,
-        NgFor,
-        ɵNzTransitionPatchDirective,
-        NzSubMenuComponent,
-        NzMenuItemComponent,
-        SwiperComponent,
-        ComponentGroupComponent,
-        SearchEngineComponent,
-        NzContentComponent,
-        WebListComponent,
-        ToolbarTitleWebComponent,
-        NzRowDirective,
-        NzColDirective,
-        CardComponent,
-        NoDataComponent,
-        FooterComponent,
-        FixbarComponent,
-    ],
+    NzLayoutComponent,
+    NzSpinComponent,
+    NzSiderComponent,
+    NzMenuDirective,
+    ɵNzTransitionPatchDirective,
+    NzSubMenuComponent,
+    NzMenuItemComponent,
+    SwiperComponent,
+    ComponentGroupComponent,
+    SearchEngineComponent,
+    NzContentComponent,
+    WebListComponent,
+    ToolbarTitleWebComponent,
+    NzRowDirective,
+    NzColDirective,
+    CardComponent,
+    NoDataComponent,
+    FooterComponent,
+    FixbarComponent
+],
 })
 export class SideComponent extends BaseThemeComponent {
   protected readonly overTypeKey = null
@@ -65,7 +64,7 @@ export class SideComponent extends BaseThemeComponent {
 
   constructor(commonService: CommonService) {
     super(commonService)
-    const localCollapsed = localStorage.getItem(STORAGE_KEY_MAP.sideCollapsed)
+    const localCollapsed = storageGet(STORAGE_KEY_MAP.sideCollapsed)
     if (localCollapsed) {
       this.isCollapsed = localCollapsed === 'true'
     }
@@ -98,7 +97,7 @@ export class SideComponent extends BaseThemeComponent {
 
   handleCollapsed() {
     this.isCollapsed = !this.isCollapsed
-    localStorage.setItem(
+    storageSet(
       STORAGE_KEY_MAP.sideCollapsed,
       String(this.isCollapsed)
     )

@@ -8,7 +8,7 @@ import { CommonService } from 'src/services/common'
 import { JumpService } from 'src/services/jump'
 import { dialogService } from 'src/services/dialog'
 import { BaseThemeComponent } from '../base-theme.component'
-import { NgIf, NgFor } from '@angular/common';
+
 import { NzSpinComponent } from 'ng-zorro-antd/spin';
 import { WebMoreMenuComponent } from '../../components/web-more-menu/index.component';
 import { ComponentGroupComponent } from '../../components/component-group/index.component';
@@ -24,17 +24,15 @@ import { FixbarComponent } from '../../components/fixbar/index.component';
     styleUrls: ['./index.component.scss'],
     standalone: true,
     imports: [
-        NgIf,
-        NzSpinComponent,
-        NgFor,
-        WebMoreMenuComponent,
-        ComponentGroupComponent,
-        SearchEngineComponent,
-        CardComponent,
-        NoDataComponent,
-        FooterComponent,
-        FixbarComponent,
-    ],
+    NzSpinComponent,
+    WebMoreMenuComponent,
+    ComponentGroupComponent,
+    SearchEngineComponent,
+    CardComponent,
+    NoDataComponent,
+    FooterComponent,
+    FixbarComponent
+],
 })
 export class SuperComponent extends BaseThemeComponent {
   protected readonly overTypeKey = 'superOverType' as const

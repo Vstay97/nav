@@ -1,13 +1,14 @@
 <div class="tagbox">
-  <div
-    class="tag-item"
-    *ngFor="let item of data"
-    [style]="'background-color: ' + (tagMap[item.id] && tagMap[item.id].color)"
-  >
-    <span
-      (click)="jumpService.goUrl($event, item.url)"
-      class="cursor-pointer"
-      >{{ tagMap[item.id] && tagMap[item.id].name }}</span
-    >
+  @for (item of data; track item) {
+    <div
+      class="tag-item"
+      [style]="'background-color: ' + (tagMap[item.id] && tagMap[item.id].color)"
+      >
+      <span
+        (click)="jumpService.goUrl($event, item.url)"
+        class="cursor-pointer"
+        >{{ tagMap[item.id] && tagMap[item.id].name }}</span
+        >
+      </div>
+    }
   </div>
-</div>

@@ -1,23 +1,36 @@
-<div
-  class="component-group dark-scrollbar justify-center md:justify-start"
-  *ngIf="components.length > 0"
-  [class.directionCol]="direction === 'column'"
->
-  <ng-container *ngFor="let item of components; trackBy: trackByItem">
-    <ng-container [ngSwitch]="item.type">
-      <app-calendar *ngSwitchCase="ComponentType.Calendar" [data]="$any(item)" />
-      <app-runtime *ngSwitchCase="ComponentType.Runtime" [data]="$any(item)" />
-      <app-offwork *ngSwitchCase="ComponentType.OffWork" [data]="$any(item)" />
-      <app-image *ngSwitchCase="ComponentType.Image" [data]="$any(item)" />
-      <app-countdown *ngSwitchCase="ComponentType.Countdown" [data]="$any(item)" />
-      <app-html
-        *ngSwitchCase="ComponentType.HTML"
-        [data]="$any(item)"
-        [class.hidden]="!$any(item)['html']"
-      />
-      <app-holiday *ngSwitchCase="ComponentType.Holiday" [data]="$any(item)" />
-    </ng-container>
-  </ng-container>
-
-  <ng-content />
-</div>
+@if (components.length > 0) {
+  <div
+    class="component-group dark-scrollbar justify-center md:justify-start"
+    [class.directionCol]="direction === 'column'"
+    >
+    @for (item of components; track trackByItem($index, item)) {
+      @switch (item.type) {
+        @case (ComponentType.Calendar) {
+          <app-calendar [data]="$any(item)" />
+        }
+        @case (ComponentType.Runtime) {
+          <app-runtime [data]="$any(item)" />
+        }
+        @case (ComponentType.OffWork) {
+          <app-offwork [data]="$any(item)" />
+        }
+        @case (ComponentType.Image) {
+          <app-image [data]="$any(item)" />
+        }
+        @case (ComponentType.Countdown) {
+          <app-countdown [data]="$any(item)" />
+        }
+        @case (ComponentType.HTML) {
+          <app-html
+            [data]="$any(item)"
+            [class.hidden]="!$any(item)['html']"
+            />
+        }
+        @case (ComponentType.Holiday) {
+          <app-holiday [data]="$any(item)" />
+        }
+      }
+    }
+    <ng-content />
+  </div>
+}

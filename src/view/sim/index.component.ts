@@ -6,7 +6,7 @@ import { isLogin } from 'src/utils/user'
 import { navStore } from 'src/store/nav.store'
 import { CommonService } from 'src/services/common'
 import { BaseThemeComponent } from '../base-theme.component'
-import { NgIf, NgFor } from '@angular/common';
+
 import { NzSpinComponent } from 'ng-zorro-antd/spin';
 import { SwiperComponent } from '../../components/swiper/index.component';
 import { ComponentGroupComponent } from '../../components/component-group/index.component';
@@ -26,22 +26,20 @@ import { SafeHtmlPipe } from 'src/pipe/safeHtml.pipe';
     styleUrls: ['./index.component.scss'],
     standalone: true,
     imports: [
-        NgIf,
-        NzSpinComponent,
-        SwiperComponent,
-        ComponentGroupComponent,
-        SearchEngineComponent,
-        NgFor,
-        WebMoreMenuComponent,
-        ToolbarTitleWebComponent,
-        NzRowDirective,
-        NzColDirective,
-        CardComponent,
-        NoDataComponent,
-        FooterComponent,
-        FixbarComponent,
-        SafeHtmlPipe,
-    ],
+    NzSpinComponent,
+    SwiperComponent,
+    ComponentGroupComponent,
+    SearchEngineComponent,
+    WebMoreMenuComponent,
+    ToolbarTitleWebComponent,
+    NzRowDirective,
+    NzColDirective,
+    CardComponent,
+    NoDataComponent,
+    FooterComponent,
+    FixbarComponent,
+    SafeHtmlPipe
+],
 })
 export class SimComponent extends BaseThemeComponent {
   protected readonly overTypeKey = 'simOverType' as const

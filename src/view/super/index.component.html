@@ -1,9 +1,10 @@
 <section class="super-xjh dark-bg">
-  <nz-spin
-    nzSimple
-    *ngIf="commonService.sliceMax === 0"
-    class="position-center"
-  />
+  @if (commonService.sliceMax === 0) {
+    <nz-spin
+      nzSimple
+      class="position-center"
+      />
+  }
 
   <header class="sheader dark-bg">
     <div class="headerbox">
@@ -12,154 +13,157 @@
           class="logo"
           [src]="commonService.settings.favicon"
           draggable="false"
-        />
+          />
         <div class="title dark-white">
           {{ commonService.settings.superTitle || commonService.title }}
         </div>
       </div>
 
       <div class="topnav dark-scrollbar">
-        <div
-          *ngFor="
-            let item of commonService.websiteList.slice(
-              0,
-              commonService.overIndex
-            );
-            index as i;
-            trackBy: commonService.trackByItem
-          "
-          (click)="commonService.handleCilckTopNav(i)"
-          [class.active]="commonService.page === i"
-          [class.dark-text-active]="commonService.page === i"
-          class="hitem over-item dark-text"
-        >
-          {{ item.title }}
-        </div>
+        @for (
+          item of commonService.websiteList.slice(
+          0,
+          commonService.overIndex
+          ); track commonService.trackByItem(i,
+          item); let i = $index) {
+          <div
+            (click)="commonService.handleCilckTopNav(i)"
+            [class.active]="commonService.page === i"
+            [class.dark-text-active]="commonService.page === i"
+            class="hitem over-item dark-text"
+            >
+            {{ item.title }}
+          </div>
+        }
         <!-- More -->
-        <app-web-more-menu
-          *ngIf="commonService.overIndex < commonService.websiteList.length"
+        @if (commonService.overIndex < commonService.websiteList.length) {
+          <app-web-more-menu
           [data]="
             commonService.websiteList.slice(commonService.overIndex, 99999)
           "
-          [index]="commonService.overIndex"
-          [page]="commonService.page"
-          (onClick)="commonService.handleCilckTopNav($event)"
-          class="flex-center"
-        />
+            [index]="commonService.overIndex"
+            [page]="commonService.page"
+            (onClick)="commonService.handleCilckTopNav($event)"
+            class="flex-center"
+            />
+        }
       </div>
     </div>
   </header>
 
-  <div class="component-box" *ngIf="commonService.settings.components.length">
-    <component-group></component-group>
-  </div>
+  @if (commonService.settings.components.length) {
+    <div class="component-box">
+      <component-group></component-group>
+    </div>
+  }
 
   <div class="main-box">
-    <div
-      class="left dark-bg dark-border-color dark-scrollbar"
-      *ngIf="commonService.websiteList[commonService.page]"
-    >
+    @if (commonService.websiteList[commonService.page]) {
       <div
-        class="bar-item dark-text dark-hover ellipsis"
-        [class.active]="commonService.id === i"
-        [class.dark-item-active]="commonService.id === i"
-        (click)="commonService.handleSidebarNav(i)"
-        *ngFor="
-          let item of commonService.websiteList[commonService.page].nav;
-          index as i;
-          trackBy: commonService.trackByItem
-        "
-      >
-        <img *ngIf="item.icon" class="sideicon" [src]="item.icon" />
-        <span class="ellipsis">{{ item.title }}</span>
+        class="left dark-bg dark-border-color dark-scrollbar"
+        >
+        @for (
+          item of commonService.websiteList[commonService.page].nav; track commonService.trackByItem(i,
+          item); let i = $index) {
+          <div
+            class="bar-item dark-text dark-hover ellipsis"
+            [class.active]="commonService.id === i"
+            [class.dark-item-active]="commonService.id === i"
+            (click)="commonService.handleSidebarNav(i)"
+            >
+            @if (item.icon) {
+              <img class="sideicon" [src]="item.icon" />
+            }
+            <span class="ellipsis">{{ item.title }}</span>
+          </div>
+        }
       </div>
-    </div>
+    }
 
     <div
       class="middle dark-bg"
       [class.noads]="commonService.settings.superImages.length <= 0"
-    >
+      >
       <div class="search-t dark-border-color">
         <app-search-engine size="small" />
 
         <div class="bar dark-scrollbar">
-          <div
-            class="bar-item"
-            *ngFor="
-              let item of commonService.currentList;
-              index as i;
-              trackBy: commonService.trackByItem
-            "
-            [class.active]="commonService.selectedIndex === i"
-            [class.none]="!item.title"
-            (click)="commonService.handleCheckThree(i)"
-          >
-            {{ item.title }}
-          </div>
+          @for (
+            item of commonService.currentList; track commonService.trackByItem(i,
+            item); let i = $index) {
+            <div
+              class="bar-item"
+              [class.active]="commonService.selectedIndex === i"
+              [class.none]="!item.title"
+              (click)="commonService.handleCheckThree(i)"
+              >
+              {{ item.title }}
+            </div>
+          }
         </div>
       </div>
 
-      <div
-        class="card-container"
-        *ngIf="
-          commonService.currentList[commonService.selectedIndex]?.nav?.length;
-          else noData
-        "
-      >
-        <app-card
-          *ngFor="
-            let el of commonService.currentList[commonService.selectedIndex]
-              .nav;
-            index as j;
-            trackBy: commonService.trackByItemWeb
-          "
+      @if (
+        commonService.currentList[commonService.selectedIndex]?.nav?.length) {
+        <div
+          class="card-container"
+          >
+          @for (
+            el of commonService.currentList[commonService.selectedIndex]
+            .nav; track commonService.trackByItemWeb(j,
+            el); let j = $index) {
+            <app-card
           [indexs]="[
             commonService.page,
             commonService.id,
             commonService.selectedIndex,
             j
           ]"
-          [cardStyle]="commonService.settings.superCardStyle"
-          [showRate]="commonService.settings.showRate"
-          [dataSource]="el"
-          [searchKeyword]="commonService.searchKeyword"
-        />
-      </div>
-      <ng-template #noData>
+              [cardStyle]="commonService.settings.superCardStyle"
+              [showRate]="commonService.settings.showRate"
+              [dataSource]="el"
+              [searchKeyword]="commonService.searchKeyword"
+              />
+          }
+        </div>
+      } @else {
         <app-no-data />
-      </ng-template>
+      }
 
-      <div
-        class="apply"
-        *ngIf="
-          commonService.currentList.length &&
-          commonService.currentList[0].title &&
-          commonService.isLogin
-        "
-      >
-        <span class="appbtn" (click)="openCreateWebModal()">{{
-          $t('_add')
-        }}</span>
-      </div>
+      @if (
+        commonService.currentList.length &&
+        commonService.currentList[0].title &&
+        commonService.isLogin
+        ) {
+        <div
+          class="apply"
+          >
+          <span class="appbtn" (click)="openCreateWebModal()">{{
+            $t('_add')
+          }}</span>
+        </div>
+      }
     </div>
 
-    <div
-      class="right dark-scrollbar hidden-scrollbar"
-      *ngIf="commonService.settings.superImages.length > 0"
-    >
+    @if (commonService.settings.superImages.length > 0) {
       <div
-        class="aditem cursor-pointer"
-        *ngFor="let item of commonService.settings.superImages; index as i"
-        (click)="jumpService.goUrl($event, item['url'])"
-      >
-        <img class="adsimg" [src]="item['src']" />
+        class="right dark-scrollbar hidden-scrollbar"
+        >
+        @for (item of commonService.settings.superImages; track item; let i = $index) {
+          <div
+            class="aditem cursor-pointer"
+            (click)="jumpService.goUrl($event, item['url'])"
+            >
+            <img class="adsimg" [src]="item['src']" />
+          </div>
+        }
       </div>
-    </div>
+    }
   </div>
 
   <app-footer
     [content]="commonService.settings.superFooterHTML || commonService.settings.footerContent"
-  />
+    />
 
   <app-fixbar [showCollapse]="false" />
 </section>

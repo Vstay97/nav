@@ -10,7 +10,7 @@ import { isLogin } from 'src/utils/user'
 import { ActivatedRoute, Router } from '@angular/router'
 import { CommonService } from 'src/services/common'
 import { JumpService } from 'src/services/jump'
-import { NgIf, NgFor } from '@angular/common';
+
 import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
 import { NzTooltipDirective } from 'ng-zorro-antd/tooltip';
 import { LogoComponent } from '../logo/logo.component';
@@ -23,12 +23,10 @@ let DEFAULT_WEBSITE: Array<IWebProps> = []
     styleUrls: ['./index.component.scss'],
     standalone: true,
     imports: [
-        NgIf,
-        NgFor,
-        ɵNzTransitionPatchDirective,
-        NzTooltipDirective,
-        LogoComponent,
-    ],
+    ɵNzTransitionPatchDirective,
+    NzTooltipDirective,
+    LogoComponent
+],
 })
 export class WebListComponent {
   @Input() type: 'dock' | '' = ''

@@ -10,12 +10,12 @@ import {
 } from '@angular/core'
 import { isLogin } from 'src/utils/user'
 import { copyText, getTextContent } from 'src/utils'
-import { setWebsiteList, deleteByWeb } from 'src/utils/web'
+import { setWebsiteList, deleteByWeb } from 'src/services/web-tree'
 import { IWebProps, ICardType } from 'src/types'
 import { $t } from 'src/locale'
 import { dialogService } from 'src/services/dialog'
 import { JumpService } from 'src/services/jump'
-import { NgIf, NgSwitch, NgSwitchCase, NgFor, NgSwitchDefault } from '@angular/common';
+
 import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzRateComponent } from 'ng-zorro-antd/rate';
@@ -34,23 +34,18 @@ import { TiltDirective } from '../effects/tilt.directive';
     styleUrls: ['./index.component.scss'],
     standalone: true,
     imports: [
-        NgIf,
-        NgSwitch,
-        NgSwitchCase,
-        ɵNzTransitionPatchDirective,
-        NzIconDirective,
-        NgFor,
-        NzRateComponent,
-        ReactiveFormsModule,
-        FormsModule,
-        LogoComponent,
-        TagListComponent,
-        NzTooltipDirective,
-        NzPopconfirmDirective,
-        NgSwitchDefault,
-        SafeHtmlPipe,
-        TiltDirective,
-    ],
+    ɵNzTransitionPatchDirective,
+    NzIconDirective,
+    NzRateComponent,
+    ReactiveFormsModule,
+    FormsModule,
+    LogoComponent,
+    TagListComponent,
+    NzTooltipDirective,
+    NzPopconfirmDirective,
+    SafeHtmlPipe,
+    TiltDirective
+],
 })
 export class CardComponent implements OnInit {
   @Input() searchKeyword: string = ''

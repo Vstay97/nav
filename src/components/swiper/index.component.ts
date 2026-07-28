@@ -4,7 +4,7 @@
 
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core'
 import { JumpService } from 'src/services/jump'
-import { NgIf, NgStyle, NgFor } from '@angular/common';
+import { NgStyle } from '@angular/common';
 import { NzCarouselComponent, NzCarouselContentDirective } from 'ng-zorro-antd/carousel';
 
 @Component({
@@ -14,12 +14,10 @@ import { NzCarouselComponent, NzCarouselContentDirective } from 'ng-zorro-antd/c
     styleUrls: ['./index.component.scss'],
     standalone: true,
     imports: [
-        NgIf,
-        NgStyle,
-        NzCarouselComponent,
-        NgFor,
-        NzCarouselContentDirective,
-    ],
+    NgStyle,
+    NzCarouselComponent,
+    NzCarouselContentDirective
+],
 })
 export class SwiperComponent {
   @Input() images: any[] = []

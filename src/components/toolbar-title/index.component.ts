@@ -15,7 +15,7 @@ import { INavThreeProp, INavProps } from 'src/types'
 import { isLogin } from 'src/utils/user'
 import { navStore } from 'src/store/nav.store'
 import { dialogService } from 'src/services/dialog'
-import { NgIf } from '@angular/common';
+
 import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 
@@ -26,10 +26,9 @@ import { NzIconDirective } from 'ng-zorro-antd/icon';
     styleUrls: ['./index.component.scss'],
     standalone: true,
     imports: [
-        NgIf,
-        ɵNzTransitionPatchDirective,
-        NzIconDirective,
-    ],
+    ɵNzTransitionPatchDirective,
+    NzIconDirective
+],
 })
 export class ToolbarTitleWebComponent implements OnInit {
   @Input() index: number = 0

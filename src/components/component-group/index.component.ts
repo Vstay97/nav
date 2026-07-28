@@ -5,7 +5,7 @@
 import { Component, Input } from '@angular/core'
 import { navStore } from 'src/store/nav.store'
 import { ComponentType, IComponentProps } from 'src/types'
-import { NgIf, NgFor, NgSwitch, NgSwitchCase } from '@angular/common';
+
 import { CalendarComponent } from '../calendar/index.component';
 import { RuntimeComponent } from '../runtime/index.component';
 import { OffWorkComponent } from '../off-work/index.component';
@@ -20,18 +20,14 @@ import { HolidayComponent } from '../holiday/index.component';
     styleUrls: ['./index.component.scss'],
     standalone: true,
     imports: [
-        NgIf,
-        NgFor,
-        NgSwitch,
-        NgSwitchCase,
-        CalendarComponent,
-        RuntimeComponent,
-        OffWorkComponent,
-        ImageComponent,
-        CountdownComponent,
-        HTMLComponent,
-        HolidayComponent,
-    ],
+    CalendarComponent,
+    RuntimeComponent,
+    OffWorkComponent,
+    ImageComponent,
+    CountdownComponent,
+    HTMLComponent,
+    HolidayComponent
+],
 })
 export class ComponentGroupComponent {
   @Input() direction: string = ''

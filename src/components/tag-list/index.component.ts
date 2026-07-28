@@ -4,14 +4,14 @@ import { Component, Input } from '@angular/core'
 import { ITagProp, IWebTag } from 'src/types'
 import { navStore } from 'src/store/nav.store'
 import { JumpService } from 'src/services/jump'
-import { NgFor } from '@angular/common';
+
 
 @Component({
     selector: 'tag-list',
     templateUrl: './index.component.html',
     styleUrls: ['./index.component.scss'],
     standalone: true,
-    imports: [NgFor],
+    imports: [],
 })
 export class TagListComponent {
   @Input() data: IWebTag[] = []

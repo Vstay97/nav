@@ -6,7 +6,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core'
 import { INavProps } from 'src/types'
 import { NzDropDownDirective, NzDropdownMenuComponent } from 'ng-zorro-antd/dropdown';
 import { NzMenuDirective, NzMenuItemComponent } from 'ng-zorro-antd/menu';
-import { NgFor } from '@angular/common';
+
 import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
 
 @Component({
@@ -15,13 +15,12 @@ import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patc
     styleUrls: ['./index.component.scss'],
     standalone: true,
     imports: [
-        NzDropDownDirective,
-        NzDropdownMenuComponent,
-        NzMenuDirective,
-        NgFor,
-        ɵNzTransitionPatchDirective,
-        NzMenuItemComponent,
-    ],
+    NzDropDownDirective,
+    NzDropdownMenuComponent,
+    NzMenuDirective,
+    ɵNzTransitionPatchDirective,
+    NzMenuItemComponent
+],
 })
 export class WebMoreMenuComponent {
   @Input() index = 0

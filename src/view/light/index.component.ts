@@ -7,7 +7,7 @@ import { randomBgImg } from 'src/utils'
 import { CommonService } from 'src/services/common'
 import { JumpService } from 'src/services/jump'
 import { BaseThemeComponent } from '../base-theme.component'
-import { NgIf, NgFor } from '@angular/common';
+
 import { ComponentGroupComponent } from '../../components/component-group/index.component';
 import { WebMoreMenuComponent } from '../../components/web-more-menu/index.component';
 import { SearchEngineComponent } from '../../components/search-engine/search-engine.component';
@@ -25,20 +25,18 @@ import { FixbarComponent } from '../../components/fixbar/index.component';
     styleUrls: ['./index.component.scss'],
     standalone: true,
     imports: [
-        NgIf,
-        ComponentGroupComponent,
-        NgFor,
-        WebMoreMenuComponent,
-        SearchEngineComponent,
-        NzSpinComponent,
-        ToolbarTitleWebComponent,
-        NzRowDirective,
-        NzColDirective,
-        CardComponent,
-        NoDataComponent,
-        FooterComponent,
-        FixbarComponent,
-    ],
+    ComponentGroupComponent,
+    WebMoreMenuComponent,
+    SearchEngineComponent,
+    NzSpinComponent,
+    ToolbarTitleWebComponent,
+    NzRowDirective,
+    NzColDirective,
+    CardComponent,
+    NoDataComponent,
+    FooterComponent,
+    FixbarComponent
+],
 })
 export class LightComponent extends BaseThemeComponent {
   protected readonly overTypeKey = 'lightOverType' as const

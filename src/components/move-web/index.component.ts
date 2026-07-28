@@ -4,15 +4,15 @@
 
 import { Component, effect } from '@angular/core'
 import { $t } from 'src/locale'
-import { setWebsiteList } from 'src/utils/web'
+import { setWebsiteList } from 'src/services/web-tree'
 import { navStore } from 'src/store/nav.store'
 import { dialogService } from 'src/services/dialog'
-import { INavProps, INavTwoProp, INavThreeProp, IWebProps } from '../../types'
+import { INavProps, INavTwoProp, INavThreeProp, IWebProps, NavNode } from '../../types'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NzModalComponent, NzModalContentDirective } from 'ng-zorro-antd/modal';
 import { NzSelectComponent, NzOptionComponent } from 'ng-zorro-antd/select';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { NgFor, NgIf } from '@angular/common';
+
 import { NzCheckboxComponent } from 'ng-zorro-antd/checkbox';
 
 @Component({
@@ -21,16 +21,14 @@ import { NzCheckboxComponent } from 'ng-zorro-antd/checkbox';
     styleUrls: ['./index.component.scss'],
     standalone: true,
     imports: [
-        NzModalComponent,
-        NzModalContentDirective,
-        NzSelectComponent,
-        ReactiveFormsModule,
-        FormsModule,
-        NgFor,
-        NzOptionComponent,
-        NgIf,
-        NzCheckboxComponent,
-    ],
+    NzModalComponent,
+    NzModalContentDirective,
+    NzSelectComponent,
+    ReactiveFormsModule,
+    FormsModule,
+    NzOptionComponent,
+    NzCheckboxComponent
+],
 })
 export class MoveWebComponent {
   $t = $t
@@ -64,7 +62,7 @@ export class MoveWebComponent {
     ctx: any,
     props: {
       indexs: number[]
-      data: IWebProps[]
+      data: NavNode[]
       level?: number
     }
   ) {

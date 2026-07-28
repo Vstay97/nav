@@ -9,7 +9,7 @@ import { JumpService } from 'src/services/jump'
 import { CommonService } from 'src/services/common'
 import { BaseThemeComponent } from '../base-theme.component'
 import { $t } from 'src/locale'
-import { NgStyle, NgIf, NgFor } from '@angular/common';
+import { NgStyle } from '@angular/common';
 import { SearchEngineComponent } from '../../components/search-engine/search-engine.component';
 import { WebListComponent } from '../../components/web-list/index.component';
 import { NzTooltipDirective } from 'ng-zorro-antd/tooltip';
@@ -22,15 +22,13 @@ import { FixbarComponent } from '../../components/fixbar/index.component';
     styleUrls: ['./index.component.scss'],
     standalone: true,
     imports: [
-        NgStyle,
-        SearchEngineComponent,
-        WebListComponent,
-        NgIf,
-        NgFor,
-        NzTooltipDirective,
-        LogoComponent,
-        FixbarComponent,
-    ],
+    NgStyle,
+    SearchEngineComponent,
+    WebListComponent,
+    NzTooltipDirective,
+    LogoComponent,
+    FixbarComponent
+],
 })
 export class ShortcutComponent extends BaseThemeComponent {
   protected readonly overTypeKey = null

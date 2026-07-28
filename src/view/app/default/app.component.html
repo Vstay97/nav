@@ -10,77 +10,80 @@
     </div>
 
     <nav class="nav-open" [class.active]="open">
-      <div
-        *ngFor="
-          let item of commonService.websiteList;
-          let i = index;
-          trackBy: commonService.trackByItem
-        "
-        (click)="handleCilckNav(i)"
-        [class.active]="commonService.page === i"
-        class="nav-title"
-      >
-        {{ item.title }}
-      </div>
+      @for (
+        item of commonService.websiteList; track commonService.trackByItem(i,
+        item); let i = $index) {
+        <div
+          (click)="handleCilckNav(i)"
+          [class.active]="commonService.page === i"
+          class="nav-title"
+          >
+          {{ item.title }}
+        </div>
+      }
     </nav>
   </header>
 
   <app-search-engine />
 
-  <div class="wrapper" *ngIf="commonService.websiteList[commonService.page]">
-    <nav
-      class="children-nav"
-      *ngIf="commonService.websiteList[commonService.page]?.nav?.length"
-    >
-      <span
-        class="tag"
-        *ngFor="
-          let item of commonService.websiteList[commonService.page].nav;
-          let i = index;
-          trackBy: commonService.trackByItem
-        "
-        [class.active]="commonService.id === i"
-        (click)="commonService.handleSidebarNav(i)"
-      >
-        {{ item.title }}
-      </span>
-    </nav>
-    <div *ngFor="let item of commonService.currentList; index as i">
-      <h2 class="block-title" *ngIf="item.title">
-        {{ item.title }} x {{ item.nav.length }}
-      </h2>
-
-      <div
-        style="padding: 0 10px"
-        nz-row
-        [nzGutter]="[16, 16]"
-        [style.display]="item.collapsed ? 'none' : ''"
-      >
-        <div
-          class="gutter-row"
-          nz-col
-          [nzSpan]="8"
-          [nzMd]="12"
-          [nzXl]="6"
-          [nzXs]="24"
-          *ngFor="
-            let el of item.nav;
-            index as j;
-            trackBy: commonService.trackByItemWeb
-          "
-        >
-          <app-card
-            [cardStyle]="commonService.settings.appCardStyle"
-            [showRate]="commonService.settings.showRate"
-            [dataSource]="el"
-            [indexs]="[commonService.page, commonService.id, i, j]"
-            [searchKeyword]="commonService.searchKeyword"
-            class="column-border"
-          ></app-card>
+  @if (commonService.websiteList[commonService.page]) {
+    <div class="wrapper">
+      @if (commonService.websiteList[commonService.page]?.nav?.length) {
+        <nav
+          class="children-nav"
+          >
+          @for (
+            item of commonService.websiteList[commonService.page].nav; track commonService.trackByItem(i,
+            item); let i = $index) {
+            <span
+              class="tag"
+              [class.active]="commonService.id === i"
+              (click)="commonService.handleSidebarNav(i)"
+              >
+              {{ item.title }}
+            </span>
+          }
+        </nav>
+      }
+      @for (item of commonService.currentList; track item; let i = $index) {
+        <div>
+          @if (item.title) {
+            <h2 class="block-title">
+              {{ item.title }} x {{ item.nav.length }}
+            </h2>
+          }
+          <div
+            style="padding: 0 10px"
+            nz-row
+            [nzGutter]="[16, 16]"
+            [style.display]="item.collapsed ? 'none' : ''"
+            >
+            @for (
+              el of item.nav; track commonService.trackByItemWeb(j,
+              el); let j = $index) {
+              <div
+                class="gutter-row"
+                nz-col
+                [nzSpan]="8"
+                [nzMd]="12"
+                [nzXl]="6"
+                [nzXs]="24"
+                >
+                <app-card
+                  [cardStyle]="commonService.settings.appCardStyle"
+                  [showRate]="commonService.settings.showRate"
+                  [dataSource]="el"
+                  [indexs]="[commonService.page, commonService.id, i, j]"
+                  [searchKeyword]="commonService.searchKeyword"
+                  class="column-border"
+                ></app-card>
+              </div>
+            }
+          </div>
         </div>
-      </div>
+      }
     </div>
-  </div>
+  }
 
   <app-footer [content]="commonService.settings.footerContent" />
 </section>

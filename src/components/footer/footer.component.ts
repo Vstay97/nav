@@ -5,7 +5,7 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core'
 import { dialogService } from 'src/services/dialog'
 import { compilerTemplate } from 'src/utils/util'
-import { NgIf } from '@angular/common';
+
 import { SafeHtmlPipe } from 'src/pipe/safeHtml.pipe';
 
 @Component({
@@ -14,7 +14,7 @@ import { SafeHtmlPipe } from 'src/pipe/safeHtml.pipe';
     templateUrl: './footer.component.html',
     styleUrls: ['./footer.component.scss'],
     standalone: true,
-    imports: [NgIf, SafeHtmlPipe],
+    imports: [SafeHtmlPipe],
 })
 export class FooterComponent {
   @Input() className: string = ''

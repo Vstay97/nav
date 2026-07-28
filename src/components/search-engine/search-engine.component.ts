@@ -12,7 +12,7 @@ import { navStore } from 'src/store/nav.store'
 import { ISearchEngineProps } from '../../types'
 import { SearchType } from './index'
 import { $t } from 'src/locale'
-import { NgIf, NgStyle, NgFor } from '@angular/common';
+import { NgStyle } from '@angular/common';
 import { NzInputGroupComponent, NzInputGroupWhitSuffixOrPrefixDirective, NzInputDirective } from 'ng-zorro-antd/input';
 import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -26,20 +26,18 @@ import { NzSelectComponent, NzOptionComponent } from 'ng-zorro-antd/select';
     styleUrls: ['./search-engine.component.scss'],
     standalone: true,
     imports: [
-        NgIf,
-        NzInputGroupComponent,
-        ɵNzTransitionPatchDirective,
-        NzInputGroupWhitSuffixOrPrefixDirective,
-        NzInputDirective,
-        ReactiveFormsModule,
-        FormsModule,
-        NzPopoverDirective,
-        NgStyle,
-        NgFor,
-        LogoComponent,
-        NzSelectComponent,
-        NzOptionComponent,
-    ],
+    NzInputGroupComponent,
+    ɵNzTransitionPatchDirective,
+    NzInputGroupWhitSuffixOrPrefixDirective,
+    NzInputDirective,
+    ReactiveFormsModule,
+    FormsModule,
+    NzPopoverDirective,
+    NgStyle,
+    LogoComponent,
+    NzSelectComponent,
+    NzOptionComponent
+],
 })
 export class SearchEngineComponent {
   @Input() size: 'small' | 'default' | 'large' = 'default'
