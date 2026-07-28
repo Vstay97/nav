@@ -13,6 +13,7 @@ import { notify } from 'src/services/notify'
 import { isLogin } from 'src/utils/user'
 import { $t } from 'src/locale'
 import { STORAGE_KEY_MAP } from 'src/constants'
+import { storageGet, storageSet, storageRemove } from 'src/utils/storage.util'
 import { INavProps, IWebProps } from 'src/types'
 import { requestActionUrl } from './utils'
 import type { IDataProvider, IUpdateFileParams } from './data-provider'
@@ -41,6 +42,16 @@ export const { imageRepo, imageBranch } = parseImageRepo()
 
 export function isGitee() {
   return navConfig.gitRepoUrl.includes('gitee.com')
+}
+
+/** 图片 CDN 访问地址（jsdelivr / gitee raw） */
+export function getCDN(path: string) {
+  const branch = imageBranch || 'image'
+  const repo = imageRepo || repoName
+  if (isGitee()) {
+    return `https://gitee.com/${authorName}/${repo}/raw/${branch}/${path}`
+  }
+  return `https://${navStore.settings().gitHubCDN}/gh/${authorName}/${repo}@${branch}/${path}`
 }
 
 /** 按登录态过滤 ownVisible 节点（原地修改深层 nav，返回过滤后的顶层数组） */
@@ -94,7 +105,7 @@ export class StaticGitProvider implements IDataProvider {
       finish(data)
       return
     }
-    const storageDate = window.localStorage.getItem(STORAGE_KEY_MAP.s_url)
+    const storageDate = storageGet(STORAGE_KEY_MAP.s_url)
 
     // 检测到网站更新，清除缓存本地保存记录失效
     if (storageDate !== navConfig.datetime) {
@@ -102,15 +113,16 @@ export class StaticGitProvider implements IDataProvider {
         STORAGE_KEY_MAP.token,
         STORAGE_KEY_MAP.isDark,
       ]
+      // 清缓存需遍历所有 key（length/key 无 helper 等价物，保留原生访问）
       const len = window.localStorage.length
       for (let i = 0; i < len; i++) {
         const key = window.localStorage.key(i) as string
         if (whiteList.includes(key)) {
           continue
         }
-        window.localStorage.removeItem(key)
+        storageRemove(key)
       }
-      window.localStorage.setItem(STORAGE_KEY_MAP.s_url, navConfig.datetime)
+      storageSet(STORAGE_KEY_MAP.s_url, navConfig.datetime)
       localforage.removeItem(STORAGE_KEY_MAP.website)
       finish(data)
       setTimeout(() => {

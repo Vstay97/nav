@@ -4,17 +4,18 @@
 // Modified by Vstay97, 2026
 import localforage from 'localforage'
 import { STORAGE_KEY_MAP } from 'src/constants'
+import { storageGet, storageSet, storageRemove } from './storage.util'
 
 export function getToken() {
-  return window.localStorage.getItem(STORAGE_KEY_MAP.token) || ''
+  return storageGet(STORAGE_KEY_MAP.token) || ''
 }
 
 export function setToken(token: string) {
-  return window.localStorage.setItem(STORAGE_KEY_MAP.token, token)
+  return storageSet(STORAGE_KEY_MAP.token, token)
 }
 
 export function removeToken() {
-  return window.localStorage.removeItem(STORAGE_KEY_MAP.token)
+  return storageRemove(STORAGE_KEY_MAP.token)
 }
 
 export function removeWebsite() {

@@ -2,6 +2,7 @@
 import english from './english'
 import zh_CN from './zh_CN'
 import { STORAGE_KEY_MAP } from 'src/constants'
+import { storageGet } from 'src/utils/storage.util'
 import { navStore } from 'src/store/nav.store'
 
 const o = {
@@ -11,7 +12,7 @@ const o = {
 
 export function getLocale(): string {
   return (
-    window.localStorage.getItem(STORAGE_KEY_MAP.language) ||
+    storageGet(STORAGE_KEY_MAP.language) ||
     navStore.settings().language
   )
 }

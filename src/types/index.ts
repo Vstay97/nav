@@ -174,6 +174,17 @@ export interface INavProps {
   nav: INavTwoProp[]
 }
 
+/** 导航树分类节点（一/二/三级，均含 nav 子列表） */
+export type NavCategory = INavProps | INavTwoProp | INavThreeProp
+
+/** 导航树任意节点（分类节点 + 网站叶子） */
+export type NavNode = NavCategory | IWebProps
+
+/** 类型守卫：网站叶子节点（有 url，无 nav） */
+export function isWebProps(node: NavNode): node is IWebProps {
+  return typeof (node as IWebProps).url === 'string'
+}
+
 export interface ISearchEngineProps {
   name: string
   url?: string

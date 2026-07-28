@@ -10,3 +10,12 @@ import { StaticGitProvider } from './static-git.provider'
 export const dataProvider: IDataProvider = new StaticGitProvider()
 
 export type { IDataProvider, IUpdateFileParams } from './data-provider'
+
+// Git 仓库元信息与 CDN 地址（静态模式使用）
+export {
+  authorName,
+  repoName,
+  imageRepo,
+  imageBranch,
+  getCDN,
+} from './static-git.provider'

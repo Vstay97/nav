@@ -1,4 +1,4 @@
-import { deleteByWeb, updateByWeb, toggleCollapseAll } from './web'
+import { deleteByWeb, updateByWeb, toggleCollapseAll } from 'src/services/web-tree'
 import { adapterWebsiteList } from 'src/providers/static-git.provider'
 import { navStore } from 'src/store/nav.store'
 import { IWebProps } from 'src/types'

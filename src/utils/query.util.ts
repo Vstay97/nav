@@ -4,6 +4,7 @@
 
 import qs from 'qs'
 import { STORAGE_KEY_MAP } from 'src/constants'
+import { storageGet, storageSet } from './storage.util'
 import { navStore } from 'src/store/nav.store'
 
 export function queryString(): qs.ParsedQs & {
@@ -19,7 +20,7 @@ export function queryString(): qs.ParsedQs & {
 
   if (parseQs['id'] === undefined && parseQs['page'] === undefined) {
     try {
-      const location = window.localStorage.getItem(STORAGE_KEY_MAP.location)
+      const location = storageGet(STORAGE_KEY_MAP.location)
       if (location) {
         const localLocation = JSON.parse(location)
         page = localLocation.page || 0
@@ -52,7 +53,7 @@ export function queryString(): qs.ParsedQs & {
 export function setLocation() {
   const { page, id } = queryString()
 
-  window.localStorage.setItem(
+  storageSet(
     STORAGE_KEY_MAP.location,
     JSON.stringify({
       page,

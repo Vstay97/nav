@@ -19,15 +19,7 @@ import {
   IComponentProps,
   IWebProps,
 } from 'src/types'
-// 与 src/utils/index.ts 的 isDark() 一致（内联避免循环依赖；STORAGE_KEY_MAP.isDark = 'isDark'）
-function readIsDark(): boolean {
-  const storageVal = window.localStorage.getItem('isDark')
-  const darkMode = window?.matchMedia?.('(prefers-color-scheme: dark)')?.matches
-  if (!storageVal && darkMode) {
-    return darkMode
-  }
-  return Boolean(Number(storageVal))
-}
+import { readIsDark } from 'src/utils/storage.util'
 
 /**
  * NavStore —— 全局状态的单一可信源（响应式）

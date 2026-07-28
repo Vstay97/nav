@@ -6,6 +6,7 @@
 import { navStore } from 'src/store/nav.store'
 import { isMobile } from './dom.util'
 import { randomInt } from './text.util'
+import { readIsDark } from './storage.util'
 
 function randomColor(): string {
   const r = randomInt(255)
@@ -16,14 +17,7 @@ function randomColor(): string {
 }
 
 export function isDark(): boolean {
-  const storageVal = window.localStorage.getItem('isDark')
-  const darkMode = window?.matchMedia?.('(prefers-color-scheme: dark)')?.matches
-
-  if (!storageVal && darkMode) {
-    return darkMode
-  }
-
-  return Boolean(Number(storageVal))
+  return readIsDark()
 }
 
 let randomTimer: any
