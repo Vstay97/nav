@@ -13,13 +13,14 @@ import { isDark as isDarkFn, randomBgImg, queryString } from 'src/utils'
 import { NzModalService } from 'ng-zorro-antd/modal'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { isLogin } from 'src/utils/user'
-import { updateFileContent } from 'src/api'
+import { dataProvider } from 'src/providers'
 import { navStore } from 'src/store/nav.store'
 import { DB_PATH, STORAGE_KEY_MAP } from 'src/constants'
+import { storageGet, storageSet } from 'src/utils/storage.util'
 import { Router, ActivatedRoute } from '@angular/router'
 import { $t, getLocale } from 'src/locale'
 import { addDark, removeDark } from 'src/utils/util'
-import { NgIf, NgFor } from '@angular/common';
+
 import { NzDropDownDirective, NzDropdownMenuComponent } from 'ng-zorro-antd/dropdown';
 import { NzMenuDirective, NzMenuItemComponent } from 'ng-zorro-antd/menu';
 import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
@@ -32,15 +33,13 @@ import { NzTooltipDirective } from 'ng-zorro-antd/tooltip';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     imports: [
-        NgIf,
-        NzDropDownDirective,
-        NzDropdownMenuComponent,
-        NzMenuDirective,
-        NgFor,
-        ɵNzTransitionPatchDirective,
-        NzMenuItemComponent,
-        NzTooltipDirective,
-    ],
+    NzDropDownDirective,
+    NzDropdownMenuComponent,
+    NzMenuDirective,
+    ɵNzTransitionPatchDirective,
+    NzMenuItemComponent,
+    NzTooltipDirective
+],
 })
 export class FixbarComponent {
   @Input() showTop: boolean = true
@@ -54,7 +53,7 @@ export class FixbarComponent {
   isDark: boolean = isDarkFn()
   syncLoading = false
   isLogin = isLogin
-  open = localStorage.getItem(STORAGE_KEY_MAP.fixbarOpen) === 'true'
+  open = storageGet(STORAGE_KEY_MAP.fixbarOpen) === 'true'
 
   get settings() {
     return navStore.settings()
@@ -142,7 +141,7 @@ export class FixbarComponent {
   toggleMode() {
     this.isDark = !this.isDark
     navStore.setDark(this.isDark)
-    window.localStorage.setItem(
+    storageSet(
       STORAGE_KEY_MAP.isDark,
       String(Number(this.isDark))
     )
@@ -163,7 +162,7 @@ export class FixbarComponent {
 
   handleOpen() {
     this.open = !this.open
-    localStorage.setItem(STORAGE_KEY_MAP.fixbarOpen, String(this.open))
+    storageSet(STORAGE_KEY_MAP.fixbarOpen, String(this.open))
   }
 
   handleSync() {
@@ -179,7 +178,7 @@ export class FixbarComponent {
       nzOnOk: () => {
         this.syncLoading = true
 
-        updateFileContent({
+        dataProvider.updateFileContent({
           message: 'update db',
           content: JSON.stringify(this.websiteList),
           path: DB_PATH,
@@ -196,7 +195,7 @@ export class FixbarComponent {
 
   toggleLocale() {
     const l = this.language === 'en' ? 'zh-CN' : 'en'
-    window.localStorage.setItem(STORAGE_KEY_MAP.language, l)
+    storageSet(STORAGE_KEY_MAP.language, l)
     window.location.reload()
   }
 }

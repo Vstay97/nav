@@ -1,0 +1,49 @@
+<nz-table [nzData]="images" [nzShowPagination]="false">
+  <thead>
+    <tr>
+      <th>{{ $t('_backgroundImage') }}</th>
+      <th>{{ $t('_jumpAddr') }}</th>
+      <th>{{ $t('_action') }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (data of images; track data; let idx = $index) {
+      <tr>
+        <td width="260px" class="whitespace-nowrap">
+          <img [src]="data['src']" class="icon" />
+          <div>
+            <input
+              nz-input
+              type="text"
+              [value]="data['src']"
+              style="width: 180px; margin-right: 10px"
+              (change)="onSrcChange($event, idx)"
+              />
+            <app-upload (onChange)="onUpload($event, idx)" />
+          </div>
+        </td>
+        <td>
+          <input
+            nz-input
+            [value]="data['url']"
+            maxlength="200"
+            (change)="onUrlChange($event, idx)"
+            />
+        </td>
+        <td>
+          <a
+            nz-popconfirm
+            nzPopconfirmPlacement="rightTop"
+            nzOkType="danger"
+            [nzPopconfirmTitle]="$t('_confirmDel')"
+            (nzOnConfirm)="onDelete(idx)"
+            class="color-red"
+            >
+            {{ $t('_del') }}
+          </a>
+        </td>
+      </tr>
+    }
+  </tbody>
+</nz-table>
+<a (click)="onAdd()" class="mt-2.5 display-block">{{ $t('_add') }}</a>

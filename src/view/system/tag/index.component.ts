@@ -8,13 +8,13 @@ import { $t } from 'src/locale'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NzModalService } from 'ng-zorro-antd/modal'
 import { ITagPropValues } from 'src/types'
-import { updateFileContent } from 'src/api'
+import { dataProvider } from 'src/providers'
 import { TAG_PATH } from 'src/constants'
 import { navStore } from 'src/store/nav.store'
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzWaveDirective } from 'ng-zorro-antd/core/wave';
 import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
-import { NgIf, NgFor } from '@angular/common';
+
 import { NzTableComponent, NzTheadComponent, NzTrDirective, NzTableCellDirective, NzThMeasureDirective, NzTbodyComponent } from 'ng-zorro-antd/table';
 import { NzInputDirective } from 'ng-zorro-antd/input';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -26,22 +26,20 @@ import { NzPopconfirmDirective } from 'ng-zorro-antd/popconfirm';
     styleUrls: ['./index.component.scss'],
     standalone: true,
     imports: [
-        NzButtonComponent,
-        NzWaveDirective,
-        ɵNzTransitionPatchDirective,
-        NgIf,
-        NzTableComponent,
-        NzTheadComponent,
-        NzTrDirective,
-        NzTableCellDirective,
-        NzThMeasureDirective,
-        NzTbodyComponent,
-        NgFor,
-        NzInputDirective,
-        ReactiveFormsModule,
-        FormsModule,
-        NzPopconfirmDirective,
-    ],
+    NzButtonComponent,
+    NzWaveDirective,
+    ɵNzTransitionPatchDirective,
+    NzTableComponent,
+    NzTheadComponent,
+    NzTrDirective,
+    NzTableCellDirective,
+    NzThMeasureDirective,
+    NzTbodyComponent,
+    NzInputDirective,
+    ReactiveFormsModule,
+    FormsModule,
+    NzPopconfirmDirective
+],
 })
 export class SystemTagComponent {
   $t = $t
@@ -60,8 +58,8 @@ export class SystemTagComponent {
 
   ngOnInit() {}
 
-  onColorChange(e: any, idx: number) {
-    const color = e.target.value
+  onColorChange(e: Event, idx: number) {
+    const color = (e.target as HTMLInputElement).value
     this.tagList[idx].color = color
   }
 
@@ -91,7 +89,7 @@ export class SystemTagComponent {
     }
 
     // 去重
-    const o: Record<string, any> = {}
+    const o: Record<string, unknown> = {}
     this.tagList.forEach((item: ITagPropValues) => {
       if (item.name?.trim?.()) {
         o[item.name] = {
@@ -112,7 +110,7 @@ export class SystemTagComponent {
       nzContent: $t('_confirmSyncTip'),
       nzOnOk: () => {
         this.submitting = true
-        updateFileContent({
+        dataProvider.updateFileContent({
           message: 'update tag',
           content: JSON.stringify(this.tagList),
           path: TAG_PATH,
@@ -127,7 +125,7 @@ export class SystemTagComponent {
     })
   }
 
-  trackByItem(i: number, item: any) {
+  trackByItem(index: number, item: ITagPropValues) {
     return item.id
   }
 }

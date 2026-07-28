@@ -3,7 +3,7 @@
 // See https://github.com/xjh22222228/nav
 
 import { signal } from '@angular/core'
-import { IWebProps } from 'src/types'
+import { IWebProps, NavNode } from 'src/types'
 
 /**
  * 全局弹窗状态（替代 mitt 的 CREATE_WEB / SET_CREATE_WEB / MOVE_WEB 事件）。
@@ -21,7 +21,7 @@ export interface ICreateWebPayload {
 
 export interface IMoveWebPayload {
   indexs: number[]
-  data: IWebProps[]
+  data: NavNode[]
   level?: number
 }
 

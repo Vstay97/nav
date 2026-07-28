@@ -11,6 +11,7 @@ import {
   IWebProps,
   ISettings,
   internalProps,
+  NavNode,
 } from 'src/types'
 import { navStore } from 'src/store/nav.store'
 import { isLogin } from 'src/utils/user'
@@ -21,7 +22,7 @@ import config from '../../../../nav.config.json'
 import { WebManagementService } from './web-management.service'
 import { CategoryFormModalComponent } from './category-form-modal.component'
 import { CategoryTableComponent } from './category-table.component'
-import { NgIf, NgFor } from '@angular/common'
+
 import { FormsModule } from '@angular/forms'
 import { NzButtonComponent } from 'ng-zorro-antd/button'
 import { NzWaveDirective } from 'ng-zorro-antd/core/wave'
@@ -50,8 +51,6 @@ import { TagListComponent } from '../../../components/tag-list/index.component'
   styleUrls: ['./index.component.scss'],
   standalone: true,
   imports: [
-    NgIf,
-    NgFor,
     FormsModule,
     NzButtonComponent,
     NzWaveDirective,
@@ -74,8 +73,8 @@ import { TagListComponent } from '../../../components/tag-list/index.component'
     NzOptionComponent,
     TagListComponent,
     CategoryFormModalComponent,
-    CategoryTableComponent,
-  ],
+    CategoryTableComponent
+],
 })
 export class SystemWebComponent {
   @ViewChild('formModal') formModal!: CategoryFormModalComponent
@@ -182,7 +181,7 @@ export class SystemWebComponent {
 
   onAllChecked(checked: boolean, type: 1 | 2 | 3 | 4) {
     this.setOfCheckedId.clear()
-    const lists: Record<number, any[]> = {
+    const lists: Record<number, Array<{ title?: string; name?: string }>> = {
       1: this.websiteList,
       2: this.twoTableData,
       3: this.threeTableData,
@@ -190,15 +189,19 @@ export class SystemWebComponent {
     }
     const key: 'title' | 'name' = type === 4 ? 'name' : 'title'
     lists[type].forEach((item) => {
+      const id = item[key]
+      if (id == null) {
+        return
+      }
       if (checked) {
-        this.setOfCheckedId.add(item[key])
+        this.setOfCheckedId.add(id)
       } else {
-        this.setOfCheckedId.delete(item[key])
+        this.setOfCheckedId.delete(id)
       }
     })
   }
 
-  onItemChecked(idStr: any, checked: boolean) {
+  onItemChecked(idStr: string, checked: boolean) {
     if (checked) {
       this.setOfCheckedId.add(idStr)
     } else {
@@ -240,9 +243,9 @@ export class SystemWebComponent {
     this.webService.downloadBackup()
   }
 
-  handleUploadBackup(e: any) {
-    const files = e.target.files
-    if (files.length <= 0) return
+  handleUploadBackup(e: Event) {
+    const files = (e.target as HTMLInputElement).files
+    if (!files || files.length <= 0) return
     this.webService.uploadBackupFile(files[0])
   }
 
@@ -250,7 +253,7 @@ export class SystemWebComponent {
     history.go(-1)
   }
 
-  openMoveWebModal(data: any, index: number, level?: number) {
+  openMoveWebModal(data: NavNode, index: number, level?: number) {
     dialogService.openMoveWeb({
       indexs: [this.oneIndex, this.twoIndex, this.threeIndex, index],
       data: [data],
@@ -288,27 +291,27 @@ export class SystemWebComponent {
     }
   }
 
-  handleConfirmDelWebsite(data: any, idx: number) {
+  handleConfirmDelWebsite(data: IWebProps, idx: number) {
     const ok = this.webService.deleteWeb(data)
     if (ok && this.errorWebs.length) {
       this.getAllErrorWeb()
     }
   }
 
-  hanldeOneSelect(value?: any) {
+  hanldeOneSelect(value?: string) {
     this.oneSelect = value ?? this.oneSelect
     this.twoSelect = ''
     this.threeSelect = ''
     this.onTabChange()
   }
 
-  hanldeTwoSelect(value?: any) {
+  hanldeTwoSelect(value?: string) {
     this.twoSelect = value ?? this.twoSelect
     this.threeSelect = ''
     this.onTabChange()
   }
 
-  hanldeThreeSelect(value?: any) {
+  hanldeThreeSelect(value?: string) {
     this.threeSelect = value ?? this.threeSelect
     this.onTabChange()
   }

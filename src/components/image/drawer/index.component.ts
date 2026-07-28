@@ -5,6 +5,8 @@
 import { Component, EventEmitter, Output } from '@angular/core'
 import { $t } from 'src/locale'
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
+import { ComponentType, IImageComponent } from 'src/types'
+import { IUploadChangePayload } from 'src/components/upload/index.component'
 import { NzDrawerComponent, NzDrawerContentDirective } from 'ng-zorro-antd/drawer';
 import { NzFormDirective, NzFormItemComponent, NzFormLabelComponent, NzFormControlComponent } from 'ng-zorro-antd/form';
 import { NzRowDirective, NzColDirective } from 'ng-zorro-antd/grid';
@@ -39,7 +41,7 @@ import { NzWaveDirective } from 'ng-zorro-antd/core/wave';
     ],
 })
 export class ImageDrawerComponent {
-  @Output() ok = new EventEmitter<void>()
+  @Output() ok = new EventEmitter<IImageComponent & { index: number }>()
 
   $t = $t
   visible = false
@@ -54,15 +56,15 @@ export class ImageDrawerComponent {
     })
   }
 
-  open(data: any, idx: number) {
+  open(data: IImageComponent, idx: number) {
     this.index = idx
     for (const k in data) {
-      this.validateForm.get(k)!?.setValue(data[k])
+      this.validateForm.get(k)!?.setValue(data[k as keyof IImageComponent])
     }
     this.visible = true
   }
 
-  onUploadImage(data: any) {
+  onUploadImage(data: IUploadChangePayload) {
     this.validateForm.get('url')!.setValue(data.cdn)
   }
 
@@ -73,6 +75,8 @@ export class ImageDrawerComponent {
   handleSubmit() {
     const values = this.validateForm.value
     this.ok.emit({
+      type: ComponentType.Image,
+      id: 0,
       ...values,
       index: this.index,
     })

@@ -11,9 +11,9 @@ import {
   matchCurrentList,
   getOverIndex,
 } from 'src/utils'
-import { setWebsiteList, toggleCollapseAll } from 'src/utils/web'
+import { setWebsiteList, toggleCollapseAll } from 'src/services/web-tree'
 import { dataProvider } from 'src/providers'
-import { INavProps, INavThreeProp, ISettings } from 'src/types'
+import { INavProps, INavThreeProp, ISettings, IWebProps, NavCategory } from 'src/types'
 import { isLogin } from 'src/utils/user'
 
 @Injectable({
@@ -99,11 +99,11 @@ export class CommonService {
     toggleCollapseAll(this.websiteList)
   }
 
-  trackByItem(a: any, item: any) {
+  trackByItem(index: number, item: NavCategory) {
     return item.title
   }
 
-  trackByItemWeb(a: any, item: any) {
+  trackByItemWeb(index: number, item: IWebProps) {
     return item.id
   }
 
@@ -115,7 +115,7 @@ export class CommonService {
     }
   }
 
-  onCollapse = (item: any, index: number) => {
+  onCollapse = (item: INavThreeProp, index: number) => {
     item.collapsed = !item.collapsed
     this.websiteList[this.page].nav[this.id].nav[index] = item
     navStore.touchWebsiteList()

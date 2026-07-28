@@ -5,14 +5,14 @@
 import { Component, Input, effect } from '@angular/core'
 import { IOffWorkComponent } from 'src/types'
 import { navStore } from 'src/store/nav.store'
-import { NgIf } from '@angular/common';
+
 
 @Component({
     selector: 'app-offwork',
     templateUrl: './index.component.html',
     styleUrls: ['./index.component.scss'],
     standalone: true,
-    imports: [NgIf],
+    imports: [],
 })
 export class OffWorkComponent {
   @Input() data!: IOffWorkComponent

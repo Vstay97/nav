@@ -7,6 +7,8 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { navStore } from 'src/store/nav.store'
 import { $t } from 'src/locale'
+import { NavCategory } from 'src/types'
+import { IUploadChangePayload } from 'src/components/upload/index.component'
 import { WebManagementService } from './web-management.service'
 import { NzModalModule } from 'ng-zorro-antd/modal'
 import { NzFormModule } from 'ng-zorro-antd/form'
@@ -14,7 +16,7 @@ import { NzInputModule } from 'ng-zorro-antd/input'
 import { NzSwitchModule } from 'ng-zorro-antd/switch'
 import { LogoComponent } from 'src/components/logo/logo.component'
 import { UploadComponent } from 'src/components/upload/index.component'
-import { NgIf } from '@angular/common'
+
 
 /**
  * 分类新增/编辑弹窗（自包含：表单状态、校验、保存）。
@@ -24,22 +26,21 @@ import { NgIf } from '@angular/common'
   selector: 'app-category-form-modal',
   standalone: true,
   imports: [
-    NgIf,
     ReactiveFormsModule,
     NzModalModule,
     NzFormModule,
     NzInputModule,
     NzSwitchModule,
     LogoComponent,
-    UploadComponent,
-  ],
+    UploadComponent
+],
   template: `
     <nz-modal
       [(nzVisible)]="showCreateModal"
       [nzTitle]="isEdit ? $t('_edit') : $t('_add')"
       (nzOnCancel)="open()"
       (nzOnOk)="handleOk()"
-    >
+      >
       <ng-container *nzModalContent>
         <form nz-form [formGroup]="validateForm">
           <nz-form-item>
@@ -50,10 +51,10 @@ import { NgIf } from '@angular/common'
                 nz-input
                 [placeholder]="$t('_webTitle')"
                 [maxlength]="50"
-              />
+                />
             </nz-form-control>
           </nz-form-item>
-
+    
           <nz-form-item>
             <nz-form-label [nzSpan]="6" nzRequired>{{
               $t('_onlyOwnVisible')
@@ -62,7 +63,7 @@ import { NgIf } from '@angular/common'
               <nz-switch formControlName="ownVisible"></nz-switch>
             </nz-form-control>
           </nz-form-item>
-
+    
           <nz-form-item>
             <nz-form-label [nzSpan]="6">图标地址</nz-form-label>
             <nz-form-control [nzSpan]="18">
@@ -71,11 +72,13 @@ import { NgIf } from '@angular/common'
                   formControlName="icon"
                   nz-input
                   placeholder="用于某些主题icon"
-                />
+                  />
               </nz-input-group>
-
+    
               <ng-template #prefixIcon>
-                <app-logo [src]="iconUrl" [size]="25" *ngIf="iconUrl" />
+                @if (iconUrl) {
+                  <app-logo [src]="iconUrl" [size]="25" />
+                }
               </ng-template>
               <ng-template #suffixIconSearch>
                 <app-upload (onChange)="onChangeFile($event)"></app-upload>
@@ -85,7 +88,7 @@ import { NgIf } from '@angular/common'
         </form>
       </ng-container>
     </nz-modal>
-  `,
+    `,
 })
 export class CategoryFormModalComponent {
   /** 当前激活的 tab（0 一级 / 1 二级 / 2 三级） */
@@ -159,17 +162,17 @@ export class CategoryFormModalComponent {
     this.validateForm.reset()
   }
 
-  openEdit(data: any, editIdx: number) {
-    let { title, icon, name, ownVisible } = data
+  openEdit(data: NavCategory, editIdx: number) {
+    const { title, icon, ownVisible } = data
     this.open()
     this.isEdit = true
     this.editIdx = editIdx
-    this.validateForm.get('title')!.setValue(title || name || '')
+    this.validateForm.get('title')!.setValue(title || '')
     this.validateForm.get('icon')!.setValue(icon || '')
     this.validateForm.get('ownVisible')!.setValue(!!ownVisible)
   }
 
-  onChangeFile(data: any) {
+  onChangeFile(data: IUploadChangePayload) {
     this.validateForm.get('icon')!.setValue(data.cdn)
   }
 

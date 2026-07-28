@@ -5,18 +5,18 @@
 
 import { Component, Output, EventEmitter, effect } from '@angular/core'
 import { queryString, getTextContent } from 'src/utils'
-import { setWebsiteList, updateByWeb } from 'src/utils/web'
+import { setWebsiteList, updateByWeb } from 'src/services/web-tree'
 import { FormBuilder, FormGroup, Validators, FormArray, ReactiveFormsModule } from '@angular/forms'
 import { IWebProps, IWebTag, TopType } from 'src/types'
 import { NzMessageService } from 'ng-zorro-antd/message'
-import { getWebInfo } from 'src/api'
+import { dataProvider } from 'src/providers'
 import { $t } from 'src/locale'
 import { navStore } from 'src/store/nav.store'
 import { dialogService } from 'src/services/dialog'
 import { isLogin } from 'src/utils/user'
 import { ISettings, ITagPropValues } from 'src/types'
 import { NzModalComponent, NzModalContentDirective } from 'ng-zorro-antd/modal';
-import { NgIf, NgFor } from '@angular/common';
+
 import { NzFormDirective, NzFormItemComponent, NzFormLabelComponent, NzFormControlComponent } from 'ng-zorro-antd/form';
 import { NzRowDirective, NzColDirective } from 'ng-zorro-antd/grid';
 import { NzInputDirective, NzInputGroupComponent, NzInputGroupWhitSuffixOrPrefixDirective, NzAutosizeDirective } from 'ng-zorro-antd/input';
@@ -37,33 +37,31 @@ import { NzWaveDirective } from 'ng-zorro-antd/core/wave';
     styleUrls: ['./index.component.scss'],
     standalone: true,
     imports: [
-        NzModalComponent,
-        NzModalContentDirective,
-        NgIf,
-        NgFor,
-        ReactiveFormsModule,
-        NzFormDirective,
-        NzRowDirective,
-        NzFormItemComponent,
-        NzColDirective,
-        NzFormLabelComponent,
-        NzFormControlComponent,
-        NzInputDirective,
-        NzSwitchComponent,
-        NzCheckboxGroupComponent,
-        NzRateComponent,
-        NzInputGroupComponent,
-        ɵNzTransitionPatchDirective,
-        NzInputGroupWhitSuffixOrPrefixDirective,
-        LogoComponent,
-        NzIconDirective,
-        UploadComponent,
-        NzAutosizeDirective,
-        NzSelectComponent,
-        NzOptionComponent,
-        NzButtonComponent,
-        NzWaveDirective,
-    ],
+    NzModalComponent,
+    NzModalContentDirective,
+    ReactiveFormsModule,
+    NzFormDirective,
+    NzRowDirective,
+    NzFormItemComponent,
+    NzColDirective,
+    NzFormLabelComponent,
+    NzFormControlComponent,
+    NzInputDirective,
+    NzSwitchComponent,
+    NzCheckboxGroupComponent,
+    NzRateComponent,
+    NzInputGroupComponent,
+    ɵNzTransitionPatchDirective,
+    NzInputGroupWhitSuffixOrPrefixDirective,
+    LogoComponent,
+    NzIconDirective,
+    UploadComponent,
+    NzAutosizeDirective,
+    NzSelectComponent,
+    NzOptionComponent,
+    NzButtonComponent,
+    NzWaveDirective
+],
 })
 export class CreateWebComponent {
   @Output() onOk = new EventEmitter()
@@ -228,7 +226,7 @@ export class CreateWebComponent {
       }
 
       this.getting = true
-      const res = await getWebInfo(url)
+      const res = await dataProvider.getWebInfo(url)
       if (res['url'] != null && !iconVal) {
         this.validateForm.get('icon')!.setValue(res['url'])
       }

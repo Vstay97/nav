@@ -2,16 +2,18 @@
   <div class="title">
     {{ isRest ? data['restTitle'] : data['workTitle'] }}
   </div>
-  <div class="coutdown" *ngIf="!isRest">{{ countdownStr }}</div>
-  <img
-    *ngIf="isRest; else other"
-    src="https://gcore.jsdelivr.net/gh/xjh22222228/public@gh-pages/nav/rest.svg"
-    class="img"
-  />
-  <ng-template #other>
+  @if (!isRest) {
+    <div class="coutdown">{{ countdownStr }}</div>
+  }
+  @if (isRest) {
     <img
       src="https://gcore.jsdelivr.net/gh/xjh22222228/public@gh-pages/nav/rest.svg"
       class="img"
-    />
-  </ng-template>
+      />
+  } @else {
+    <img
+      src="https://gcore.jsdelivr.net/gh/xjh22222228/public@gh-pages/nav/rest.svg"
+      class="img"
+      />
+  }
 </div>

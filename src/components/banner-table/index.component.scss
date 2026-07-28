@@ -1,0 +1,11 @@
+// 与设置页 .sim-ban img 规则一致（组件封装后原父级样式无法穿透，需组件内自带）
+img {
+  display: inline-block;
+  width: 100%;
+  object-fit: cover;
+}
+
+// 上传图标尺寸，与原设置页 .sim-ban ::ng-deep .anticon 一致
+::ng-deep .anticon {
+  font-size: 30px;
+}

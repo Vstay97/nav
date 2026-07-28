@@ -1,17 +1,21 @@
-<div class="fetchIng flex-center" *ngIf="fetchIng; else done">
-  <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
-</div>
-
-<ng-template #done>
-  <div id="xiejiahe">
-    <app-effects-layer *ngIf="fxAuroraVisible"></app-effects-layer>
-    <app-cursor-glow *ngIf="fxCursorGlowVisible"></app-cursor-glow>
-
-    <app-icon-git></app-icon-git>
-
-    <router-outlet></router-outlet>
-
-    <app-create-web />
-    <app-move-web *ngIf="isLogin" />
+@if (fetchIng) {
+  <div class="fetchIng flex-center">
+    <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
   </div>
-</ng-template>
+} @else {
+  <div id="xiejiahe">
+    @if (fxAuroraVisible) {
+      <app-effects-layer></app-effects-layer>
+    }
+    @if (fxCursorGlowVisible) {
+      <app-cursor-glow></app-cursor-glow>
+    }
+    <app-icon-git></app-icon-git>
+    <router-outlet></router-outlet>
+    <app-create-web />
+    @if (isLogin) {
+      <app-move-web />
+    }
+  </div>
+}
+

@@ -5,13 +5,13 @@
 
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { NzMessageService } from 'ng-zorro-antd/message'
-import { verifyToken, createBranch } from 'src/api'
+import { dataProvider } from 'src/providers'
 import { setToken, removeWebsite } from 'src/utils/user'
 import { $t } from 'src/locale'
 import { NzModalComponent, NzModalContentDirective } from 'ng-zorro-antd/modal';
 import { NzInputDirective } from 'ng-zorro-antd/input';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { NgIf } from '@angular/common';
+
 
 @Component({
     selector: 'app-login',
@@ -19,13 +19,12 @@ import { NgIf } from '@angular/common';
     styleUrls: ['./login.component.scss'],
     standalone: true,
     imports: [
-        NzModalComponent,
-        NzModalContentDirective,
-        NzInputDirective,
-        ReactiveFormsModule,
-        FormsModule,
-        NgIf,
-    ],
+    NzModalComponent,
+    NzModalContentDirective,
+    NzInputDirective,
+    ReactiveFormsModule,
+    FormsModule
+],
 })
 export class LoginComponent implements OnInit {
   @Input() visible: boolean = false
@@ -66,10 +65,10 @@ export class LoginComponent implements OnInit {
     const token = this.token.trim()
 
     this.submiting = true
-    verifyToken(token)
+    dataProvider.verifyToken(token)
       .then(() => {
         setToken(token)
-        createBranch('image').finally(() => {
+        dataProvider.createBranch('image').finally(() => {
           this.message.success($t('_tokenVerSuc'))
           removeWebsite().finally(() => {
             window.location.reload()

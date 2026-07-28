@@ -5,6 +5,7 @@
 import { Component, EventEmitter, Output } from '@angular/core'
 import { $t } from 'src/locale'
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
+import { ComponentType, IHTMLComponent } from 'src/types'
 import { NzDrawerComponent, NzDrawerContentDirective } from 'ng-zorro-antd/drawer';
 import { NzFormDirective, NzFormItemComponent, NzFormLabelComponent, NzFormControlComponent } from 'ng-zorro-antd/form';
 import { NzRowDirective, NzColDirective } from 'ng-zorro-antd/grid';
@@ -36,7 +37,7 @@ import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patc
     ],
 })
 export class HTMLDrawerComponent {
-  @Output() ok = new EventEmitter<void>()
+  @Output() ok = new EventEmitter<IHTMLComponent & { index: number }>()
 
   $t = $t
   visible = false
@@ -49,10 +50,10 @@ export class HTMLDrawerComponent {
     })
   }
 
-  open(data: any, idx: number) {
+  open(data: IHTMLComponent, idx: number) {
     this.index = idx
     for (const k in data) {
-      this.validateForm.get(k)!?.setValue(data[k])
+      this.validateForm.get(k)!?.setValue(data[k as keyof IHTMLComponent])
     }
     this.visible = true
   }
@@ -64,6 +65,8 @@ export class HTMLDrawerComponent {
   handleSubmit() {
     const values = this.validateForm.value
     this.ok.emit({
+      type: ComponentType.HTML,
+      id: 0,
       ...values,
       index: this.index,
     })

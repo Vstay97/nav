@@ -3,7 +3,7 @@
   (click)="handleAdd()"
   [nzLoading]="submitting"
   class="add-btn"
->
+  >
   {{ $t('_addRow') }}
 </button>
 
@@ -12,7 +12,7 @@
   nzType="primary"
   (click)="handleSubmit()"
   [nzLoading]="submitting"
->
+  >
   {{ $t('_save') }}
 </button>
 
@@ -31,45 +31,52 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of searchList; index as idx; trackBy: trackByItem">
-      <td width="150px">
-        <input nz-input [(ngModel)]="data.name" maxlength="10" />
-      </td>
-      <td width="220px">
-        <input *ngIf="!data.isInner" nz-input [(ngModel)]="data.url" />
-      </td>
-      <td width="260px" class="whitespace-nowrap">
-        <img *ngIf="data.icon" [src]="data.icon" class="icon" />
-        <input
-          nz-input
-          type="text"
-          [(ngModel)]="data.icon"
-          style="width: 180px"
-        />
-        <app-upload (onChange)="onChangeUpload($event, idx)"></app-upload>
-      </td>
-      <td width="220px">
-        <input nz-input [(ngModel)]="data.placeholder" maxlength="50" />
-      </td>
-      <td width="100px">
-        <nz-switch [(ngModel)]="data.blocked"></nz-switch>
-      </td>
-      <td class="select-none">
-        <a (click)="moveUp(idx)">{{ $t('_moveUp') }}</a>
-        <a (click)="moveDown(idx)" class="ml-2.5">{{ $t('_moveDown') }}</a>
-        <a
-          *ngIf="!data.isInner"
-          nz-popconfirm
-          nzPopconfirmPlacement="rightTop"
-          nzOkType="danger"
-          [nzPopconfirmTitle]="$t('_confirmDel')"
-          nzPopconfirmPlacement="bottom"
-          (nzOnConfirm)="handleDelete(idx)"
-          class="ml-2.5 color-red"
-        >
-          {{ $t('_del') }}
-        </a>
-      </td>
-    </tr>
+    @for (data of searchList; track trackByItem(idx, data); let idx = $index) {
+      <tr>
+        <td width="150px">
+          <input nz-input [(ngModel)]="data.name" maxlength="10" />
+        </td>
+        <td width="220px">
+          @if (!data.isInner) {
+            <input nz-input [(ngModel)]="data.url" />
+          }
+        </td>
+        <td width="260px" class="whitespace-nowrap">
+          @if (data.icon) {
+            <img [src]="data.icon" class="icon" />
+          }
+          <input
+            nz-input
+            type="text"
+            [(ngModel)]="data.icon"
+            style="width: 180px"
+            />
+          <app-upload (onChange)="onChangeUpload($event, idx)"></app-upload>
+        </td>
+        <td width="220px">
+          <input nz-input [(ngModel)]="data.placeholder" maxlength="50" />
+        </td>
+        <td width="100px">
+          <nz-switch [(ngModel)]="data.blocked"></nz-switch>
+        </td>
+        <td class="select-none">
+          <a (click)="moveUp(idx)">{{ $t('_moveUp') }}</a>
+          <a (click)="moveDown(idx)" class="ml-2.5">{{ $t('_moveDown') }}</a>
+          @if (!data.isInner) {
+            <a
+              nz-popconfirm
+              nzPopconfirmPlacement="rightTop"
+              nzOkType="danger"
+              [nzPopconfirmTitle]="$t('_confirmDel')"
+              nzPopconfirmPlacement="bottom"
+              (nzOnConfirm)="handleDelete(idx)"
+              class="ml-2.5 color-red"
+              >
+              {{ $t('_del') }}
+            </a>
+          }
+        </td>
+      </tr>
+    }
   </tbody>
 </nz-table>

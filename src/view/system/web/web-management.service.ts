@@ -7,13 +7,14 @@ import { NzMessageService } from 'ng-zorro-antd/message'
 import { NzNotificationService } from 'ng-zorro-antd/notification'
 import { NzModalService } from 'ng-zorro-antd/modal'
 import { saveAs } from 'file-saver'
-import { INavProps, IWebProps } from 'src/types'
+import { INavProps, IWebProps, NavCategory, NavNode, isWebProps } from 'src/types'
 import { navStore } from 'src/store/nav.store'
-import { setWebsiteList, deleteByWeb } from 'src/utils/web'
-import { updateFileContent } from 'src/api'
+import { setWebsiteList, deleteByWeb } from 'src/services/web-tree'
+import { dataProvider } from 'src/providers'
 import { getTextContent } from 'src/utils'
 import { removeWebsite } from 'src/utils/user'
 import { DB_PATH, STORAGE_KEY_MAP } from 'src/constants'
+import { storageRemove } from 'src/utils/storage.util'
 import { $t } from 'src/locale'
 
 export interface ICategoryPayload {
@@ -44,15 +45,16 @@ export class WebManagementService {
   }
 
   /** 按索引路径取目标列表：[] → 一级；[a] → 二级；[a,b] → 三级；[a,b,c] → 网站 */
-  getListByPath(path: number[]): any[] {
-    let node: any = { nav: this.websiteList }
+  getListByPath(path: number[]): NavCategory[] {
+    let list = this.websiteList as NavNode[]
     for (const idx of path) {
-      node = node.nav?.[idx]
-      if (!node) {
+      const node = list[idx]
+      if (!node || isWebProps(node)) {
         return []
       }
+      list = node.nav as NavNode[]
     }
-    return node.nav ?? []
+    return list as NavCategory[]
   }
 
   /** 列表项上移/下移（direction: -1 上移 / 1 下移），越界不变 */
@@ -130,9 +132,12 @@ export class WebManagementService {
     if (!parent) {
       return
     }
-    parent.nav = parent.nav.filter(
-      (item: any) => !titles.has(item.title as string)
+    // parent.nav 静态类型是“同构数组的联合”，filter 后为“混合数组”，二者互不赋值；
+    // 按业务语义（path 定位的必是分类列表）安全回写。
+    const remaining = (parent.nav as NavNode[]).filter(
+      (item) => isWebProps(item) || !titles.has(item.title ?? '')
     )
+    parent.nav = remaining as unknown as NavCategory['nav']
     setWebsiteList(this.websiteList)
   }
 
@@ -160,18 +165,18 @@ export class WebManagementService {
   /** 收集全树中 ok === false 的疑似异常网站 */
   collectErrorWebs(): IWebProps[] {
     const errorWebs: IWebProps[] = []
-    function r(nav: any) {
-      if (!Array.isArray(nav)) return
-      for (let i = 0; i < nav.length; i++) {
-        const item = nav[i]
-        if (item.url && item.ok === false) {
-          errorWebs.push(item)
+    const walk = (nodes: NavNode[]) => {
+      for (const item of nodes) {
+        if (isWebProps(item)) {
+          if (item.ok === false) {
+            errorWebs.push(item)
+          }
         } else {
-          r(item.nav)
+          walk(item.nav as NavNode[])
         }
       }
     }
-    r(this.websiteList)
+    walk(this.websiteList)
     return errorWebs
   }
 
@@ -213,7 +218,7 @@ export class WebManagementService {
 
   /** 同步网站数据到远端 */
   syncToRemote(): Promise<any> {
-    return updateFileContent({
+    return dataProvider.updateFileContent({
       message: 'update db',
       content: JSON.stringify(this.websiteList),
       path: DB_PATH,
@@ -260,19 +265,22 @@ export class WebManagementService {
   /** 清空本地缓存并刷新（恢复初始数据） */
   resetLocalData(): void {
     this.message.success($t('_actionSuccess'))
-    window.localStorage.removeItem(STORAGE_KEY_MAP.s_url)
+    storageRemove(STORAGE_KEY_MAP.s_url)
     removeWebsite().finally(() => {
       window.location.reload()
     })
   }
 
-  private nodeByPath(path: number[]): any {
-    let node: any = { nav: this.websiteList }
+  private nodeByPath(path: number[]): NavCategory | null {
+    let list = this.websiteList as NavNode[]
+    let node: NavCategory | null = null
     for (const idx of path) {
-      node = node.nav?.[idx]
-      if (!node) {
+      const next = list[idx]
+      if (!next || isWebProps(next)) {
         return null
       }
+      node = next
+      list = next.nav as NavNode[]
     }
     return node
   }

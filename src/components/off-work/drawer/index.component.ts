@@ -6,6 +6,7 @@ import { Component, EventEmitter, Output } from '@angular/core'
 import { $t } from 'src/locale'
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { NzMessageService } from 'ng-zorro-antd/message'
+import { ComponentType, IOffWorkComponent } from 'src/types'
 import { NzDrawerComponent, NzDrawerContentDirective } from 'ng-zorro-antd/drawer';
 import { NzFormDirective, NzFormItemComponent, NzFormLabelComponent, NzFormControlComponent } from 'ng-zorro-antd/form';
 import { NzRowDirective, NzColDirective } from 'ng-zorro-antd/grid';
@@ -38,7 +39,7 @@ import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patc
     ],
 })
 export class OffWorkDrawerComponent {
-  @Output() ok = new EventEmitter<void>()
+  @Output() ok = new EventEmitter<IOffWorkComponent & { index: number }>()
 
   $t = $t
   visible = false
@@ -54,10 +55,10 @@ export class OffWorkDrawerComponent {
     })
   }
 
-  open(data: any, idx: number) {
+  open(data: IOffWorkComponent, idx: number) {
     this.index = idx
     for (const k in data) {
-      this.validateForm.get(k)!?.setValue(data[k])
+      this.validateForm.get(k)!?.setValue(data[k as keyof IOffWorkComponent])
     }
     this.visible = true
   }
@@ -74,6 +75,8 @@ export class OffWorkDrawerComponent {
       return this.message.error('休息时间需要比工作时间大')
     }
     this.ok.emit({
+      type: ComponentType.OffWork,
+      id: 0,
       ...values,
       startDate,
       date,

@@ -4,7 +4,8 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core'
 import { $t } from 'src/locale'
-import { NgFor, NgIf } from '@angular/common'
+import { NavCategory } from 'src/types'
+
 import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzPopconfirmDirective } from 'ng-zorro-antd/popconfirm'
 import { NzIconDirective } from 'ng-zorro-antd/icon'
@@ -19,13 +20,11 @@ import { LogoComponent } from 'src/components/logo/logo.component'
   selector: 'app-category-table',
   standalone: true,
   imports: [
-    NgFor,
-    NgIf,
     NzTableModule,
     NzPopconfirmDirective,
     NzIconDirective,
-    LogoComponent,
-  ],
+    LogoComponent
+],
   template: `
     <nz-table
       #rowSelectionTable
@@ -33,7 +32,7 @@ import { LogoComponent } from 'src/components/logo/logo.component'
       [nzData]="data"
       [nzShowPagination]="false"
       style="margin-top: 15px"
-    >
+      >
       <thead>
         <tr>
           <th
@@ -48,57 +47,61 @@ import { LogoComponent } from 'src/components/logo/logo.component'
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of data; let idx = index">
-          <td
-            [nzChecked]="checkedIds.has(item.title)"
+        @for (item of data; track item; let idx = $index) {
+          <tr>
+            <td
+              [nzChecked]="checkedIds.has(item.title || '')"
             (nzCheckedChange)="
-              itemChecked.emit({ id: item.title, checked: $event })
+              itemChecked.emit({ id: item.title || '', checked: $event })
             "
-          ></td>
-          <td>
-            <app-logo [src]="item.icon || ''" [name]="item.title" />
-          </td>
-          <td>{{ item.title }}</td>
-          <td>
-            <i
-              *ngIf="item.ownVisible"
-              nz-icon
-              nzType="check"
-              nzTheme="outline"
-            ></i>
-          </td>
-          <td>{{ item.createdAt }}</td>
-          <td class="select-none">
-            <a (click)="moveUp.emit(idx)">{{ $t('_moveUp') }}</a>
-            <a (click)="moveDown.emit(idx)" class="ml-2.5">{{
-              $t('_moveDown')
-            }}</a>
-            <a (click)="edit.emit({ data: item, idx })" class="ml-2.5">{{
-              $t('_edit')
-            }}</a>
-            <a
-              *ngIf="showMove"
-              (click)="move.emit({ data: item, idx })"
-              class="ml-2.5"
-              >{{ $t('_move') }}</a
-            >
-            <a
-              nz-popconfirm
-              [nzPopconfirmTitle]="$t('_delWarn')"
-              nzPopconfirmPlacement="bottom"
-              (nzOnConfirm)="delete.emit(idx)"
-              class="color-red ml-2.5"
-            >
-              {{ $t('_del') }}
-            </a>
-          </td>
-        </tr>
-      </tbody>
-    </nz-table>
-  `,
+            ></td>
+            <td>
+              <app-logo [src]="item.icon || ''" [name]="item.title || ''" />
+            </td>
+            <td>{{ item.title }}</td>
+            <td>
+              @if (item.ownVisible) {
+                <i
+                  nz-icon
+                  nzType="check"
+                  nzTheme="outline"
+                ></i>
+              }
+            </td>
+            <td>{{ item.createdAt }}</td>
+            <td class="select-none">
+              <a (click)="moveUp.emit(idx)">{{ $t('_moveUp') }}</a>
+              <a (click)="moveDown.emit(idx)" class="ml-2.5">{{
+                $t('_moveDown')
+              }}</a>
+              <a (click)="edit.emit({ data: item, idx })" class="ml-2.5">{{
+                $t('_edit')
+              }}</a>
+              @if (showMove) {
+                <a
+                  (click)="move.emit({ data: item, idx })"
+                  class="ml-2.5"
+                  >{{ $t('_move') }}</a
+                  >
+                }
+                <a
+                  nz-popconfirm
+                  [nzPopconfirmTitle]="$t('_delWarn')"
+                  nzPopconfirmPlacement="bottom"
+                  (nzOnConfirm)="delete.emit(idx)"
+                  class="color-red ml-2.5"
+                  >
+                  {{ $t('_del') }}
+                </a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </nz-table>
+    `,
 })
 export class CategoryTableComponent {
-  @Input() data: any[] = []
+  @Input() data: NavCategory[] = []
   @Input() checkedIds: Set<string> = new Set()
   @Input() checkedAll = false
   @Input() showMove = false
@@ -107,8 +110,8 @@ export class CategoryTableComponent {
   @Output() itemChecked = new EventEmitter<{ id: string; checked: boolean }>()
   @Output() moveUp = new EventEmitter<number>()
   @Output() moveDown = new EventEmitter<number>()
-  @Output() edit = new EventEmitter<{ data: any; idx: number }>()
-  @Output() move = new EventEmitter<{ data: any; idx: number }>()
+  @Output() edit = new EventEmitter<{ data: NavCategory; idx: number }>()
+  @Output() move = new EventEmitter<{ data: NavCategory; idx: number }>()
   @Output() delete = new EventEmitter<number>()
 
   $t = $t

@@ -5,6 +5,7 @@
 import { Component, EventEmitter, Output } from '@angular/core'
 import { $t } from 'src/locale'
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
+import { ComponentType, IRuntimeComponent } from 'src/types'
 import { NzDrawerComponent, NzDrawerContentDirective } from 'ng-zorro-antd/drawer';
 import { NzFormDirective, NzFormItemComponent, NzFormLabelComponent, NzFormControlComponent } from 'ng-zorro-antd/form';
 import { NzRowDirective, NzColDirective } from 'ng-zorro-antd/grid';
@@ -35,7 +36,7 @@ import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patc
     ],
 })
 export class RuntimeDrawerComponent {
-  @Output() ok = new EventEmitter<void>()
+  @Output() ok = new EventEmitter<IRuntimeComponent & { index: number }>()
 
   $t = $t
   visible = false
@@ -48,10 +49,10 @@ export class RuntimeDrawerComponent {
     })
   }
 
-  open(data: any, idx: number) {
+  open(data: IRuntimeComponent, idx: number) {
     this.index = idx
     for (const k in data) {
-      this.validateForm.get(k)!?.setValue(data[k])
+      this.validateForm.get(k)!?.setValue(data[k as keyof IRuntimeComponent])
     }
     this.visible = true
   }
@@ -63,6 +64,8 @@ export class RuntimeDrawerComponent {
   handleSubmit() {
     const values = this.validateForm.value
     this.ok.emit({
+      type: ComponentType.Runtime,
+      id: 0,
       ...values,
       index: this.index,
     })

@@ -6,6 +6,8 @@ import { Component, EventEmitter, Output } from '@angular/core'
 import { $t } from 'src/locale'
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import dayjs from 'dayjs'
+import { ComponentType, ICountdownComponent } from 'src/types'
+import { IUploadChangePayload } from 'src/components/upload/index.component'
 import { NzDrawerComponent, NzDrawerContentDirective } from 'ng-zorro-antd/drawer';
 import { NzFormDirective, NzFormItemComponent, NzFormLabelComponent, NzFormControlComponent } from 'ng-zorro-antd/form';
 import { NzRowDirective, NzColDirective } from 'ng-zorro-antd/grid';
@@ -44,7 +46,7 @@ import { NzWaveDirective } from 'ng-zorro-antd/core/wave';
     ],
 })
 export class CountdownDrawerComponent {
-  @Output() ok = new EventEmitter<void>()
+  @Output() ok = new EventEmitter<ICountdownComponent & { index: number }>()
 
   $t = $t
   visible = false
@@ -63,15 +65,15 @@ export class CountdownDrawerComponent {
     })
   }
 
-  open(data: any, idx: number) {
+  open(data: ICountdownComponent, idx: number) {
     this.index = idx
     for (const k in data) {
-      this.validateForm.get(k)!?.setValue(data[k])
+      this.validateForm.get(k)!?.setValue(data[k as keyof ICountdownComponent])
     }
     this.visible = true
   }
 
-  onUploadImage(data: any) {
+  onUploadImage(data: IUploadChangePayload) {
     this.validateForm.get('url')!.setValue(data.cdn)
   }
 
@@ -82,6 +84,8 @@ export class CountdownDrawerComponent {
   handleSubmit() {
     const values = this.validateForm.value
     this.ok.emit({
+      type: ComponentType.Countdown,
+      id: 0,
       ...values,
       date: dayjs(values.date).format('YYYY-MM-DD'),
       index: this.index,

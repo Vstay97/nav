@@ -6,14 +6,14 @@ import { Component, Input, effect } from '@angular/core'
 import { IHolidayComponent } from 'src/types'
 import { navStore } from 'src/store/nav.store'
 import dayjs from 'dayjs'
-import { NgIf, NgFor } from '@angular/common';
+
 
 @Component({
     selector: 'app-holiday',
     templateUrl: './index.component.html',
     styleUrls: ['./index.component.scss'],
     standalone: true,
-    imports: [NgIf, NgFor],
+    imports: [],
 })
 export class HolidayComponent {
   @Input() data!: IHolidayComponent

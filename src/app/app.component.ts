@@ -16,12 +16,11 @@ import { en_US, NzI18nService, zh_CN } from 'ng-zorro-antd/i18n'
 import { getLocale } from 'src/locale'
 import { navStore } from 'src/store/nav.store'
 import { dataProvider } from 'src/providers'
-import { verifyToken } from 'src/api'
 import { getToken, userLogout, isLogin } from 'src/utils/user'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NzNotificationService } from 'ng-zorro-antd/notification'
 import { registerNotifyServices } from 'src/services/notify'
-import { NgIf } from '@angular/common';
+
 import { NzSpinComponent } from 'ng-zorro-antd/spin';
 import { IconGitComponent } from '../components/icon-git/icon-git.component';
 import { CreateWebComponent } from '../components/create-web/index.component';
@@ -35,15 +34,14 @@ import { CursorGlowComponent } from '../components/effects/cursor-glow/index.com
     styleUrls: ['./app.component.scss'],
     standalone: true,
     imports: [
-        NgIf,
-        NzSpinComponent,
-        IconGitComponent,
-        RouterOutlet,
-        CreateWebComponent,
-        MoveWebComponent,
-        EffectsLayerComponent,
-        CursorGlowComponent,
-    ],
+    NzSpinComponent,
+    IconGitComponent,
+    RouterOutlet,
+    CreateWebComponent,
+    MoveWebComponent,
+    EffectsLayerComponent,
+    CursorGlowComponent
+],
 })
 export class AppComponent {
   isLogin: boolean = isLogin
@@ -111,7 +109,7 @@ export class AppComponent {
 
     const token = getToken()
     if (token) {
-      verifyToken(token)
+      dataProvider.verifyToken(token)
         .then((res) => {
           const data = res.data || {}
           if (!navStore.settings().email && data.email) {

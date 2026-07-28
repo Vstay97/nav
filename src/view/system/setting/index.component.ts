@@ -10,7 +10,7 @@ import { NzMessageService } from 'ng-zorro-antd/message'
 import { NzNotificationService } from 'ng-zorro-antd/notification'
 import { NzModalService } from 'ng-zorro-antd/modal'
 import { SETTING_PATH } from 'src/constants'
-import { updateFileContent } from 'src/api'
+import { dataProvider } from 'src/providers'
 import { navStore } from 'src/store/nav.store'
 import { ISettings } from 'src/types'
 import { compilerTemplate } from 'src/utils/util'
@@ -18,16 +18,14 @@ import { componentTitleMap } from '../component/types'
 import footTemplate from 'src/components/footer/template'
 import { NzFormDirective, NzFormItemComponent, NzFormLabelComponent, NzFormControlComponent } from 'ng-zorro-antd/form';
 import { NzRowDirective, NzColDirective } from 'ng-zorro-antd/grid';
-import { UploadComponent } from '../../../components/upload/index.component';
+import { UploadComponent, IUploadChangePayload } from '../../../components/upload/index.component';
 import { NzInputDirective, NzAutosizeDirective } from 'ng-zorro-antd/input';
 import { NzSelectComponent, NzOptionComponent } from 'ng-zorro-antd/select';
-import { NgIf, NgFor } from '@angular/common';
 import { NzRadioGroupComponent, NzRadioComponent } from 'ng-zorro-antd/radio';
 import { NzPopoverDirective } from 'ng-zorro-antd/popover';
 import { NzCheckboxComponent, NzCheckboxGroupComponent } from 'ng-zorro-antd/checkbox';
 import { NzTabSetComponent, NzTabComponent } from 'ng-zorro-antd/tabs';
-import { NzTableComponent, NzTheadComponent, NzTrDirective, NzTableCellDirective, NzThMeasureDirective, NzTbodyComponent } from 'ng-zorro-antd/table';
-import { NzPopconfirmDirective } from 'ng-zorro-antd/popconfirm';
+import { BannerTableComponent } from 'src/components/banner-table/index.component';
 import { NzSliderComponent } from 'ng-zorro-antd/slider';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzWaveDirective } from 'ng-zorro-antd/core/wave';
@@ -57,7 +55,6 @@ const extraForm: Record<string, any> = {
         NzInputDirective,
         NzSelectComponent,
         NzOptionComponent,
-        NgIf,
         NzRadioGroupComponent,
         NzRadioComponent,
         NzPopoverDirective,
@@ -66,14 +63,7 @@ const extraForm: Record<string, any> = {
         NzCheckboxGroupComponent,
         NzTabSetComponent,
         NzTabComponent,
-        NzTableComponent,
-        NzTheadComponent,
-        NzTrDirective,
-        NzTableCellDirective,
-        NzThMeasureDirective,
-        NzTbodyComponent,
-        NgFor,
-        NzPopconfirmDirective,
+        BannerTableComponent,
         NzSliderComponent,
         NzButtonComponent,
         NzWaveDirective,
@@ -146,118 +136,18 @@ export class SystemSettingComponent {
       .setValue(footTemplate[v]?.trim?.() || '')
   }
 
-  onLogoChange(data: any) {
-    this.settings.favicon = data.cdn || ''
+  onLogoChange(data: IUploadChangePayload | Event) {
+    if ('cdn' in data) {
+      this.settings.favicon = data.cdn || ''
+    }
   }
 
-  // Sim ===========================
-  onSimBannerChange(data: any, idx: number) {
-    this.settings.simThemeImages[idx]['src'] = data.cdn
-  }
-
-  onChangeSimBannerUrl(e: any, idx: number) {
-    const value = e.target.value.trim()
-    this.settings.simThemeImages[idx]['src'] = value
-  }
-
-  onChangeSimJumpUrl(e: any, idx: number) {
-    const value = e.target.value.trim()
-    this.settings.simThemeImages[idx]['url'] = value
-  }
-
-  onDeleteSimBanner(idx: number) {
-    this.settings.simThemeImages.splice(idx, 1)
-  }
-
-  onAddSimBanner() {
-    this.settings.simThemeImages.push({
-      src: '',
-      url: '',
-    })
-  }
-
-  // Super ===========================
-  onSuperBannerChange(data: any, idx: number) {
-    this.settings.superImages[idx]['src'] = data.cdn
-  }
-
-  onChangeSuperBannerUrl(e: any, idx: number) {
-    const value = e.target.value.trim()
-    this.settings.superImages[idx]['src'] = value
-  }
-
-  onChangeSuperJumpUrl(e: any, idx: number) {
-    const value = e.target.value.trim()
-    this.settings.superImages[idx]['url'] = value
-  }
-
-  onDeleteSuperBanner(idx: number) {
-    this.settings.superImages.splice(idx, 1)
-  }
-
-  onAddSuperBanner() {
-    this.settings.superImages.push({
-      src: '',
-      url: '',
-    })
-  }
-
-  // Light ===========================
-  onLightBannerChange(data: any, idx: number) {
-    this.settings.lightImages[idx]['src'] = data.cdn
-  }
-
-  onChangeLightBannerUrl(e: any, idx: number) {
-    const value = e.target.value.trim()
-    this.settings.lightImages[idx]['src'] = value
-  }
-
-  onChangeLightJumpUrl(e: any, idx: number) {
-    const value = e.target.value.trim()
-    this.settings.lightImages[idx]['url'] = value
-  }
-
-  onDeleteLightBanner(idx: number) {
-    this.settings.lightImages.splice(idx, 1)
-  }
-
-  onAddLightBanner() {
-    this.settings.lightImages.push({
-      src: '',
-      url: '',
-    })
-  }
-
-  // Side ===========================
-  onSideBannerChange(data: any, idx: number) {
-    this.settings.sideThemeImages[idx]['src'] = data.cdn
-  }
-
-  onChangeSideBannerUrl(e: any, idx: number) {
-    const value = e.target.value.trim()
-    this.settings.sideThemeImages[idx]['src'] = value
-  }
-
-  onChangeSideJumpUrl(e: any, idx: number) {
-    const value = e.target.value.trim()
-    this.settings.sideThemeImages[idx]['url'] = value
-  }
-
-  onDeleteSideBanner(idx: number) {
-    this.settings.sideThemeImages.splice(idx, 1)
-  }
-
-  onAddSideBanner() {
-    this.settings.sideThemeImages.push({
-      src: '',
-      url: '',
-    })
-  }
-
-  onShortcutImgChange(e: any) {
-    let url = e?.target?.value?.trim() || e.cdn
-    if (!url) {
-      url = ''
+  onShortcutImgChange(e: Event | IUploadChangePayload) {
+    let url = ''
+    if ('cdn' in e) {
+      url = e.cdn
+    } else {
+      url = (e.target as HTMLInputElement)?.value?.trim() || ''
     }
     this.settings.shortcutThemeImages[0]['src'] = url
   }
@@ -294,7 +184,7 @@ export class SystemSettingComponent {
         }
 
         this.submitting = true
-        updateFileContent({
+        dataProvider.updateFileContent({
           message: 'update settings',
           content: JSON.stringify(values),
           path: SETTING_PATH,

@@ -5,10 +5,16 @@
 import { Component, EventEmitter, Output } from '@angular/core'
 import { $t } from 'src/locale'
 import { NzMessageService } from 'ng-zorro-antd/message'
-import { createFile, getCDN, imageBranch } from 'src/api'
-import { NgIf } from '@angular/common';
+import { dataProvider, getCDN, imageBranch } from 'src/providers'
+
 import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
+
+/** 上传完成后 emit 的载荷 */
+export interface IUploadChangePayload {
+  rawPath: string
+  cdn: string
+}
 
 @Component({
     selector: 'app-upload',
@@ -16,13 +22,12 @@ import { NzIconDirective } from 'ng-zorro-antd/icon';
     styleUrls: ['./index.component.scss'],
     standalone: true,
     imports: [
-        NgIf,
-        ɵNzTransitionPatchDirective,
-        NzIconDirective,
-    ],
+    ɵNzTransitionPatchDirective,
+    NzIconDirective
+],
 })
 export class UploadComponent {
-  @Output() onChange = new EventEmitter()
+  @Output() onChange = new EventEmitter<IUploadChangePayload>()
 
   $t = $t
   uploading: boolean = false
@@ -31,20 +36,21 @@ export class UploadComponent {
 
   constructor(private message: NzMessageService) {}
 
-  onChangeFile(e: any) {
+  onChangeFile(e: Event) {
     if (this.uploading) {
       return
     }
 
-    const { files } = e.target
-    if (files.length <= 0) return
+    const target = e.target as HTMLInputElement
+    const { files } = target
+    if (!files || files.length <= 0) return
     const file = files[0]
 
     if (!file.type.startsWith('image')) {
       return this.message.error($t('_notUpload'))
     }
     this.onUpload(file).finally(() => {
-      e.target.value = ''
+      target.value = ''
     })
   }
 
@@ -62,7 +68,7 @@ export class UploadComponent {
         const fileName = file.name.replace(/\s/gi, '')
         const path = `nav-${Date.now()}-${fileName}`
 
-        createFile({
+        dataProvider.createFile({
           branch: imageBranch || 'image',
           message: 'create image',
           content: url,

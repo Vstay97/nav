@@ -6,7 +6,7 @@ import { Component, ViewChild } from '@angular/core'
 import { $t } from 'src/locale'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NzModalService } from 'ng-zorro-antd/modal'
-import { updateFileContent } from 'src/api'
+import { dataProvider } from 'src/providers'
 import { COMPONENT_PATH } from 'src/constants'
 import { navStore } from 'src/store/nav.store'
 import { ComponentType, IComponentProps } from 'src/types'
@@ -21,7 +21,7 @@ import { componentTitleMap } from './types'
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzWaveDirective } from 'ng-zorro-antd/core/wave';
 import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
-import { NgIf, NgFor, NgSwitch, NgSwitchCase } from '@angular/common';
+
 import { CalendarComponent } from '../../../components/calendar/index.component';
 import { RuntimeComponent } from '../../../components/runtime/index.component';
 import { OffWorkComponent } from '../../../components/off-work/index.component';
@@ -44,29 +44,25 @@ import { HolidayDrawerComponent as HolidayDrawerComponent_1 } from '../../../com
     styleUrls: ['./index.component.scss'],
     standalone: true,
     imports: [
-        NzButtonComponent,
-        NzWaveDirective,
-        ɵNzTransitionPatchDirective,
-        NgIf,
-        NgFor,
-        NgSwitch,
-        NgSwitchCase,
-        CalendarComponent,
-        RuntimeComponent,
-        OffWorkComponent,
-        ImageComponent,
-        CountdownComponent,
-        HTMLComponent,
-        HolidayComponent,
-        NzPopconfirmDirective,
-        CalendarDrawerComponent_1,
-        RuntimeDrawerComponent_1,
-        OffWorkDrawerComponent_1,
-        ImageDrawerComponent_1,
-        CountdownDrawerComponent_1,
-        HTMLDrawerComponent_1,
-        HolidayDrawerComponent_1,
-    ],
+    NzButtonComponent,
+    NzWaveDirective,
+    ɵNzTransitionPatchDirective,
+    CalendarComponent,
+    RuntimeComponent,
+    OffWorkComponent,
+    ImageComponent,
+    CountdownComponent,
+    HTMLComponent,
+    HolidayComponent,
+    NzPopconfirmDirective,
+    CalendarDrawerComponent_1,
+    RuntimeDrawerComponent_1,
+    OffWorkDrawerComponent_1,
+    ImageDrawerComponent_1,
+    CountdownDrawerComponent_1,
+    HTMLDrawerComponent_1,
+    HolidayDrawerComponent_1
+],
 })
 export class SystemComponentComponent {
   @ViewChild('calendar') calendarChild!: CalendarDrawerComponent
@@ -115,7 +111,7 @@ export class SystemComponentComponent {
     this.components[index] = next
   }
 
-  handleEdit(data: any, idx: number) {
+  handleEdit(data: IComponentProps, idx: number) {
     const type = data.type
     const types: Record<string, any> = {
       [ComponentType.Calendar]: this.calendarChild,
@@ -140,12 +136,12 @@ export class SystemComponentComponent {
 
   onDelete(idx: number) {}
 
-  handleOk(data: any) {
+  handleOk(data: IComponentProps & { index: number }) {
     const { index, ...values } = data
     this.components[index] = {
       ...this.components[index],
       ...values,
-    }
+    } as IComponentProps
     navStore.notifyComponentOk()
   }
 
@@ -160,7 +156,7 @@ export class SystemComponentComponent {
       nzContent: $t('_confirmSyncTip'),
       nzOnOk: () => {
         this.submitting = true
-        updateFileContent({
+        dataProvider.updateFileContent({
           message: 'update component',
           content: JSON.stringify(this.components),
           path: COMPONENT_PATH,
@@ -175,7 +171,7 @@ export class SystemComponentComponent {
     })
   }
 
-  trackByItem(i: number, item: any) {
+  trackByItem(index: number, item: IComponentProps) {
     return item.id
   }
 }

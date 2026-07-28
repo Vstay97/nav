@@ -10,7 +10,7 @@ import { isLogin, userLogout } from 'src/utils/user'
 import { Router, RouterOutlet } from '@angular/router'
 import { VERSION } from 'src/constants'
 import { removeDark } from 'src/utils/util'
-import { NgIf } from '@angular/common';
+
 import { NzLayoutComponent, NzSiderComponent, NzContentComponent } from 'ng-zorro-antd/layout';
 import { NzMenuDirective, NzSubMenuComponent, NzMenuItemComponent } from 'ng-zorro-antd/menu';
 import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patch';
@@ -24,19 +24,18 @@ import { LoginComponent } from '../../components/login/login.component';
     styleUrls: ['./index.component.scss'],
     standalone: true,
     imports: [
-        NgIf,
-        NzLayoutComponent,
-        NzSiderComponent,
-        NzMenuDirective,
-        ɵNzTransitionPatchDirective,
-        NzSubMenuComponent,
-        NzMenuItemComponent,
-        NzContentComponent,
-        NzButtonComponent,
-        NzWaveDirective,
-        RouterOutlet,
-        LoginComponent,
-    ],
+    NzLayoutComponent,
+    NzSiderComponent,
+    NzMenuDirective,
+    ɵNzTransitionPatchDirective,
+    NzSubMenuComponent,
+    NzMenuItemComponent,
+    NzContentComponent,
+    NzButtonComponent,
+    NzWaveDirective,
+    RouterOutlet,
+    LoginComponent
+],
 })
 export class SystemComponent {
   $t = $t

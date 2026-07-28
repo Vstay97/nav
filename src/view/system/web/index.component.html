@@ -4,14 +4,14 @@
     nzType="primary"
     (click)="handleSync()"
     [nzLoading]="syncLoading"
-  >
+    >
     {{ $t('_save') }}
   </button>
   <button
     nz-button
     style="margin: 0 15px 20px 15px"
     (click)="handleReset()"
-  >
+    >
     {{ $t('_resetInitData') }}
   </button>
   <button nz-button (click)="handleDownloadBackup()" style="margin-right: 15px">
@@ -24,7 +24,7 @@
     nz-tooltip
     nzTooltipPlacement="bottom"
     [nzTooltipTitle]="$t('_importBackupTip')"
-  >
+    >
     {{ $t('_importBackup') }}
     <input
       type="file"
@@ -32,7 +32,7 @@
       (change)="handleUploadBackup($event)"
       accept=".json"
       class="file-upload"
-    />
+      />
   </label>
 
   <div class="tip2">
@@ -41,327 +41,334 @@
     个网站链接失效，具体到管理网站查看，如需再次检测状态直接点保存触发事件即可。
   </div>
 
-  <nz-tabset
-    *ngIf="isLogin"
-    [nzSelectedIndex]="tabActive"
-    (nzSelectedIndexChange)="onTabChange($event)"
-  >
-    <nz-tab [nzTitle]="$t('_mgr1')">
-      <button nz-button nzType="primary" (click)="formModal.open()">
-        {{ $t('_addTag') }}
-      </button>
-      <button
-        nz-popconfirm
-        [nzPopconfirmTitle]="$t('_confirmDel')"
-        nzPopconfirmPlacement="bottom"
-        (nzOnConfirm)="onBatchDelete(1)"
-        nz-button
-        nzDanger
-        class="ml-2.5"
-        [disabled]="setOfCheckedId.size <= 0"
+  @if (isLogin) {
+    <nz-tabset
+      [nzSelectedIndex]="tabActive"
+      (nzSelectedIndexChange)="onTabChange($event)"
       >
-        {{ $t('_batchDel') }}
-      </button>
-
-      <app-category-table
-    [data]="websiteList"
-    [checkedIds]="setOfCheckedId"
-    [checkedAll]="checkedAll"
-    (allChecked)="onAllChecked($event, 1)"
-    (itemChecked)="onItemChecked($event.id, $event.checked)"
-    (moveUp)="webService.moveItem([], $event, -1)"
-    (moveDown)="webService.moveItem([], $event, 1)"
-    (edit)="formModal.openEdit($event.data, $event.idx)"
-    (delete)="webService.deleteCategoryAt([], $event)"
-  />
-    </nz-tab>
-
-    <nz-tab [nzTitle]="$t('_mgr2')">
-      <nz-select
-        [ngModel]="oneSelect"
-        nzShowSearch
-        [nzPlaceHolder]="$t('_sel1')"
-        (ngModelChange)="hanldeOneSelect($event)"
-        style="width: 260px"
-      >
-        <nz-option
-          *ngFor="let item of websiteList"
-          [nzLabel]="item.title"
-          [nzValue]="item.title"
-        >
-        </nz-option>
-      </nz-select>
-
-      <button
-        nz-button
-        nzType="primary"
-        (click)="formModal.open()"
-        style="margin-left: 20px"
-      >
-        {{ $t('_addTag') }}
-      </button>
-      <button
-        nz-popconfirm
-        [nzPopconfirmTitle]="$t('_confirmDel')"
-        nzPopconfirmPlacement="bottom"
-        (nzOnConfirm)="onBatchDelete(2)"
-        nz-button
-        nzDanger
-        class="ml-2.5"
-        [disabled]="setOfCheckedId.size <= 0"
-      >
-        {{ $t('_batchDel') }}
-      </button>
-
-      <app-category-table
-    [data]="twoTableData"
-    [checkedIds]="setOfCheckedId"
-    [checkedAll]="checkedAll"
-    (allChecked)="onAllChecked($event, 2)"
-    (itemChecked)="onItemChecked($event.id, $event.checked)"
-    (moveUp)="webService.moveItem([oneIndex], $event, -1)"
-    (moveDown)="webService.moveItem([oneIndex], $event, 1)"
-    (edit)="formModal.openEdit($event.data, $event.idx)"
-    [showMove]="true"
-    (move)="openMoveWebModal($event.data, $event.idx, 2)"
-    (delete)="webService.deleteCategoryAt([oneIndex], $event)"
-  />
-    </nz-tab>
-
-    <nz-tab [nzTitle]="$t('_mgr3')">
-      <nz-select
-        [ngModel]="oneSelect"
-        nzShowSearch
-        [nzPlaceHolder]="$t('_sel1')"
-        (ngModelChange)="hanldeOneSelect($event)"
-        style="width: 200px"
-      >
-        <nz-option
-          *ngFor="let item of websiteList"
-          [nzLabel]="item.title"
-          [nzValue]="item.title"
-        >
-        </nz-option>
-      </nz-select>
-
-      <nz-select
-        [ngModel]="twoSelect"
-        nzShowSearch
-        [nzPlaceHolder]="$t('_sel2')"
-        (ngModelChange)="hanldeTwoSelect($event)"
-        style="width: 200px; margin-left: 15px"
-      >
-        <nz-option
-          *ngFor="let item of twoTableData"
-          [nzLabel]="item.title || ''"
-          [nzValue]="item.title"
-        >
-        </nz-option>
-      </nz-select>
-
-      <button
-        nz-button
-        nzType="primary"
-        (click)="formModal.open()"
-        style="margin-left: 20px"
-      >
-        {{ $t('_addTag') }}
-      </button>
-      <button
-        nz-popconfirm
-        [nzPopconfirmTitle]="$t('_confirmDel')"
-        nzPopconfirmPlacement="bottom"
-        (nzOnConfirm)="onBatchDelete(3)"
-        nz-button
-        nzDanger
-        class="ml-2.5"
-        [disabled]="setOfCheckedId.size <= 0"
-      >
-        {{ $t('_batchDel') }}
-      </button>
-
-      <app-category-table
-    [data]="threeTableData"
-    [checkedIds]="setOfCheckedId"
-    [checkedAll]="checkedAll"
-    (allChecked)="onAllChecked($event, 3)"
-    (itemChecked)="onItemChecked($event.id, $event.checked)"
-    (moveUp)="webService.moveItem([oneIndex, twoIndex], $event, -1)"
-    (moveDown)="webService.moveItem([oneIndex, twoIndex], $event, 1)"
-    (edit)="formModal.openEdit($event.data, $event.idx)"
-    [showMove]="true"
-    (move)="openMoveWebModal($event.data, $event.idx, 3)"
-    (delete)="webService.deleteCategoryAt([oneIndex, twoIndex], $event)"
-  />
-    </nz-tab>
-
-    <nz-tab [nzTitle]="$t('_mgrWeb') + '（' + internal.loginViewCount + '）'">
-      <nz-select
-        [ngModel]="oneSelect"
-        nzShowSearch
-        [nzPlaceHolder]="$t('_sel1')"
-        (ngModelChange)="hanldeOneSelect($event)"
-        style="width: 150px"
-      >
-        <nz-option
-          *ngFor="let item of websiteList"
-          [nzLabel]="item.title"
-          [nzValue]="item.title"
-        >
-        </nz-option>
-      </nz-select>
-
-      <nz-select
-        [ngModel]="twoSelect"
-        nzShowSearch
-        [nzPlaceHolder]="$t('_sel2')"
-        (ngModelChange)="hanldeTwoSelect($event)"
-        style="width: 150px; margin-left: 15px"
-      >
-        <nz-option
-          *ngFor="let item of twoTableData"
-          [nzLabel]="item.title || ''"
-          [nzValue]="item.title"
-        >
-        </nz-option>
-      </nz-select>
-
-      <nz-select
-        [ngModel]="threeSelect"
-        nzShowSearch
-        [nzPlaceHolder]="$t('_sel3')"
-        (ngModelChange)="hanldeThreeSelect($event)"
-        style="width: 150px; margin-left: 15px"
-      >
-        <nz-option
-          *ngFor="let item of threeTableData"
-          [nzLabel]="item.title || ''"
-          [nzValue]="item.title || ''"
-        >
-        </nz-option>
-      </nz-select>
-
-      <button
-        nz-button
-        nzType="primary"
-        (click)="openCreateWebModal()"
-        style="margin-left: 20px"
-      >
-        {{ $t('_addWeb') }}（{{ websiteTableData.length }}）
-      </button>
-      <button
-        nz-button
-        nzType="primary"
-        (click)="getAllErrorWeb()"
-        style="margin-left: 20px"
-      >
-        检索所有异常网站
-      </button>
-      <button
-        nz-popconfirm
-        [nzPopconfirmTitle]="$t('_confirmDel')"
-        nzPopconfirmPlacement="bottom"
-        (nzOnConfirm)="onBatchDelete(4)"
-        nz-button
-        nzDanger
-        class="ml-2.5"
-        [disabled]="setOfCheckedId.size <= 0"
-      >
-        {{ $t('_batchDel') }}
-      </button>
-
-      <nz-table
-        #rowSelectionTable
-        #basicTable
-        [nzData]="websiteTableData"
-        [nzShowPagination]="false"
-        style="margin-top: 15px"
-      >
-        <thead>
-          <tr>
-            <th
-              nzWidth="70px"
-              [nzChecked]="checkedAll"
-              (nzCheckedChange)="onAllChecked($event, 4)"
-            ></th>
-            <th nzWidth="60px" class="text-center">{{ $t('_action') }}</th>
-            <th nzWidth="70px">状态</th>
-            <th nzWidth="80px">{{ $t('_icon') }}</th>
-            <th nzWidth="100px">{{ $t('_webName') }}</th>
-            <th nzWidth="100px">{{ $t('_associatedLabels') }}</th>
-            <th nzWidth="120px">{{ $t('_onlyOwnVisible') }}</th>
-            <th nzWidth="300px">{{ $t('_webDesc') }}</th>
-            <th nzWidth="300px">{{ $t('_webTag') }}</th>
-            <th>{{ $t('_createAt') }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let data of websiteTableData; let idx = index">
-            <td
-              [nzChecked]="setOfCheckedId.has(data.name)"
-              (nzCheckedChange)="onItemChecked(data.name, $event)"
-            ></td>
-            <td class="text-center select-none">
-              <div *ngIf="errorWebs.length <= 0">
-                <a (click)="webService.moveItem([oneIndex, twoIndex, threeIndex], idx, -1)">{{ $t('_moveUp') }}</a>
-              </div>
-              <div *ngIf="errorWebs.length <= 0">
-                <a (click)="webService.moveItem([oneIndex, twoIndex, threeIndex], idx, 1)">{{ $t('_moveDown') }}</a>
-              </div>
-              <a (click)="openEditModal(data)">{{ $t('_edit') }}</a>
-              <div *ngIf="errorWebs.length <= 0">
-                <a (click)="openMoveWebModal(data, idx)">{{ $t('_move') }}</a>
-              </div>
-              <a
-                nz-popconfirm
-                [nzPopconfirmTitle]="$t('_confirmDel')"
-                nzPopconfirmPlacement="bottom"
-                (nzOnConfirm)="handleConfirmDelWebsite(data, idx)"
-                class="color-red"
+      <nz-tab [nzTitle]="$t('_mgr1')">
+        <button nz-button nzType="primary" (click)="formModal.open()">
+          {{ $t('_addTag') }}
+        </button>
+        <button
+          nz-popconfirm
+          [nzPopconfirmTitle]="$t('_confirmDel')"
+          nzPopconfirmPlacement="bottom"
+          (nzOnConfirm)="onBatchDelete(1)"
+          nz-button
+          nzDanger
+          class="ml-2.5"
+          [disabled]="setOfCheckedId.size <= 0"
+          >
+          {{ $t('_batchDel') }}
+        </button>
+        <app-category-table
+          [data]="websiteList"
+          [checkedIds]="setOfCheckedId"
+          [checkedAll]="checkedAll"
+          (allChecked)="onAllChecked($event, 1)"
+          (itemChecked)="onItemChecked($event.id, $event.checked)"
+          (moveUp)="webService.moveItem([], $event, -1)"
+          (moveDown)="webService.moveItem([], $event, 1)"
+          (edit)="formModal.openEdit($event.data, $event.idx)"
+          (delete)="webService.deleteCategoryAt([], $event)"
+          />
+      </nz-tab>
+      <nz-tab [nzTitle]="$t('_mgr2')">
+        <nz-select
+          [ngModel]="oneSelect"
+          nzShowSearch
+          [nzPlaceHolder]="$t('_sel1')"
+          (ngModelChange)="hanldeOneSelect($event)"
+          style="width: 260px"
+          >
+          @for (item of websiteList; track item) {
+            <nz-option
+              [nzLabel]="item.title"
+              [nzValue]="item.title"
               >
-                {{ $t('_del') }}
-              </a>
-            </td>
-            <td>
-              <span
-                *ngIf="data.ok === false"
-                nz-icon
-                nzType="close"
-                nzTheme="outline"
-                style="color: red"
-              ></span>
-            </td>
-            <td>
-              <app-logo
-                *ngIf="data.icon"
-                [src]="data.icon"
-                [name]="data.name"
-              />
-            </td>
-            <td>
-              <a [href]="data.url" target="_blank">{{ data.name }}</a>
-            </td>
-            <td>
-              <tag-list [data]="data.tags" *ngIf="data.tags" />
-            </td>
-            <td>
-              <i
-                *ngIf="data.ownVisible"
-                nz-icon
-                nzType="check"
-                nzTheme="outline"
-              ></i>
-            </td>
-            <td>
-              <pre class="desc">{{ data.desc }}</pre>
-            </td>
-            <th nzWidth="300px">{{ data.breadcrumb }}</th>
-            <td>{{ data.createdAt }}</td>
-          </tr>
-        </tbody>
-      </nz-table>
-    </nz-tab>
-  </nz-tabset>
+            </nz-option>
+          }
+        </nz-select>
+        <button
+          nz-button
+          nzType="primary"
+          (click)="formModal.open()"
+          style="margin-left: 20px"
+          >
+          {{ $t('_addTag') }}
+        </button>
+        <button
+          nz-popconfirm
+          [nzPopconfirmTitle]="$t('_confirmDel')"
+          nzPopconfirmPlacement="bottom"
+          (nzOnConfirm)="onBatchDelete(2)"
+          nz-button
+          nzDanger
+          class="ml-2.5"
+          [disabled]="setOfCheckedId.size <= 0"
+          >
+          {{ $t('_batchDel') }}
+        </button>
+        <app-category-table
+          [data]="twoTableData"
+          [checkedIds]="setOfCheckedId"
+          [checkedAll]="checkedAll"
+          (allChecked)="onAllChecked($event, 2)"
+          (itemChecked)="onItemChecked($event.id, $event.checked)"
+          (moveUp)="webService.moveItem([oneIndex], $event, -1)"
+          (moveDown)="webService.moveItem([oneIndex], $event, 1)"
+          (edit)="formModal.openEdit($event.data, $event.idx)"
+          [showMove]="true"
+          (move)="openMoveWebModal($event.data, $event.idx, 2)"
+          (delete)="webService.deleteCategoryAt([oneIndex], $event)"
+          />
+      </nz-tab>
+      <nz-tab [nzTitle]="$t('_mgr3')">
+        <nz-select
+          [ngModel]="oneSelect"
+          nzShowSearch
+          [nzPlaceHolder]="$t('_sel1')"
+          (ngModelChange)="hanldeOneSelect($event)"
+          style="width: 200px"
+          >
+          @for (item of websiteList; track item) {
+            <nz-option
+              [nzLabel]="item.title"
+              [nzValue]="item.title"
+              >
+            </nz-option>
+          }
+        </nz-select>
+        <nz-select
+          [ngModel]="twoSelect"
+          nzShowSearch
+          [nzPlaceHolder]="$t('_sel2')"
+          (ngModelChange)="hanldeTwoSelect($event)"
+          style="width: 200px; margin-left: 15px"
+          >
+          @for (item of twoTableData; track item) {
+            <nz-option
+              [nzLabel]="item.title || ''"
+              [nzValue]="item.title"
+              >
+            </nz-option>
+          }
+        </nz-select>
+        <button
+          nz-button
+          nzType="primary"
+          (click)="formModal.open()"
+          style="margin-left: 20px"
+          >
+          {{ $t('_addTag') }}
+        </button>
+        <button
+          nz-popconfirm
+          [nzPopconfirmTitle]="$t('_confirmDel')"
+          nzPopconfirmPlacement="bottom"
+          (nzOnConfirm)="onBatchDelete(3)"
+          nz-button
+          nzDanger
+          class="ml-2.5"
+          [disabled]="setOfCheckedId.size <= 0"
+          >
+          {{ $t('_batchDel') }}
+        </button>
+        <app-category-table
+          [data]="threeTableData"
+          [checkedIds]="setOfCheckedId"
+          [checkedAll]="checkedAll"
+          (allChecked)="onAllChecked($event, 3)"
+          (itemChecked)="onItemChecked($event.id, $event.checked)"
+          (moveUp)="webService.moveItem([oneIndex, twoIndex], $event, -1)"
+          (moveDown)="webService.moveItem([oneIndex, twoIndex], $event, 1)"
+          (edit)="formModal.openEdit($event.data, $event.idx)"
+          [showMove]="true"
+          (move)="openMoveWebModal($event.data, $event.idx, 3)"
+          (delete)="webService.deleteCategoryAt([oneIndex, twoIndex], $event)"
+          />
+      </nz-tab>
+      <nz-tab [nzTitle]="$t('_mgrWeb') + '（' + internal.loginViewCount + '）'">
+        <nz-select
+          [ngModel]="oneSelect"
+          nzShowSearch
+          [nzPlaceHolder]="$t('_sel1')"
+          (ngModelChange)="hanldeOneSelect($event)"
+          style="width: 150px"
+          >
+          @for (item of websiteList; track item) {
+            <nz-option
+              [nzLabel]="item.title"
+              [nzValue]="item.title"
+              >
+            </nz-option>
+          }
+        </nz-select>
+        <nz-select
+          [ngModel]="twoSelect"
+          nzShowSearch
+          [nzPlaceHolder]="$t('_sel2')"
+          (ngModelChange)="hanldeTwoSelect($event)"
+          style="width: 150px; margin-left: 15px"
+          >
+          @for (item of twoTableData; track item) {
+            <nz-option
+              [nzLabel]="item.title || ''"
+              [nzValue]="item.title"
+              >
+            </nz-option>
+          }
+        </nz-select>
+        <nz-select
+          [ngModel]="threeSelect"
+          nzShowSearch
+          [nzPlaceHolder]="$t('_sel3')"
+          (ngModelChange)="hanldeThreeSelect($event)"
+          style="width: 150px; margin-left: 15px"
+          >
+          @for (item of threeTableData; track item) {
+            <nz-option
+              [nzLabel]="item.title || ''"
+              [nzValue]="item.title || ''"
+              >
+            </nz-option>
+          }
+        </nz-select>
+        <button
+          nz-button
+          nzType="primary"
+          (click)="openCreateWebModal()"
+          style="margin-left: 20px"
+          >
+          {{ $t('_addWeb') }}（{{ websiteTableData.length }}）
+        </button>
+        <button
+          nz-button
+          nzType="primary"
+          (click)="getAllErrorWeb()"
+          style="margin-left: 20px"
+          >
+          检索所有异常网站
+        </button>
+        <button
+          nz-popconfirm
+          [nzPopconfirmTitle]="$t('_confirmDel')"
+          nzPopconfirmPlacement="bottom"
+          (nzOnConfirm)="onBatchDelete(4)"
+          nz-button
+          nzDanger
+          class="ml-2.5"
+          [disabled]="setOfCheckedId.size <= 0"
+          >
+          {{ $t('_batchDel') }}
+        </button>
+        <nz-table
+          #rowSelectionTable
+          #basicTable
+          [nzData]="websiteTableData"
+          [nzShowPagination]="false"
+          style="margin-top: 15px"
+          >
+          <thead>
+            <tr>
+              <th
+                nzWidth="70px"
+                [nzChecked]="checkedAll"
+                (nzCheckedChange)="onAllChecked($event, 4)"
+              ></th>
+              <th nzWidth="60px" class="text-center">{{ $t('_action') }}</th>
+              <th nzWidth="70px">状态</th>
+              <th nzWidth="80px">{{ $t('_icon') }}</th>
+              <th nzWidth="100px">{{ $t('_webName') }}</th>
+              <th nzWidth="100px">{{ $t('_associatedLabels') }}</th>
+              <th nzWidth="120px">{{ $t('_onlyOwnVisible') }}</th>
+              <th nzWidth="300px">{{ $t('_webDesc') }}</th>
+              <th nzWidth="300px">{{ $t('_webTag') }}</th>
+              <th>{{ $t('_createAt') }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (data of websiteTableData; track data; let idx = $index) {
+              <tr>
+                <td
+                  [nzChecked]="setOfCheckedId.has(data.name)"
+                  (nzCheckedChange)="onItemChecked(data.name, $event)"
+                ></td>
+                <td class="text-center select-none">
+                  @if (errorWebs.length <= 0) {
+                    <div>
+                      <a (click)="webService.moveItem([oneIndex, twoIndex, threeIndex], idx, -1)">{{ $t('_moveUp') }}</a>
+                    </div>
+                  }
+                  @if (errorWebs.length <= 0) {
+                    <div>
+                      <a (click)="webService.moveItem([oneIndex, twoIndex, threeIndex], idx, 1)">{{ $t('_moveDown') }}</a>
+                    </div>
+                  }
+                  <a (click)="openEditModal(data)">{{ $t('_edit') }}</a>
+                  @if (errorWebs.length <= 0) {
+                    <div>
+                      <a (click)="openMoveWebModal(data, idx)">{{ $t('_move') }}</a>
+                    </div>
+                  }
+                  <a
+                    nz-popconfirm
+                    [nzPopconfirmTitle]="$t('_confirmDel')"
+                    nzPopconfirmPlacement="bottom"
+                    (nzOnConfirm)="handleConfirmDelWebsite(data, idx)"
+                    class="color-red"
+                    >
+                    {{ $t('_del') }}
+                  </a>
+                </td>
+                <td>
+                  @if (data.ok === false) {
+                    <span
+                      nz-icon
+                      nzType="close"
+                      nzTheme="outline"
+                      style="color: red"
+                    ></span>
+                  }
+                </td>
+                <td>
+                  @if (data.icon) {
+                    <app-logo
+                      [src]="data.icon"
+                      [name]="data.name"
+                      />
+                  }
+                </td>
+                <td>
+                  <a [href]="data.url" target="_blank">{{ data.name }}</a>
+                </td>
+                <td>
+                  @if (data.tags) {
+                    <tag-list [data]="data.tags" />
+                  }
+                </td>
+                <td>
+                  @if (data.ownVisible) {
+                    <i
+                      nz-icon
+                      nzType="check"
+                      nzTheme="outline"
+                    ></i>
+                  }
+                </td>
+                <td>
+                  <pre class="desc">{{ data.desc }}</pre>
+                </td>
+                <th nzWidth="300px">{{ data.breadcrumb }}</th>
+                <td>{{ data.createdAt }}</td>
+              </tr>
+            }
+          </tbody>
+        </nz-table>
+      </nz-tab>
+    </nz-tabset>
+  }
 </div>
 
 <app-category-form-modal
@@ -369,4 +376,4 @@
   [tabActive]="tabActive"
   [oneSelect]="oneSelect"
   [twoSelect]="twoSelect"
-/>
+  />

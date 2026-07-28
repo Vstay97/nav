@@ -1,30 +1,40 @@
-<div class="holiday family citems" *ngIf="items.length">
-  <div class="left" [class.today]="items[0].isToday || items[0].isRest">
-    <div class="title">
-      {{
+@if (items.length) {
+  <div class="holiday family citems">
+    <div class="left" [class.today]="items[0].isToday || items[0].isRest">
+      <div class="title">
+        {{
         items[0].isToday || items[0].isRest
-          ? '今天就是'
-          : '距离' + items[0].title
-      }}
-    </div>
-    <div class="days">{{ items[0].diffStr }}</div>
-    <div class="flex items-center justify-center whitespace-nowrap">
-      <span class="tag" *ngIf="items[0].day > 0">休</span>
-      <span
-        >{{ items[0].dateStr }}
-        <ng-container *ngIf="items[0].afterDay"
-          >- {{ items[0].afterDay }}</ng-container
-        ></span
-      >
-    </div>
-  </div>
-  <div class="right">
-    <div class="items" *ngFor="let item of items; let idx = index">
-      <div class="cleft">
-        {{ item.title }} {{ item.dateStr
-        }}<span class="tag" *ngIf="item.day > 0">休</span>
+        ? '今天就是'
+        : '距离' + items[0].title
+        }}
       </div>
-      <div class="cright" *ngIf="item.diffDay > 0">{{ item.diffDay }}天</div>
+      <div class="days">{{ items[0].diffStr }}</div>
+      <div class="flex items-center justify-center whitespace-nowrap">
+        @if (items[0].day > 0) {
+          <span class="tag">休</span>
+        }
+        <span
+          >{{ items[0].dateStr }}
+          @if (items[0].afterDay) {
+            - {{ items[0].afterDay }}
+            }</span
+            >
+          </div>
+        </div>
+        <div class="right">
+          @for (item of items; track item; let idx = $index) {
+            <div class="items">
+              <div class="cleft">
+                {{ item.title }} {{ item.dateStr
+                }}@if (item.day > 0) {
+                <span class="tag">休</span>
+              }
+            </div>
+            @if (item.diffDay > 0) {
+              <div class="cright">{{ item.diffDay }}天</div>
+            }
+          </div>
+        }
+      </div>
     </div>
-  </div>
-</div>
+  }

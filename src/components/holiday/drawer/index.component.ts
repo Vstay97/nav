@@ -6,9 +6,10 @@ import { Component, EventEmitter, Output } from '@angular/core'
 import { $t } from 'src/locale'
 import { FormBuilder, FormGroup, FormArray, ReactiveFormsModule } from '@angular/forms'
 import dayjs from 'dayjs'
+import { ComponentType, IHolidayComponent } from 'src/types'
 import { NzDrawerComponent, NzDrawerContentDirective } from 'ng-zorro-antd/drawer';
 import { NzFormDirective, NzFormItemComponent, NzFormLabelComponent, NzFormControlComponent } from 'ng-zorro-antd/form';
-import { NgFor } from '@angular/common';
+
 import { NzRowDirective, NzColDirective } from 'ng-zorro-antd/grid';
 import { NzInputDirective } from 'ng-zorro-antd/input';
 import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
@@ -22,25 +23,24 @@ import { ɵNzTransitionPatchDirective } from 'ng-zorro-antd/core/transition-patc
     styleUrls: ['./index.component.scss'],
     standalone: true,
     imports: [
-        NzDrawerComponent,
-        NzDrawerContentDirective,
-        ReactiveFormsModule,
-        NzFormDirective,
-        NgFor,
-        NzRowDirective,
-        NzFormItemComponent,
-        NzColDirective,
-        NzFormLabelComponent,
-        NzFormControlComponent,
-        NzInputDirective,
-        NzDatePickerComponent,
-        NzButtonComponent,
-        NzWaveDirective,
-        ɵNzTransitionPatchDirective,
-    ],
+    NzDrawerComponent,
+    NzDrawerContentDirective,
+    ReactiveFormsModule,
+    NzFormDirective,
+    NzRowDirective,
+    NzFormItemComponent,
+    NzColDirective,
+    NzFormLabelComponent,
+    NzFormControlComponent,
+    NzInputDirective,
+    NzDatePickerComponent,
+    NzButtonComponent,
+    NzWaveDirective,
+    ɵNzTransitionPatchDirective
+],
 })
 export class HolidayDrawerComponent {
-  @Output() ok = new EventEmitter<void>()
+  @Output() ok = new EventEmitter<IHolidayComponent & { index: number }>()
 
   $t = $t
   visible = false
@@ -57,16 +57,16 @@ export class HolidayDrawerComponent {
     return this.validateForm.get('items') as FormArray
   }
 
-  open(data: any, idx: number) {
+  open(data: IHolidayComponent, idx: number) {
     this.index = idx
-    if (data['items']) {
-      data['items'].forEach((item: any) => {
+    if (data.items) {
+      data.items.forEach((item) => {
         ;(this.validateForm.get('items') as FormArray).push(
           this.fb.group({
-            url: item.url || '',
-            day: String(item.day),
-            title: item.title,
-            date: item.date,
+            url: (item['url'] as string) || '',
+            day: String(item['day']),
+            title: item['title'] as string,
+            date: item['date'] as string,
           })
         )
       })
@@ -94,7 +94,8 @@ export class HolidayDrawerComponent {
     const values = this.validateForm.value
     const now = dayjs(dayjs().format('YYYY-MM-DD'))
     this.ok.emit({
-      ...values,
+      type: ComponentType.Holiday,
+      id: 0,
       items: [...values.items]
         .filter((item: any) => {
           const day = parseInt(item.day)
